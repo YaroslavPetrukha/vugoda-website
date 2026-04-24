@@ -18,7 +18,7 @@ export function Nav() {
     <header className="sticky top-0 z-50 w-full bg-bg">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <Link to="/" aria-label="ВИГОДА — на головну" className="flex items-center">
-          <Logo className="h-12 w-auto" title="ВИГОДА" />
+          <Logo className="h-14 w-auto" title="ВИГОДА" />
         </Link>
         <ul className="flex items-center gap-8">
           <li>
