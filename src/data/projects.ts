@@ -15,7 +15,8 @@ import type { Project } from './types';
 export const projects: Project[] = [
   {
     // Lakeview — active construction, external redirect flagship (no internal page).
-    // Silent displacement hard-rule applies ONLY here (never name Pictorial/Rubikon).
+    // Silent displacement hard-rule applies ONLY here — legacy source-project
+    // names must never appear in shipped source per CONCEPT §10.2 / D-25.
     slug: 'lakeview',
     title: 'ЖК Lakeview',
     stageLabel: 'активне будівництво',
