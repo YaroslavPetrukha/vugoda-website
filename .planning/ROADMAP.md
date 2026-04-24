@@ -113,7 +113,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Shell | 0/0 | Not started | — |
+| 1. Foundation & Shell | 0/5 | Not started | — |
 | 2. Data Layer & Content | 0/0 | Not started | — |
 | 3. Brand Primitives & Home Page | 0/0 | Not started | — |
 | 4. Portfolio, ЖК, Log, Contact | 0/0 | Not started | — |
