@@ -143,50 +143,59 @@ Explicit exclusions. Anti-features from research.
 
 ## Traceability
 
-Populated during roadmap creation.
+Populated 2026-04-24 by roadmapper agent. Every v1 REQ-ID maps to exactly one phase.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| HOME-01 | TBD | Pending |
-| HOME-02 | TBD | Pending |
-| HOME-03 | TBD | Pending |
-| HOME-04 | TBD | Pending |
-| HOME-05 | TBD | Pending |
-| HOME-06 | TBD | Pending |
-| HOME-07 | TBD | Pending |
-| HUB-01 | TBD | Pending |
-| HUB-02 | TBD | Pending |
-| HUB-03 | TBD | Pending |
-| HUB-04 | TBD | Pending |
-| ZHK-01 | TBD | Pending |
-| ZHK-02 | TBD | Pending |
-| LOG-01 | TBD | Pending |
-| LOG-02 | TBD | Pending |
-| CTC-01 | TBD | Pending |
-| NAV-01 | TBD | Pending |
-| VIS-01 | TBD | Pending |
-| VIS-02 | TBD | Pending |
-| VIS-03 | TBD | Pending |
-| VIS-04 | TBD | Pending |
-| ANI-01 | TBD | Pending |
-| ANI-02 | TBD | Pending |
-| ANI-03 | TBD | Pending |
-| ANI-04 | TBD | Pending |
-| DEP-01 | TBD | Pending |
-| DEP-02 | TBD | Pending |
-| DEP-03 | TBD | Pending |
-| CON-01 | TBD | Pending |
-| CON-02 | TBD | Pending |
-| QA-01 | TBD | Pending |
-| QA-02 | TBD | Pending |
-| QA-03 | TBD | Pending |
-| QA-04 | TBD | Pending |
+| HOME-01 | Phase 3 (Brand Primitives & Home Page) | Pending |
+| HOME-02 | Phase 3 (Brand Primitives & Home Page) | Pending |
+| HOME-03 | Phase 3 (Brand Primitives & Home Page) | Pending |
+| HOME-04 | Phase 3 (Brand Primitives & Home Page) | Pending |
+| HOME-05 | Phase 3 (Brand Primitives & Home Page) | Pending |
+| HOME-06 | Phase 3 (Brand Primitives & Home Page) | Pending |
+| HOME-07 | Phase 3 (Brand Primitives & Home Page) | Pending |
+| HUB-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
+| HUB-02 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
+| HUB-03 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
+| HUB-04 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
+| ZHK-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
+| ZHK-02 | Phase 2 (Data Layer & Content) | Pending |
+| LOG-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
+| LOG-02 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
+| CTC-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
+| NAV-01 | Phase 1 (Foundation & Shell) | Pending |
+| VIS-01 | Phase 1 (Foundation & Shell) | Pending |
+| VIS-02 | Phase 1 (Foundation & Shell) | Pending |
+| VIS-03 | Phase 3 (Brand Primitives & Home Page) | Pending |
+| VIS-04 | Phase 3 (Brand Primitives & Home Page) | Pending |
+| ANI-01 | Phase 3 (Brand Primitives & Home Page) | Pending |
+| ANI-02 | Phase 5 (Animations & Polish) | Pending |
+| ANI-03 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
+| ANI-04 | Phase 5 (Animations & Polish) | Pending |
+| DEP-01 | Phase 6 (Performance, Mobile Fallback, Deploy) | Pending |
+| DEP-02 | Phase 6 (Performance, Mobile Fallback, Deploy) | Pending |
+| DEP-03 | Phase 1 (Foundation & Shell) | Pending |
+| CON-01 | Phase 2 (Data Layer & Content) | Pending |
+| CON-02 | Phase 2 (Data Layer & Content) | Pending |
+| QA-01 | Phase 6 (Performance, Mobile Fallback, Deploy) | Pending |
+| QA-02 | Phase 6 (Performance, Mobile Fallback, Deploy) | Pending |
+| QA-03 | Phase 6 (Performance, Mobile Fallback, Deploy) | Pending |
+| QA-04 | Phase 2 (Data Layer & Content) | Pending |
 
 **Coverage:**
 - v1 requirements: 34 total
-- Mapped to phases: 0 (awaiting roadmap)
-- Unmapped: 34 ⚠️
+- Mapped to phases: 34 ✓
+- Unmapped: 0
+
+**Phase-by-phase summary:**
+- Phase 1 (Foundation & Shell): 4 — VIS-01, VIS-02, NAV-01, DEP-03
+- Phase 2 (Data Layer & Content): 4 — CON-01, CON-02, ZHK-02, QA-04
+- Phase 3 (Brand Primitives & Home): 10 — HOME-01, HOME-02, HOME-03, HOME-04, HOME-05, HOME-06, HOME-07, VIS-03, VIS-04, ANI-01
+- Phase 4 (Portfolio/ЖК/Log/Contact): 9 — HUB-01, HUB-02, HUB-03, HUB-04, ZHK-01, LOG-01, LOG-02, CTC-01, ANI-03
+- Phase 5 (Animations & Polish): 2 — ANI-02, ANI-04
+- Phase 6 (Perf/Mobile/Deploy): 5 — QA-01, QA-02, QA-03, DEP-01, DEP-02
+- Phase 7 (QA & Handoff): 0 — verification of all prior (no new REQ-IDs)
 
 ---
 *Requirements defined: 2026-04-24*
-*Last updated: 2026-04-24 after initial definition*
+*Traceability populated: 2026-04-24 by roadmapper agent*
