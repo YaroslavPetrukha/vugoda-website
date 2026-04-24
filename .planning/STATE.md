@@ -28,10 +28,10 @@ progress:
 ## Current Position
 
 Phase: 02 (data-layer-content) — EXECUTING
-Plan: 3 of 5 complete (02-02 projects+fixtures done)
+Plan: 4 of 5 complete (02-01, 02-02, 02-03, 02-04 done — only 02-05 check-brand CI remains)
 
 - **Phase:** 2 — Data Layer & Content (executing)
-- **Plan:** 3 of 5 complete (02-02 projects+fixtures done)
+- **Plan:** 4 of 5 complete (02-01, 02-02, 02-03, 02-04 done — only 02-05 check-brand CI remains)
 - **Status:** Ready to execute
 - **Stopped at:** Completed 02-03-construction-and-copy-script-PLAN.md (parallel wave 2)
 - **Progress:** [████████░░] 80%
@@ -99,6 +99,14 @@ Targets from PROJECT.md Constraints:
 - **Fixtures stand-alone (no import from `./projects`)** — `src/data/projects.fixtures.ts` ships 10 `Fixture ЖК #N` records covering all 4 Stage buckets (u-rozrakhunku×3, u-pogodzhenni×2, buduetsya×2, zdano×3) and all 4 Presentation variants. Decoupling guarantees production data bugs cannot leak into `/dev/grid` stress surface, and vice versa. Enforcement of the IMPORT BOUNDARY doc-block (pages/+components/ MUST NOT import fixtures) is Plan 02-05's `scripts/check-brand.ts` responsibility.
 - **TDD gate without Vitest:** plan marked tasks `tdd="true"` but STACK.md skips Vitest for MVP. The TDD gate here is `npm run lint` (`tsc --noEmit`) + acceptance-criteria grep battery + a one-shot runtime invariant check via `npx tsx -e` (11 invariants, all PASS).
 
+### Plan 02-03 Decisions (2026-04-24)
+
+- **`fileURLToPath` instead of `.pathname`** in `scripts/copy-renders.ts` and `scripts/list-construction.ts` — the repo checkout path contains the non-ASCII "Проєкти" folder, and `new URL('..', import.meta.url).pathname` returns a percent-encoded string (`%D0%9F%D1%80%D0%BE%D1%94%D0%BA%D1%82%D0%B8`) which `existsSync` cannot resolve. First dry-run reproduced the failure exactly as flagged in 02-RESEARCH §Translit Script edge case 5. `fileURLToPath(new URL(...))` decodes to the filesystem-usable path. Pattern applies to every future `scripts/*.ts` that builds paths from `import.meta.url`.
+- **Project-level `.gitignore` created in this plan** — no prior `.gitignore` existed. Covers `dist/`, `node_modules/`, generated `public/renders/` + `public/construction/` (source of truth lives at `/renders/` and `/construction/` repo root), `.DS_Store`, and editor caches. Minimum scope — did not attempt to gitignore every out-of-scope untracked source folder.
+- **`constructionLog` reverse-chronological with `teaserPhotos` only on `latestMonth()`** (D-22) — `mar-2026` sits at index 0 and carries 5 curated filenames; feb/jan/dec have no `teaserPhotos` field. HomePage ConstructionTeaser swap becomes a one-field PR; ConstructionLogPage consumes the full array.
+- **UA alt default `«Будівельний майданчик, {month-UA} {year}»`** — provides WCAG 2.1 AA alt floor without marketing fluff; hand-authored `caption` fields remain optional and are added later per CONCEPT §7.9 tone («без хвастощів»). `list-construction` helper emits this default alt in its paste-ready TS literal so captions stay additive.
+- **`_social-covers/` and `.DS_Store` filtered in every cpSync call** — hard-rule brand conflict (CONCEPT §7.9) + macOS metadata hygiene (RESEARCH Pitfall B). Grep-auditable (`filter: FILTER` must appear on both cpSync calls; enforced by Plan 02-05 check-brand).
+
 ### Plan 02-04 Decisions (2026-04-24)
 
 - **`src/content/methodology.ts` bodies verbatim from КОНЦЕПЦІЯ-САЙТУ.md §8** — no paraphrasing, no truncation; typographic apostrophes (U+2019) and guillemets («») preserved. Blocks 2, 5, 6 carry `needsVerification: true` per D-16 / CONCEPT §11.5 — UI renders a ⚠ marker as data, not a string-embedded caveat.
@@ -135,7 +143,8 @@ Deferred to Phase 7 handoff doc:
 - None blocking Phase 2
 - 02-01 complete: tsx@^4.21.0 installed; src/data/types.ts (7 types); src/lib/assetUrl.ts (3 helpers); tsconfig.scripts.json seeded
 - 02-02 complete: src/data/projects.ts (5 records + 5 derived views); src/data/projects.fixtures.ts (10 synthetic records); CON-02 + ZHK-02 marked complete
-- In parallel flight with 02-02: 02-03 (construction + copy script), 02-04 (content modules)
+- 02-03 complete: scripts/copy-renders.ts (translit + DS_Store filter); scripts/list-construction.ts (manual helper); src/data/construction.ts (4 months × N photos, 50 total); .gitignore added; package.json predev/prebuild/list:construction wired; CON-01 marked complete (co-owned with 02-04)
+- 02-04 complete: src/content/{methodology,values,company,placeholders}.ts (content modules)
 - Remaining serial: 02-05 (check-brand CI) — depends on all prior plans
 - Two research spikes flagged for Phase 3 (Motion `useScroll` API, `vite-plugin-svgr` v4) and Phase 5 (AnimatePresence + Router v7, `useReducedMotion` export)
 
