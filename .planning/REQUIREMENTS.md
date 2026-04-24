@@ -40,7 +40,7 @@ Requirements for clickable demo URL handed to client. Each maps to a roadmap pha
 
 ### Navigation & Layout
 
-- [ ] **NAV-01**: Фіксований навбар (dark, `#2F3640`, dark-лого SVG з `brand-assets/logo/dark.svg`) + футер на КОЖНІЙ сторінці містить мінімум: юр. назва ТОВ «БК ВИГОДА ГРУП», ЄДРПОУ `42016395`, ліцензія `27.12.2019`, email `vygoda.sales@gmail.com`. Persona-3 (банк DD) заходить з Google на глибокі сторінки, не лише home.
+- [x] **NAV-01**: Фіксований навбар (dark, `#2F3640`, dark-лого SVG з `brand-assets/logo/dark.svg`) + футер на КОЖНІЙ сторінці містить мінімум: юр. назва ТОВ «БК ВИГОДА ГРУП», ЄДРПОУ `42016395`, ліцензія `27.12.2019`, email `vygoda.sales@gmail.com`. Persona-3 (банк DD) заходить з Google на глибокі сторінки, не лише home.
 
 ### Visual System (brand tokens)
 
@@ -163,9 +163,15 @@ Populated 2026-04-24 by roadmapper agent. Every v1 REQ-ID maps to exactly one ph
 | LOG-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
 | LOG-02 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
 | CTC-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
+<<<<<<< HEAD
 | NAV-01 | Phase 1 (Foundation & Shell) | Pending |
 | VIS-01 | Phase 1 (Foundation & Shell) | Complete |
 | VIS-02 | Phase 1 (Foundation & Shell) | Complete |
+=======
+| NAV-01 | Phase 1 (Foundation & Shell) | Complete |
+| VIS-01 | Phase 1 (Foundation & Shell) | Complete |
+| VIS-02 | Phase 1 (Foundation & Shell) | Pending |
+>>>>>>> worktree-agent-a264b7394de85bd88
 | VIS-03 | Phase 3 (Brand Primitives & Home Page) | Pending |
 | VIS-04 | Phase 3 (Brand Primitives & Home Page) | Pending |
 | ANI-01 | Phase 3 (Brand Primitives & Home Page) | Pending |
