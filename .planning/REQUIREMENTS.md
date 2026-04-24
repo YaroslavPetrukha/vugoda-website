@@ -40,11 +40,11 @@ Requirements for clickable demo URL handed to client. Each maps to a roadmap pha
 
 ### Navigation & Layout
 
-- [ ] **NAV-01**: Фіксований навбар (dark, `#2F3640`, dark-лого SVG з `brand-assets/logo/dark.svg`) + футер на КОЖНІЙ сторінці містить мінімум: юр. назва ТОВ «БК ВИГОДА ГРУП», ЄДРПОУ `42016395`, ліцензія `27.12.2019`, email `vygoda.sales@gmail.com`. Persona-3 (банк DD) заходить з Google на глибокі сторінки, не лише home.
+- [x] **NAV-01**: Фіксований навбар (dark, `#2F3640`, dark-лого SVG з `brand-assets/logo/dark.svg`) + футер на КОЖНІЙ сторінці містить мінімум: юр. назва ТОВ «БК ВИГОДА ГРУП», ЄДРПОУ `42016395`, ліцензія `27.12.2019`, email `vygoda.sales@gmail.com`. Persona-3 (банк DD) заходить з Google на глибокі сторінки, не лише home.
 
 ### Visual System (brand tokens)
 
-- [ ] **VIS-01**: Брендові токени — точно `#2F3640` / `#C1F33D` / `#F5F7FA` / `#A7AFBC` / `#3D3B43` / `#020A0A`. Tailwind v4 `@theme` block у `index.css` (не JS token export). Прототипне значення `#2a3038` — замінити на `#2F3640` при міграції.
+- [x] **VIS-01**: Брендові токени — точно `#2F3640` / `#C1F33D` / `#F5F7FA` / `#A7AFBC` / `#3D3B43` / `#020A0A`. Tailwind v4 `@theme` block у `index.css` (не JS token export). Прототипне значення `#2a3038` — замінити на `#2F3640` при міграції.
 - [ ] **VIS-02**: Montserrat через `@fontsource/montserrat@5.2.8` — імпортувати ТІЛЬКИ `cyrillic-{400,500,700}.css` entry points (не package root) для повної кирилиці без латинського overhead
 - [ ] **VIS-03**: Ізометричний куб-патерн — інлайн-SVG React-компонент `<IsometricCube variant='single'|'group'|'grid' />` (3 ступені складності з брендбуку page-20). Hero overlay — `<IsometricGridBG opacity=0.1-0.2 />`. Cube-ladder semantics для стадій — CONCEPT §5.2.
 - [ ] **VIS-04**: Офіційні SVG/PNG логотипи з `brand-assets/logo/` (`dark.svg` у навбарі; `black.svg` на чорних секціях; `primary.svg` на світлих — якщо будуть); favicon з `brand-assets/favicon/favicon-32.svg`. Охоронне поле = cap-height літери «В». Мін. розмір 100px.
@@ -163,8 +163,8 @@ Populated 2026-04-24 by roadmapper agent. Every v1 REQ-ID maps to exactly one ph
 | LOG-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
 | LOG-02 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
 | CTC-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
-| NAV-01 | Phase 1 (Foundation & Shell) | Pending |
-| VIS-01 | Phase 1 (Foundation & Shell) | Pending |
+| NAV-01 | Phase 1 (Foundation & Shell) | Complete |
+| VIS-01 | Phase 1 (Foundation & Shell) | Complete |
 | VIS-02 | Phase 1 (Foundation & Shell) | Pending |
 | VIS-03 | Phase 3 (Brand Primitives & Home Page) | Pending |
 | VIS-04 | Phase 3 (Brand Primitives & Home Page) | Pending |
