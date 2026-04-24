@@ -2,40 +2,39 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: Phase 2 context gathered
-last_updated: "2026-04-24T17:37:43.641Z"
+status: verifying
+stopped_at: Completed 02-01-foundation-types-PLAN.md
+last_updated: "2026-04-24T19:07:45.287Z"
 progress:
   total_phases: 7
   completed_phases: 1
-  total_plans: 5
-  completed_plans: 5
-  percent: 100
+  total_plans: 10
+  completed_plans: 6
+  percent: 60
 ---
 
 # Project State: Vugoda Website
 
-**Last updated:** 2026-04-24T16:03:45Z (plan 01-01 complete)
-**Updated by:** execute-phase agent → 01-01-deps-and-scaffold
+**Last updated:** 2026-04-24T19:06:16Z (plan 02-01 complete)
+**Updated by:** execute-phase agent → 02-01-foundation-types
 
 ## Project Reference
 
 - **Project:** Vugoda Website — корпоративний сайт забудовника «ВИГОДА»
 - **Core Value:** Клієнт отримує публічний URL, за яким видно «ахуєнний» desktop-варіант корпсайту ВИГОДИ у бренді (точна палітра, ізометричні куби, cinematic-анімації на Motion, чесне відображення портфеля 0-здано / 1-активно / 4-pipeline).
 - **Domain:** Ukrainian real-estate developer corporate hub, static desktop-first React SPA on GitHub Pages
-- **Current focus:** Phase 01, Plan 02 — tokens-fonts-base
+- **Current focus:** Phase 02 — data-layer-content
 
 ## Current Position
 
-- **Phase:** 1 — Foundation & Shell (executing)
-- **Plan:** 5 of 5 (01-01 complete, moving to 01-02)
-- **Status:** Ready to execute
-- **Stopped at:** Phase 2 context gathered
-- **Progress:** [██████████] 100%
+Phase: 02 (data-layer-content) — EXECUTING
+Plan: 1 of 5 complete; moving to 02-02-projects-and-fixtures
 
-```
-[█░░░░░░░░░░░░░░░░░░░] 5% — 0/7 phases complete, 1/5 plans in Phase 01
-```
+- **Phase:** 2 — Data Layer & Content (executing)
+- **Plan:** 1 of 5 complete (02-01 foundation types done, moving to 02-02 projects+fixtures)
+- **Status:** Executing Phase 02
+- **Stopped at:** Completed 02-01-foundation-types-PLAN.md
+- **Progress:** [██████░░░░] 60%
 
 ## Roadmap Summary
 
@@ -83,6 +82,14 @@ Targets from PROJECT.md Constraints:
 - **HashRouter in v1**, BrowserRouter only when custom domain added (v2)
 - **UA-only** in MVP; EN for investors = v2
 
+### Plan 02-01 Decisions (2026-04-24)
+
+- **types.ts = single source of truth for data+content types** — no interface/type decls anywhere else in `src/data/` or `src/content/` (D-02, D-23). Zero imports, zero runtime exports; enforced by grep in Plan 02-05.
+- **assetUrl.ts = only path into /renders/ and /construction/ asset URLs** — reads `import.meta.env.BASE_URL` once at module init; all downstream JSX goes through `renderUrl(slug, file)` / `constructionUrl(month, file)` / `assetUrl(path)` (D-30, D-31). No hardcoded `/renders/…` or `/construction/…` in components.
+- **tsconfig.scripts.json is standalone** — does NOT extend `tsconfig.json` (parent pulls DOM libs harmful to Node scripts). Uses `lib: ["ES2022"]` + `types: ["node"]`, scoped to `scripts/**/*.ts`. Directory itself created in Plan 02-03.
+- **tsx@^4.21.0 pinned** — Plan 02-03 copy-renders.ts script runner.
+- **No premature helpers in assetUrl.ts** — `ogImageUrl`/`faviconUrl` deferred to their Phase 6 call sites; only 3 helpers shipped now (assetUrl, renderUrl, constructionUrl).
+
 ### Hard Rules (from brand-system + CONCEPT §10)
 
 - Closed palette: 6 hexes only (`#2F3640`, `#C1F33D`, `#F5F7FA`, `#A7AFBC`, `#3D3B43`, `#020A0A`)
@@ -108,8 +115,9 @@ Deferred to Phase 7 handoff doc:
 
 ### Todos / Blockers
 
-- None blocking Phase 1
-- 01-01 complete: package.json, lockfile, tsconfig, vite.config.ts, index.html, public scaffold
+- None blocking Phase 2
+- 02-01 complete: tsx@^4.21.0 installed; src/data/types.ts (7 types); src/lib/assetUrl.ts (3 helpers); tsconfig.scripts.json seeded
+- Next: 02-02 projects.ts + projects.fixtures.ts (CON-02, ZHK-02)
 - Two research spikes flagged for Phase 3 (Motion `useScroll` API, `vite-plugin-svgr` v4) and Phase 5 (AnimatePresence + Router v7, `useReducedMotion` export)
 
 ### Research Artifacts Available
@@ -125,10 +133,10 @@ Deferred to Phase 7 handoff doc:
 **Next action for user:**
 
 ```
-/gsd:plan-phase 1
+/gsd:execute-phase 02-data-layer-content
 ```
 
-This will decompose Phase 1 (Foundation & Shell) into executable plans covering VIS-01, VIS-02, NAV-01, DEP-03.
+Phase 2 is in flight. 02-01 (foundation types) complete; 02-02 (projects + fixtures), 02-03 (construction + copy script), 02-04 (content modules), 02-05 (check-brand CI) remain.
 
 **If returning after context loss, read in order:**
 
