@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Send, Instagram, Facebook } from 'lucide-react';
+import { Send, MessageCircle, Globe } from 'lucide-react';
 import { Logo } from '../brand/Logo';
 
 /**
@@ -29,10 +29,10 @@ export function Footer() {
               <Send size={20} aria-hidden="true" />
             </a>
             <a href="#" aria-label="Instagram" className="text-text-muted hover:text-accent">
-              <Instagram size={20} aria-hidden="true" />
+              <MessageCircle size={20} aria-hidden="true" />
             </a>
             <a href="#" aria-label="Facebook" className="text-text-muted hover:text-accent">
-              <Facebook size={20} aria-hidden="true" />
+              <Globe size={20} aria-hidden="true" />
             </a>
           </div>
           <p className="text-base text-text-muted">
