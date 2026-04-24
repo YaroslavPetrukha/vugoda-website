@@ -9,7 +9,7 @@
 ## Phases
 
 - [x] **Phase 1: Foundation & Shell** — Vite + React + Tailwind v4 tokens, Montserrat, HashRouter, Layout (Nav + Footer), 5 route stubs, GH Actions scaffold (completed 2026-04-24)
-- [ ] **Phase 2: Data Layer & Content** — typed `projects.ts` + fixtures, content modules, pre-build translit script, asset pipeline, CI denylist
+- [x] **Phase 2: Data Layer & Content** — typed `projects.ts` + fixtures, content modules, pre-build translit script, asset pipeline, CI denylist (completed 2026-04-24)
 - [ ] **Phase 3: Brand Primitives & Home Page** — Logo/Mark/IsometricCube/Wordmark + full `/` page (7 секцій), hero parallax, responsive picture pipeline
 - [ ] **Phase 4: Portfolio, ЖК, Construction Log, Contact** — `/projects` hub, `/zhk/etno-dim` template, `/construction-log` timeline, `/contact` mailto, card hover
 - [ ] **Phase 5: Animations & Polish** — shared motion variants, scroll-reveal, AnimatePresence route-transitions, `useReducedMotion`, session-skip
@@ -47,7 +47,7 @@
   - [x] 02-02-projects-and-fixtures-PLAN.md — 5 canonical projects + 10 synthetic fixtures (Wave 2, CON-02 + ZHK-02)
   - [x] 02-03-construction-and-copy-script-PLAN.md — construction.ts data + copy-renders.ts + list-construction.ts + npm scripts wiring (Wave 2, CON-01/CON-02 infra)
   - [x] 02-04-content-modules-PLAN.md — methodology/values/company/placeholders content modules (Wave 2, CON-01)
-  - [ ] 02-05-check-brand-ci-PLAN.md — check-brand.ts + postbuild hook + deploy.yml step (Wave 3, QA-04)
+  - [x] 02-05-check-brand-ci-PLAN.md — check-brand.ts + postbuild hook + deploy.yml step (Wave 3, QA-04)
 
 ### Phase 3: Brand Primitives & Home Page
 **Goal**: Every brand primitive (Logo, Mark, IsometricCube 3 variants, IsometricGridBG, Wordmark) exists as inviolable component, and the Home page consumes them to deliver all 7 sections with a Lighthouse-compliant hero.
@@ -119,7 +119,7 @@
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Shell | 5/5 | Complete   | 2026-04-24 |
-| 2. Data Layer & Content | 0/5 | Not started | — |
+| 2. Data Layer & Content | 5/5 | Complete   | 2026-04-24 |
 | 3. Brand Primitives & Home Page | 0/0 | Not started | — |
 | 4. Portfolio, ЖК, Log, Contact | 0/0 | Not started | — |
 | 5. Animations & Polish | 0/0 | Not started | — |

@@ -3,20 +3,20 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 02-03-construction-and-copy-script-PLAN.md (parallel wave 2)
-last_updated: "2026-04-24T19:16:50.680Z"
+stopped_at: Completed 02-05-check-brand-ci-PLAN.md — Phase 2 done (5/5 plans)
+last_updated: "2026-04-24T19:27:47.866Z"
 progress:
   total_phases: 7
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 10
-  completed_plans: 9
-  percent: 80
+  completed_plans: 10
+  percent: 100
 ---
 
 # Project State: Vugoda Website
 
-**Last updated:** 2026-04-24T19:14:25Z (plan 02-02 complete)
-**Updated by:** execute-phase agent → 02-02-projects-and-fixtures
+**Last updated:** 2026-04-24T19:27:47Z (plan 02-05 complete — Phase 2 done)
+**Updated by:** execute-phase agent → 02-05-check-brand-ci
 
 ## Project Reference
 
@@ -27,14 +27,14 @@ progress:
 
 ## Current Position
 
-Phase: 02 (data-layer-content) — EXECUTING
-Plan: 4 of 5 complete (02-01, 02-02, 02-03, 02-04 done — only 02-05 check-brand CI remains)
+Phase: 02 (data-layer-content) — COMPLETE
+Plan: 5 of 5 complete (all plans done; Phase 2 ready for transition)
 
-- **Phase:** 2 — Data Layer & Content (executing)
-- **Plan:** 4 of 5 complete (02-01, 02-02, 02-03, 02-04 done — only 02-05 check-brand CI remains)
-- **Status:** Ready to execute
-- **Stopped at:** Completed 02-03-construction-and-copy-script-PLAN.md (parallel wave 2)
-- **Progress:** [████████░░] 80%
+- **Phase:** 2 — Data Layer & Content (complete)
+- **Plan:** 5 of 5 complete
+- **Status:** Phase 2 complete — ready for `/gsd:transition` to Phase 3
+- **Stopped at:** Completed 02-05-check-brand-ci-PLAN.md — Phase 2 done (5/5 plans)
+- **Progress:** [██████████] 100%
 
 ## Roadmap Summary
 
@@ -115,6 +115,15 @@ Targets from PROJECT.md Constraints:
 - **`company.ts` uses 5 top-level `as const` named exports + 1 typed `socials` object** (not a frozen bundle) per RESEARCH §Named exports. `edrpou` / `licenseDate` / `email` etc. have narrow string-literal types — cheap correctness guard for legal facts that must not drift.
 - **`placeholders.ts` is a leaf module** (zero imports, zero types needed). Values are raw em-dashes (U+2014 verified at runtime) and `«Без назви»` — never `{{token}}` literals. Client-confirmation edits propagate in one build with no component touches.
 
+### Plan 02-05 Decisions (2026-04-24)
+
+- **Placeholder regex tightened to paired `\{\{[^}]*\}\}`** — bare `\{\{|\}\}` false-positives on minified output (318 `}}` in index-*.js from closed object literals + 18 `}}` in index-*.css from nested `@supports`/`@layer` blocks per typical Vite 6 build). Full-pair matching catches real Mustache-style `{{token}}` leaks without the minifier-artifact noise. Recorded in inline doc-block.
+- **`src/data/projects.ts:18` comment rephrased (Rule 1 auto-fix)** — original comment literally named Pictorial/Rubikon while stating the rule forbidding their naming; self-reference violates D-25 regardless of script existence. New wording preserves meaning without triggering denylist.
+- **`scripts/` quarantine** — check-brand scan scope is intentionally `dist/` + `src/` only (never `scripts/`). The script's own regex constants can therefore contain the forbidden literals without self-triggering. Doc-block records the coupling.
+- **No ESLint (reaffirmed)** — 5 grep-based boundary rules run under the same aggregate-exit script as the 3 content checks. One tool, one exit code, one output stream. STACK.md "SKIP ESLint for MVP" + Plan 02-02 boundary-via-grep pattern both align.
+- **D-28 double-coverage kept** — `postbuild` is the enforcing gate (runs on every `npm run build` locally + in CI); the `Check brand invariants` named step in deploy.yml re-runs the same script for PR log visibility. Overlapping safety nets by design.
+- **`PALETTE_WHITELIST` in script mirrors `@theme` in src/index.css** — drift is only caught if BOTH are updated in lockstep. Inline doc-block notes the coupling; adding a 7th color requires editing both.
+
 ### Hard Rules (from brand-system + CONCEPT §10)
 
 - Closed palette: 6 hexes only (`#2F3640`, `#C1F33D`, `#F5F7FA`, `#A7AFBC`, `#3D3B43`, `#020A0A`)
@@ -140,12 +149,13 @@ Deferred to Phase 7 handoff doc:
 
 ### Todos / Blockers
 
-- None blocking Phase 2
+- None blocking Phase 2 → Phase 3 transition
 - 02-01 complete: tsx@^4.21.0 installed; src/data/types.ts (7 types); src/lib/assetUrl.ts (3 helpers); tsconfig.scripts.json seeded
 - 02-02 complete: src/data/projects.ts (5 records + 5 derived views); src/data/projects.fixtures.ts (10 synthetic records); CON-02 + ZHK-02 marked complete
 - 02-03 complete: scripts/copy-renders.ts (translit + DS_Store filter); scripts/list-construction.ts (manual helper); src/data/construction.ts (4 months × N photos, 50 total); .gitignore added; package.json predev/prebuild/list:construction wired; CON-01 marked complete (co-owned with 02-04)
 - 02-04 complete: src/content/{methodology,values,company,placeholders}.ts (content modules)
-- Remaining serial: 02-05 (check-brand CI) — depends on all prior plans
+- **02-05 complete: scripts/check-brand.ts (4-check CI guard, 195 lines, 0 npm deps); package.json postbuild hook; deploy.yml "Check brand invariants" step; QA-04 marked complete**
+- **Phase 2 complete — 5/5 plans done; all phase requirements (CON-01, CON-02, ZHK-02, QA-04) complete; ready for `/gsd:transition` to Phase 3**
 - Two research spikes flagged for Phase 3 (Motion `useScroll` API, `vite-plugin-svgr` v4) and Phase 5 (AnimatePresence + Router v7, `useReducedMotion` export)
 
 ### Research Artifacts Available
@@ -161,10 +171,10 @@ Deferred to Phase 7 handoff doc:
 **Next action for user:**
 
 ```
-/gsd:execute-phase 02-data-layer-content
+/gsd:transition
 ```
 
-Phase 2 is in flight. 02-01 (foundation types) and 02-02 (projects + fixtures) complete; 02-03 (construction + copy script), 02-04 (content modules) in parallel flight; 02-05 (check-brand CI) remaining.
+Phase 2 complete — 5/5 plans done. Transition into Phase 3 (Brand Primitives & Home Page) or run `/gsd:verify-phase 02-data-layer-content` first for a verifier-agent double-check.
 
 **If returning after context loss, read in order:**
 
