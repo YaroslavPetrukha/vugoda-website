@@ -27,7 +27,7 @@ Requirements for clickable demo URL handed to client. Each maps to a roadmap pha
 ### ЖК Template (`/zhk/etno-dim`)
 
 - [ ] **ZHK-01**: Повноцінна сторінка `/zhk/etno-dim` — hero-рендер з `renders/ЖК Етно Дім/` (→ public/renders/etno-dim/), факт-блок (стадія «меморандум про відновлення будівництва», розташування вул. Судова Львів), блок «Що відбувається зараз» (стадія-специфічний текст), галерея 8 рендерів, CTA «Підписатись на оновлення (Instagram)» + форма зв'язку. Без цін, без умов продажу — pipeline не продається.
-- [ ] **ZHK-02**: Шаблон масштабований — додавання ЖК #6 = один запис у `src/data/projects.ts`. Discriminated union `presentation: 'flagship-external' | 'full-internal' | 'grid-only' | 'aggregate'`. Маєток/NTEREST у v1 залишаються як `grid-only` (картка на хабі, без внутрішньої сторінки).
+- [x] **ZHK-02**: Шаблон масштабований — додавання ЖК #6 = один запис у `src/data/projects.ts`. Discriminated union `presentation: 'flagship-external' | 'full-internal' | 'grid-only' | 'aggregate'`. Маєток/NTEREST у v1 залишаються як `grid-only` (картка на хабі, без внутрішньої сторінки).
 
 ### Construction Log (`/construction-log`)
 
@@ -65,7 +65,7 @@ Requirements for clickable demo URL handed to client. Each maps to a roadmap pha
 ### Content
 
 - [ ] **CON-01**: Контент копірайту — безпосередньо з `КОНЦЕПЦІЯ-САЙТУ.md` (§7, §8) як TSX/MDX literals або модулі `src/content/*.ts`; без CMS у v1. ⚠ пункти методології 2/5/6 — позначаємо як потребуючі верифікації (не публікуємо як факт).
-- [ ] **CON-02**: Дані портфеля — типізований `src/data/projects.ts` (інтерфейс `Project` + discriminated `presentation` union). Плюс `src/data/projects.fixtures.ts` з 10 синтетичними ЖК (для `/dev/grid` QA route, не в production build).
+- [x] **CON-02**: Дані портфеля — типізований `src/data/projects.ts` (інтерфейс `Project` + discriminated `presentation` union). Плюс `src/data/projects.fixtures.ts` з 10 синтетичними ЖК (для `/dev/grid` QA route, не в production build).
 
 ### QA
 
@@ -159,7 +159,7 @@ Populated 2026-04-24 by roadmapper agent. Every v1 REQ-ID maps to exactly one ph
 | HUB-03 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
 | HUB-04 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
 | ZHK-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
-| ZHK-02 | Phase 2 (Data Layer & Content) | Pending |
+| ZHK-02 | Phase 2 (Data Layer & Content) | Complete |
 | LOG-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
 | LOG-02 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
 | CTC-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
@@ -176,7 +176,7 @@ Populated 2026-04-24 by roadmapper agent. Every v1 REQ-ID maps to exactly one ph
 | DEP-02 | Phase 6 (Performance, Mobile Fallback, Deploy) | Pending |
 | DEP-03 | Phase 1 (Foundation & Shell) | Complete |
 | CON-01 | Phase 2 (Data Layer & Content) | Pending |
-| CON-02 | Phase 2 (Data Layer & Content) | Pending |
+| CON-02 | Phase 2 (Data Layer & Content) | Complete |
 | QA-01 | Phase 6 (Performance, Mobile Fallback, Deploy) | Pending |
 | QA-02 | Phase 6 (Performance, Mobile Fallback, Deploy) | Pending |
 | QA-03 | Phase 6 (Performance, Mobile Fallback, Deploy) | Pending |

@@ -44,7 +44,7 @@
   5. Page-to-data import boundary holds: `pages/` and `components/` can import from `data/` + `content/`; `components/` never import `pages/`; `lib/assetUrl.ts` is the single URL-prefix helper (respects `import.meta.env.BASE_URL`)
 **Plans**: 5 plans
   - [x] 02-01-foundation-types-PLAN.md — install tsx, tsconfig.scripts.json, src/data/types.ts, src/lib/assetUrl.ts (Wave 1, foundation)
-  - [ ] 02-02-projects-and-fixtures-PLAN.md — 5 canonical projects + 10 synthetic fixtures (Wave 2, CON-02 + ZHK-02)
+  - [x] 02-02-projects-and-fixtures-PLAN.md — 5 canonical projects + 10 synthetic fixtures (Wave 2, CON-02 + ZHK-02)
   - [ ] 02-03-construction-and-copy-script-PLAN.md — construction.ts data + copy-renders.ts + list-construction.ts + npm scripts wiring (Wave 2, CON-01/CON-02 infra)
   - [ ] 02-04-content-modules-PLAN.md — methodology/values/company/placeholders content modules (Wave 2, CON-01)
   - [ ] 02-05-check-brand-ci-PLAN.md — check-brand.ts + postbuild hook + deploy.yml step (Wave 3, QA-04)

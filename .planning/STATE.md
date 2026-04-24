@@ -2,21 +2,21 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: verifying
-stopped_at: Completed 02-01-foundation-types-PLAN.md
-last_updated: "2026-04-24T19:07:45.287Z"
+status: executing
+stopped_at: Completed 02-02-projects-and-fixtures-PLAN.md
+last_updated: "2026-04-24T19:14:25.115Z"
 progress:
   total_phases: 7
   completed_phases: 1
   total_plans: 10
-  completed_plans: 6
-  percent: 60
+  completed_plans: 7
+  percent: 70
 ---
 
 # Project State: Vugoda Website
 
-**Last updated:** 2026-04-24T19:06:16Z (plan 02-01 complete)
-**Updated by:** execute-phase agent → 02-01-foundation-types
+**Last updated:** 2026-04-24T19:14:25Z (plan 02-02 complete)
+**Updated by:** execute-phase agent → 02-02-projects-and-fixtures
 
 ## Project Reference
 
@@ -28,13 +28,13 @@ progress:
 ## Current Position
 
 Phase: 02 (data-layer-content) — EXECUTING
-Plan: 1 of 5 complete; moving to 02-02-projects-and-fixtures
+Plan: 2 of 5 complete (02-01, 02-02 done; 02-03/04/05 in parallel-flight)
 
 - **Phase:** 2 — Data Layer & Content (executing)
-- **Plan:** 1 of 5 complete (02-01 foundation types done, moving to 02-02 projects+fixtures)
-- **Status:** Executing Phase 02
-- **Stopped at:** Completed 02-01-foundation-types-PLAN.md
-- **Progress:** [██████░░░░] 60%
+- **Plan:** 2 of 5 complete (02-02 projects+fixtures done)
+- **Status:** Executing Phase 02 (parallel wave)
+- **Stopped at:** Completed 02-02-projects-and-fixtures-PLAN.md
+- **Progress:** [███████░░░] 70%
 
 ## Roadmap Summary
 
@@ -90,6 +90,15 @@ Targets from PROJECT.md Constraints:
 - **tsx@^4.21.0 pinned** — Plan 02-03 copy-renders.ts script runner.
 - **No premature helpers in assetUrl.ts** — `ogImageUrl`/`faviconUrl` deferred to their Phase 6 call sites; only 3 helpers shipped now (assetUrl, renderUrl, constructionUrl).
 
+### Plan 02-02 Decisions (2026-04-24)
+
+- **Single-array-plus-derived-views pattern** for `src/data/projects.ts` — raw `projects[]` is the source; `flagship` / `pipelineGridProjects` / `aggregateProjects` / `detailPageProjects` / `findBySlug` are the public read surface. Consumers never filter `projects[]` directly. Adding ЖК #6 = append one record with the right `presentation` and it flows into the correct view automatically (ZHK-02 scale-to-N).
+- **findBySlug gates on `presentation === 'full-internal'`** per D-04 / PITFALLS Anti-Pattern 7 — lakeview / maietok / nterest / pipeline-4 slugs return `undefined` so the `/zhk/:slug` route component (Phase 4) can redirect via `<Navigate>` instead of rendering a half-page.
+- **Filesystem authoritative over spec:** lakeview renders use the 7 verified `.jpg` filenames from `/renders/likeview/`, NOT the `.webp` list in ARCHITECTURE Q2. RESEARCH skeptic-pass caught the mismatch before it shipped.
+- **Pipeline-4 title hardcoded `«Без назви»`** in projects.ts with an inline `placeholder per placeholders.ts#pipeline4Title` comment — avoids a cross-module import in the data layer while keeping the audit surface discoverable when Plan 02-04 creates `placeholders.ts`.
+- **Fixtures stand-alone (no import from `./projects`)** — `src/data/projects.fixtures.ts` ships 10 `Fixture ЖК #N` records covering all 4 Stage buckets (u-rozrakhunku×3, u-pogodzhenni×2, buduetsya×2, zdano×3) and all 4 Presentation variants. Decoupling guarantees production data bugs cannot leak into `/dev/grid` stress surface, and vice versa. Enforcement of the IMPORT BOUNDARY doc-block (pages/+components/ MUST NOT import fixtures) is Plan 02-05's `scripts/check-brand.ts` responsibility.
+- **TDD gate without Vitest:** plan marked tasks `tdd="true"` but STACK.md skips Vitest for MVP. The TDD gate here is `npm run lint` (`tsc --noEmit`) + acceptance-criteria grep battery + a one-shot runtime invariant check via `npx tsx -e` (11 invariants, all PASS).
+
 ### Hard Rules (from brand-system + CONCEPT §10)
 
 - Closed palette: 6 hexes only (`#2F3640`, `#C1F33D`, `#F5F7FA`, `#A7AFBC`, `#3D3B43`, `#020A0A`)
@@ -117,7 +126,9 @@ Deferred to Phase 7 handoff doc:
 
 - None blocking Phase 2
 - 02-01 complete: tsx@^4.21.0 installed; src/data/types.ts (7 types); src/lib/assetUrl.ts (3 helpers); tsconfig.scripts.json seeded
-- Next: 02-02 projects.ts + projects.fixtures.ts (CON-02, ZHK-02)
+- 02-02 complete: src/data/projects.ts (5 records + 5 derived views); src/data/projects.fixtures.ts (10 synthetic records); CON-02 + ZHK-02 marked complete
+- In parallel flight with 02-02: 02-03 (construction + copy script), 02-04 (content modules)
+- Remaining serial: 02-05 (check-brand CI) — depends on all prior plans
 - Two research spikes flagged for Phase 3 (Motion `useScroll` API, `vite-plugin-svgr` v4) and Phase 5 (AnimatePresence + Router v7, `useReducedMotion` export)
 
 ### Research Artifacts Available
@@ -136,7 +147,7 @@ Deferred to Phase 7 handoff doc:
 /gsd:execute-phase 02-data-layer-content
 ```
 
-Phase 2 is in flight. 02-01 (foundation types) complete; 02-02 (projects + fixtures), 02-03 (construction + copy script), 02-04 (content modules), 02-05 (check-brand CI) remain.
+Phase 2 is in flight. 02-01 (foundation types) and 02-02 (projects + fixtures) complete; 02-03 (construction + copy script), 02-04 (content modules) in parallel flight; 02-05 (check-brand CI) remaining.
 
 **If returning after context loss, read in order:**
 
