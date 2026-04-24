@@ -17,7 +17,7 @@ export function Footer() {
       <div className="mx-auto grid max-w-7xl grid-cols-3 gap-8 px-6 py-12">
         {/* Column 1: brand + contact + copyright */}
         <div className="flex flex-col items-start gap-6">
-          <Logo className="h-10 w-auto" title="ВИГОДА" />
+          <Logo className="h-12 w-auto" title="ВИГОДА" />
           <a
             href="mailto:vygoda.sales@gmail.com"
             className="text-sm font-medium text-text hover:text-accent"
