@@ -14,7 +14,10 @@
 
 <!-- Shipped and confirmed valuable. -->
 
-(Жодних — це greenfield-MVP; все валідується після передачі клієнту.)
+- [x] **CON-01**: Контент копірайту — безпосередньо з `КОНЦЕПЦІЯ-САЙТУ.md` (§7, §8) як TSX/MDX literals; без CMS *(Validated in Phase 2: 4 content modules `src/content/*.ts` — methodology з ⚠-flags на §8 блоках 2/5/6, values, company, placeholders)*
+- [x] **CON-02**: Дані портфеля (назва, стадія, рендери, slug) — у TypeScript-об'єкті `src/data/projects.ts`; додавання нового ЖК = один запис *(Validated in Phase 2: 5 канонічних ЖК у `projects.ts` + 10 синтетичних fixtures доводять scale-to-N)*
+- [x] **ZHK-02**: Шаблон має бути масштабований — без змін коду додаємо Маєток, NTEREST, Pipeline-4 через дані *(Validated in Phase 2: discriminated `presentation` union + fixtures для всіх 4 Stage × 4 Presentation варіантів)*
+- [x] **QA-04**: CI denylist — `grep -r "Pictorial\|Rubikon\|..." dist/` порожньо; hex ⊆ 6 брендбукових; `{{`/`TODO` у `dist/` порожньо *(Validated in Phase 2: `scripts/check-brand.ts` з 4 інваріантами, wired через postbuild + deploy.yml)*
 
 ### Active
 
@@ -32,7 +35,6 @@
 - [ ] **HUB-03**: Сітка 3-в-ряд для pipeline-карток з явним маркуванням стадії
 - [ ] **HUB-04**: Агрегативний рядок Pipeline-4 під сіткою (без візуалу, текст + pending-куб)
 - [ ] **ZHK-01**: Повноцінна сторінка `/zhk/etno-dim` як шаблон-демо: hero-рендер з `renders/ЖК Етно Дім/`, факт-блок стадії, «Що відбувається зараз», галерея 8 рендерів, CTA «Підписатись на оновлення», без форм продажу/цін
-- [ ] **ZHK-02**: Шаблон має бути масштабований — без змін коду додаємо Маєток, NTEREST, Pipeline-4 через дані (concept §10 hard-rule: масштабується до N)
 - [ ] **LOG-01**: Окрема сторінка `/construction-log` з таймлайн-галереєю Lakeview (50 фото, групування по місяцях dec-2025, jan-2026, feb-2026, mar-2026)
 - [ ] **LOG-02**: Підписи в стилі «Січень 2026 — фундамент, секція 1», без хвастощів; webp, lazy-load
 - [ ] **CTC-01**: Сторінка `/contact` (email `vygoda.sales@gmail.com`; телефон/адреса — `{{placeholder}}` до уточнення; соцмережі — `href="#"`)
@@ -48,12 +50,9 @@
 - [ ] **DEP-01**: Автоматичний деплой на GitHub Pages (GitHub Action `build → gh-pages` або `actions/deploy-pages`)
 - [ ] **DEP-02**: Публічний URL `https://yaroslavpetrukha.github.io/vugoda-website/` (або інший обліковий запис) доступний клієнту
 - [ ] **DEP-03**: react-router-dom **HashRouter** (не BrowserRouter) + Vite `base: '/vugoda-website/'` + `public/.nojekyll` закомічено. HashRouter позбавляє від 404-on-hard-refresh на GH Pages без трюків з 404.html. Переходимо на BrowserRouter у v2 при custom domain.
-- [ ] **CON-01**: Контент копірайту — безпосередньо з `КОНЦЕПЦІЯ-САЙТУ.md` (§7, §8) як TSX/MDX literals; без CMS
-- [ ] **CON-02**: Дані портфеля (назва, стадія, рендери, slug) — у TypeScript-об'єкті `src/data/projects.ts`; додавання нового ЖК = один запис
 - [ ] **QA-01**: Desktop-first 1920×1080 — виглядає бездоганно; мінімальний graceful fallback для ≥1280px; mobile/tablet — **явно out-of-scope в v1**
 - [ ] **QA-02**: Lighthouse desktop ≥ 90 (Performance, Accessibility, Best Practices, SEO)
 - [ ] **QA-03**: OG meta tags + Twitter Card + `theme-color="#2F3640"` + canonical URL в `index.html`. OG image — 1200×630 render з hero ізометричним кубом. Демо-URL має чисто анфурлитись у Viber/Telegram/Slack.
-- [ ] **QA-04**: CI denylist — `grep -r "Pictorial\|Rubikon\|Пикторіал\|Рубікон" dist/` має бути порожнім на кожен build (silent-displacement enforcement); `grep -rE "#[0-9A-Fa-f]{6}" src/` — усі hex ⊆ 6 брендбукових кольорів; `grep "{{\|TODO" dist/` — порожньо
 
 ### Out of Scope
 
@@ -160,4 +159,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-24 after initialization*
+*Last updated: 2026-04-24 — Phase 2 (Data Layer & Content) complete; CON-01, CON-02, ZHK-02, QA-04 validated*
