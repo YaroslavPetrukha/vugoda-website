@@ -28,7 +28,8 @@
   3. Montserrat renders cyrillic glyphs at weights 400/500/700 from `@fontsource/montserrat` cyrillic entry points only (no latin overhead); `ЖК`, `ВИГОДА`, `Маєток Винниківський` display correctly
   4. HashRouter navigates between stubs with URLs like `/#/projects`, `/#/zhk/etno-dim`; `vite.config.ts` sets `base: '/vugoda-website/'`; `public/.nojekyll` committed
   5. Keyboard Tab across Nav links shows visible `:focus-visible` outline (2px `#C1F33D`, 2px offset) on dark background
-**Plans**: TBD
+**Plans**: 5 (01-01 complete, 01-02 through 01-05 pending)
+**Progress**: 1/5 plans complete
 **UI hint**: yes
 
 ### Phase 2: Data Layer & Content
