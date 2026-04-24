@@ -15,8 +15,8 @@ progress:
 
 # Project State: Vugoda Website
 
-**Last updated:** 2026-04-24T19:27:47Z (plan 02-05 complete — Phase 2 done)
-**Updated by:** execute-phase agent → 02-05-check-brand-ci
+**Last updated:** 2026-04-24 — Quick task 260424-whr (verify Logo.tsx SVG lands in prod build) PASSED
+**Updated by:** /gsd:quick orchestrator
 
 ## Project Reference
 
@@ -147,9 +147,16 @@ Deferred to Phase 7 handoff doc:
 7. Написання «NTEREST» без «I» (committed default = `nterest`, confirm with client)
 8. Етно Дім — адреса вул. Судова збережена? (render as `—` until confirmed)
 
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260424-whr | verify Logo.tsx SVG lands in prod build | 2026-04-24 | (pending) | [260424-whr-verify-logo-tsx-svg-lands-in-prod-build](./quick/260424-whr-verify-logo-tsx-svg-lands-in-prod-build/) |
+
 ### Todos / Blockers
 
 - None blocking Phase 2 → Phase 3 transition
+- **2026-04-24 — Quick task 260424-whr PASSED:** R17 mitigated; Logo.tsx URL-import bundles correctly (`dist/assets/dark-CqLEGef8.svg`, byte-identical 12 469 B). Phase 3 does NOT need asset move. Skeptic-pass gate A1 cleared.
 - 02-01 complete: tsx@^4.21.0 installed; src/data/types.ts (7 types); src/lib/assetUrl.ts (3 helpers); tsconfig.scripts.json seeded
 - 02-02 complete: src/data/projects.ts (5 records + 5 derived views); src/data/projects.fixtures.ts (10 synthetic records); CON-02 + ZHK-02 marked complete
 - 02-03 complete: scripts/copy-renders.ts (translit + DS_Store filter); scripts/list-construction.ts (manual helper); src/data/construction.ts (4 months × N photos, 50 total); .gitignore added; package.json predev/prebuild/list:construction wired; CON-01 marked complete (co-owned with 02-04)
