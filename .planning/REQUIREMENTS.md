@@ -163,15 +163,9 @@ Populated 2026-04-24 by roadmapper agent. Every v1 REQ-ID maps to exactly one ph
 | LOG-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
 | LOG-02 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
 | CTC-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
-<<<<<<< HEAD
 | NAV-01 | Phase 1 (Foundation & Shell) | Complete |
 | VIS-01 | Phase 1 (Foundation & Shell) | Complete |
 | VIS-02 | Phase 1 (Foundation & Shell) | Complete |
-=======
-| NAV-01 | Phase 1 (Foundation & Shell) | Complete |
-| VIS-01 | Phase 1 (Foundation & Shell) | Complete |
-| VIS-02 | Phase 1 (Foundation & Shell) | Pending |
->>>>>>> worktree-agent-a264b7394de85bd88
 | VIS-03 | Phase 3 (Brand Primitives & Home Page) | Pending |
 | VIS-04 | Phase 3 (Brand Primitives & Home Page) | Pending |
 | ANI-01 | Phase 3 (Brand Primitives & Home Page) | Pending |
