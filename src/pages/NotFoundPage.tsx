@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { MinimalCube } from '../components/brand/MinimalCube';
+import markUrl from '../../brand-assets/mark/mark.svg';
 
 export default function NotFoundPage() {
   return (
@@ -8,7 +8,7 @@ export default function NotFoundPage() {
         <h1 className="font-bold tracking-tight text-6xl text-text">
           404 — сторінку не знайдено
         </h1>
-        <MinimalCube className="h-32 w-32" />
+        <img src={markUrl} alt="" aria-hidden="true" className="h-24 w-auto" />
         <Link
           to="/"
           className="text-base font-medium text-accent underline underline-offset-4"
