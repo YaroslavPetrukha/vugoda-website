@@ -8,7 +8,7 @@
 
 ## Phases
 
-- [ ] **Phase 1: Foundation & Shell** — Vite + React + Tailwind v4 tokens, Montserrat, HashRouter, Layout (Nav + Footer), 5 route stubs, GH Actions scaffold
+- [x] **Phase 1: Foundation & Shell** — Vite + React + Tailwind v4 tokens, Montserrat, HashRouter, Layout (Nav + Footer), 5 route stubs, GH Actions scaffold (completed 2026-04-24)
 - [ ] **Phase 2: Data Layer & Content** — typed `projects.ts` + fixtures, content modules, pre-build translit script, asset pipeline, CI denylist
 - [ ] **Phase 3: Brand Primitives & Home Page** — Logo/Mark/IsometricCube/Wordmark + full `/` page (7 секцій), hero parallax, responsive picture pipeline
 - [ ] **Phase 4: Portfolio, ЖК, Construction Log, Contact** — `/projects` hub, `/zhk/etno-dim` template, `/construction-log` timeline, `/contact` mailto, card hover
@@ -113,7 +113,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Shell | 4/5 | In Progress|  |
+| 1. Foundation & Shell | 5/5 | Complete   | 2026-04-24 |
 | 2. Data Layer & Content | 0/0 | Not started | — |
 | 3. Brand Primitives & Home Page | 0/0 | Not started | — |
 | 4. Portfolio, ЖК, Log, Contact | 0/0 | Not started | — |
