@@ -8,6 +8,7 @@
     "dev": "vite",
     "prebuild": "tsx scripts/copy-renders.ts",
     "build": "tsc --noEmit && vite build",
+    "postbuild": "tsx scripts/check-brand.ts",
     "preview": "vite preview",
     "lint": "tsc --noEmit",
     "list:construction": "tsx scripts/list-construction.ts"
