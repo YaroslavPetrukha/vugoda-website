@@ -45,8 +45,8 @@
 **Plans**: 5 plans
   - [x] 02-01-foundation-types-PLAN.md — install tsx, tsconfig.scripts.json, src/data/types.ts, src/lib/assetUrl.ts (Wave 1, foundation)
   - [x] 02-02-projects-and-fixtures-PLAN.md — 5 canonical projects + 10 synthetic fixtures (Wave 2, CON-02 + ZHK-02)
-  - [ ] 02-03-construction-and-copy-script-PLAN.md — construction.ts data + copy-renders.ts + list-construction.ts + npm scripts wiring (Wave 2, CON-01/CON-02 infra)
-  - [ ] 02-04-content-modules-PLAN.md — methodology/values/company/placeholders content modules (Wave 2, CON-01)
+  - [x] 02-03-construction-and-copy-script-PLAN.md — construction.ts data + copy-renders.ts + list-construction.ts + npm scripts wiring (Wave 2, CON-01/CON-02 infra)
+  - [x] 02-04-content-modules-PLAN.md — methodology/values/company/placeholders content modules (Wave 2, CON-01)
   - [ ] 02-05-check-brand-ci-PLAN.md — check-brand.ts + postbuild hook + deploy.yml step (Wave 3, QA-04)
 
 ### Phase 3: Brand Primitives & Home Page

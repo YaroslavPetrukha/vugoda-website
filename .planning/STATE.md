@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 02-02-projects-and-fixtures-PLAN.md
-last_updated: "2026-04-24T19:14:25.115Z"
+stopped_at: Completed 02-03-construction-and-copy-script-PLAN.md (parallel wave 2)
+last_updated: "2026-04-24T19:16:50.680Z"
 progress:
   total_phases: 7
   completed_phases: 1
   total_plans: 10
-  completed_plans: 7
-  percent: 70
+  completed_plans: 9
+  percent: 80
 ---
 
 # Project State: Vugoda Website
@@ -28,13 +28,13 @@ progress:
 ## Current Position
 
 Phase: 02 (data-layer-content) — EXECUTING
-Plan: 2 of 5 complete (02-01, 02-02 done; 02-03/04/05 in parallel-flight)
+Plan: 3 of 5 complete (02-02 projects+fixtures done)
 
 - **Phase:** 2 — Data Layer & Content (executing)
-- **Plan:** 2 of 5 complete (02-02 projects+fixtures done)
-- **Status:** Executing Phase 02 (parallel wave)
-- **Stopped at:** Completed 02-02-projects-and-fixtures-PLAN.md
-- **Progress:** [███████░░░] 70%
+- **Plan:** 3 of 5 complete (02-02 projects+fixtures done)
+- **Status:** Ready to execute
+- **Stopped at:** Completed 02-03-construction-and-copy-script-PLAN.md (parallel wave 2)
+- **Progress:** [████████░░] 80%
 
 ## Roadmap Summary
 
@@ -98,6 +98,14 @@ Targets from PROJECT.md Constraints:
 - **Pipeline-4 title hardcoded `«Без назви»`** in projects.ts with an inline `placeholder per placeholders.ts#pipeline4Title` comment — avoids a cross-module import in the data layer while keeping the audit surface discoverable when Plan 02-04 creates `placeholders.ts`.
 - **Fixtures stand-alone (no import from `./projects`)** — `src/data/projects.fixtures.ts` ships 10 `Fixture ЖК #N` records covering all 4 Stage buckets (u-rozrakhunku×3, u-pogodzhenni×2, buduetsya×2, zdano×3) and all 4 Presentation variants. Decoupling guarantees production data bugs cannot leak into `/dev/grid` stress surface, and vice versa. Enforcement of the IMPORT BOUNDARY doc-block (pages/+components/ MUST NOT import fixtures) is Plan 02-05's `scripts/check-brand.ts` responsibility.
 - **TDD gate without Vitest:** plan marked tasks `tdd="true"` but STACK.md skips Vitest for MVP. The TDD gate here is `npm run lint` (`tsc --noEmit`) + acceptance-criteria grep battery + a one-shot runtime invariant check via `npx tsx -e` (11 invariants, all PASS).
+
+### Plan 02-04 Decisions (2026-04-24)
+
+- **`src/content/methodology.ts` bodies verbatim from КОНЦЕПЦІЯ-САЙТУ.md §8** — no paraphrasing, no truncation; typographic apostrophes (U+2019) and guillemets («») preserved. Blocks 2, 5, 6 carry `needsVerification: true` per D-16 / CONCEPT §11.5 — UI renders a ⚠ marker as data, not a string-embedded caveat.
+- **Four-module split retained over single `content/index.ts`** (D-15): methodology / values / company / placeholders are independently editable; each has its own `@rule IMPORT BOUNDARY` doc-block.
+- **Self-consistency fix on doc-blocks (deviation Rule 3):** plan's `<action>` for `values.ts` and `placeholders.ts` shipped doc-blocks that literally contained the forbidden-lexicon words and `{{token}}` examples the plan's own acceptance criteria forbid. Rephrased to reference the policy without including the banned literals. Keeps source text clean for Plan 02-05's `check-brand` CI grep over `src/`.
+- **`company.ts` uses 5 top-level `as const` named exports + 1 typed `socials` object** (not a frozen bundle) per RESEARCH §Named exports. `edrpou` / `licenseDate` / `email` etc. have narrow string-literal types — cheap correctness guard for legal facts that must not drift.
+- **`placeholders.ts` is a leaf module** (zero imports, zero types needed). Values are raw em-dashes (U+2014 verified at runtime) and `«Без назви»` — never `{{token}}` literals. Client-confirmation edits propagate in one build with no component touches.
 
 ### Hard Rules (from brand-system + CONCEPT §10)
 

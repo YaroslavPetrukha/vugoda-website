@@ -64,7 +64,7 @@ Requirements for clickable demo URL handed to client. Each maps to a roadmap pha
 
 ### Content
 
-- [ ] **CON-01**: Контент копірайту — безпосередньо з `КОНЦЕПЦІЯ-САЙТУ.md` (§7, §8) як TSX/MDX literals або модулі `src/content/*.ts`; без CMS у v1. ⚠ пункти методології 2/5/6 — позначаємо як потребуючі верифікації (не публікуємо як факт).
+- [x] **CON-01**: Контент копірайту — безпосередньо з `КОНЦЕПЦІЯ-САЙТУ.md` (§7, §8) як TSX/MDX literals або модулі `src/content/*.ts`; без CMS у v1. ⚠ пункти методології 2/5/6 — позначаємо як потребуючі верифікації (не публікуємо як факт).
 - [x] **CON-02**: Дані портфеля — типізований `src/data/projects.ts` (інтерфейс `Project` + discriminated `presentation` union). Плюс `src/data/projects.fixtures.ts` з 10 синтетичними ЖК (для `/dev/grid` QA route, не в production build).
 
 ### QA
@@ -175,7 +175,7 @@ Populated 2026-04-24 by roadmapper agent. Every v1 REQ-ID maps to exactly one ph
 | DEP-01 | Phase 6 (Performance, Mobile Fallback, Deploy) | Pending |
 | DEP-02 | Phase 6 (Performance, Mobile Fallback, Deploy) | Pending |
 | DEP-03 | Phase 1 (Foundation & Shell) | Complete |
-| CON-01 | Phase 2 (Data Layer & Content) | Pending |
+| CON-01 | Phase 2 (Data Layer & Content) | Complete |
 | CON-02 | Phase 2 (Data Layer & Content) | Complete |
 | QA-01 | Phase 6 (Performance, Mobile Fallback, Deploy) | Pending |
 | QA-02 | Phase 6 (Performance, Mobile Fallback, Deploy) | Pending |
