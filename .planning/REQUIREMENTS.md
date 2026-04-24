@@ -164,7 +164,7 @@ Populated 2026-04-24 by roadmapper agent. Every v1 REQ-ID maps to exactly one ph
 | LOG-02 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
 | CTC-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
 <<<<<<< HEAD
-| NAV-01 | Phase 1 (Foundation & Shell) | Pending |
+| NAV-01 | Phase 1 (Foundation & Shell) | Complete |
 | VIS-01 | Phase 1 (Foundation & Shell) | Complete |
 | VIS-02 | Phase 1 (Foundation & Shell) | Complete |
 =======
