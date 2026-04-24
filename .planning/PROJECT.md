@@ -36,7 +36,7 @@
 - [ ] **LOG-01**: Окрема сторінка `/construction-log` з таймлайн-галереєю Lakeview (50 фото, групування по місяцях dec-2025, jan-2026, feb-2026, mar-2026)
 - [ ] **LOG-02**: Підписи в стилі «Січень 2026 — фундамент, секція 1», без хвастощів; webp, lazy-load
 - [ ] **CTC-01**: Сторінка `/contact` (email `vygoda.sales@gmail.com`; телефон/адреса — `{{placeholder}}` до уточнення; соцмережі — `href="#"`)
-- [ ] **NAV-01**: Фіксований навбар (dark, `#2F3640`) + футер з реквізитами, діє на всіх сторінках, desktop-first
+- [ ] **NAV-01**: Фіксований навбар (dark, `#2F3640`) + футер на КОЖНІЙ сторінці містить мінімум: юр. назву ТОВ «БК ВИГОДА ГРУП», ЄДРПОУ `42016395`, ліцензію `27.12.2019`, email `vygoda.sales@gmail.com`. Persona-3 (банк DD) заходить з Google на глибокі сторінки, не лише home. Desktop-first.
 - [ ] **VIS-01**: Брендові токени — точно `#2F3640` / `#C1F33D` / `#F5F7FA` / `#A7AFBC` / `#3D3B43` / `#020A0A` (CSS-змінні, Tailwind v4 theme)
 - [ ] **VIS-02**: Montserrat через `@fontsource/montserrat` (Bold/Medium/Regular), повна кирилиця
 - [ ] **VIS-03**: Ізометричний куб-патерн — SVG з `brand-assets/patterns/`, використовується як hero overlay (opacity 10–20%) та як state-marker для pipeline без рендерів (cube-ladder §5.2)
@@ -47,11 +47,13 @@
 - [ ] **ANI-04**: Smooth route-transitions між 5 сторінками (fade або slide, Motion `AnimatePresence`)
 - [ ] **DEP-01**: Автоматичний деплой на GitHub Pages (GitHub Action `build → gh-pages` або `actions/deploy-pages`)
 - [ ] **DEP-02**: Публічний URL `https://yaroslavpetrukha.github.io/vugoda-website/` (або інший обліковий запис) доступний клієнту
-- [ ] **DEP-03**: Vite `base: '/vugoda-website/'` + react-router-dom з `basename` для коректних лінків на Pages
+- [ ] **DEP-03**: react-router-dom **HashRouter** (не BrowserRouter) + Vite `base: '/vugoda-website/'` + `public/.nojekyll` закомічено. HashRouter позбавляє від 404-on-hard-refresh на GH Pages без трюків з 404.html. Переходимо на BrowserRouter у v2 при custom domain.
 - [ ] **CON-01**: Контент копірайту — безпосередньо з `КОНЦЕПЦІЯ-САЙТУ.md` (§7, §8) як TSX/MDX literals; без CMS
 - [ ] **CON-02**: Дані портфеля (назва, стадія, рендери, slug) — у TypeScript-об'єкті `src/data/projects.ts`; додавання нового ЖК = один запис
 - [ ] **QA-01**: Desktop-first 1920×1080 — виглядає бездоганно; мінімальний graceful fallback для ≥1280px; mobile/tablet — **явно out-of-scope в v1**
 - [ ] **QA-02**: Lighthouse desktop ≥ 90 (Performance, Accessibility, Best Practices, SEO)
+- [ ] **QA-03**: OG meta tags + Twitter Card + `theme-color="#2F3640"` + canonical URL в `index.html`. OG image — 1200×630 render з hero ізометричним кубом. Демо-URL має чисто анфурлитись у Viber/Telegram/Slack.
+- [ ] **QA-04**: CI denylist — `grep -r "Pictorial\|Rubikon\|Пикторіал\|Рубікон" dist/` має бути порожнім на кожен build (silent-displacement enforcement); `grep -rE "#[0-9A-Fa-f]{6}" src/` — усі hex ⊆ 6 брендбукових кольорів; `grep "{{\|TODO" dist/` — порожньо
 
 ### Out of Scope
 
@@ -71,6 +73,7 @@
 - **Бекенд форм (окрім `mailto:`)** — у MVP форма лише відкриває пошту. Серверний endpoint — v2.
 - **Мультимовність (EN для інвесторів)** — відкрите питання §11.13, UA-only в MVP.
 - **Аналітика (GA4, Meta Pixel, GTM)** — v2, коли клієнт підтвердить вимоги (§11.14).
+- **Privacy-policy сторінка / лінк у футері** — у v1 лише `mailto:` (нуль обробки даних, нуль cookies, нуль third-party скриптів → UA-DPA/GDPR не триггерить). Додавання мертвого лінка «Політика конфіденційності» гірше за відсутність. Повертаємося до цього у v2, коли додаємо аналітику АБО real contact-endpoint.
 - **Верифікація методології §8 з клієнтом** — у MVP показуємо проект зі знаком ⚠ на пунктах 2/5/6; правка після фідбеку.
 
 ## Context
