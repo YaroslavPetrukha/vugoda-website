@@ -151,7 +151,7 @@ Deferred to Phase 7 handoff doc:
 
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
-| 260424-whr | verify Logo.tsx SVG lands in prod build | 2026-04-24 | (pending) | [260424-whr-verify-logo-tsx-svg-lands-in-prod-build](./quick/260424-whr-verify-logo-tsx-svg-lands-in-prod-build/) |
+| 260424-whr | verify Logo.tsx SVG lands in prod build | 2026-04-24 | 110c997 | [260424-whr-verify-logo-tsx-svg-lands-in-prod-build](./quick/260424-whr-verify-logo-tsx-svg-lands-in-prod-build/) |
 
 ### Todos / Blockers
 
