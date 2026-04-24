@@ -4,10 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "predev": "tsx scripts/copy-renders.ts",
     "dev": "vite",
+    "prebuild": "tsx scripts/copy-renders.ts",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "list:construction": "tsx scripts/list-construction.ts"
   },
   "dependencies": {
     "@fontsource/montserrat": "^5.2.8",

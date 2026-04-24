@@ -1,0 +1,21 @@
+# Build outputs
+dist/
+
+# Dependencies
+node_modules/
+
+# Generated asset trees (populated by `npm run prebuild` via scripts/copy-renders.ts)
+# Source of truth lives in /renders/ and /construction/ at repo root.
+public/renders/
+public/construction/
+
+# macOS
+.DS_Store
+
+# Editor / tooling
+.vite/
+.vscode/
+.idea/
+
+# Playwright cache
+.playwright-mcp/
