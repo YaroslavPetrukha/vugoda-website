@@ -3,21 +3,21 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 03 (brand-primitives-home-page)
-current_plan: 7
+current_plan: 8
 status: executing
-stopped_at: Completed 03-06-construction-methodology-PLAN.md
-last_updated: "2026-04-25T07:11:56.148Z"
+stopped_at: Completed 03-07-trust-contact-PLAN.md
+last_updated: "2026-04-25T07:21:08.765Z"
 progress:
   total_phases: 7
   completed_phases: 2
   total_plans: 18
-  completed_plans: 16
-  percent: 89
+  completed_plans: 17
+  percent: 94
 ---
 
 # Project State: Vugoda Website
 
-**Last updated:** 2026-04-25 — Plan 03-06 complete (construction-methodology: ConstructionTeaser + MethodologyTeaser, HOME-04 + HOME-05 closed)
+**Last updated:** 2026-04-25 — Plan 03-07 complete (trust-contact: TrustBlock + ContactForm, HOME-06 + HOME-07 closed; Wave 3 = 7/7 home sections shipped)
 **Updated by:** /gsd:execute-phase orchestrator
 
 ## Project Reference
@@ -30,11 +30,11 @@ progress:
 ## Current Position
 
 - **Current Phase:** 03 (brand-primitives-home-page)
-- **Current Plan:** 7
+- **Current Plan:** 8
 - **Total Plans in Phase:** 8
 - **Status:** Ready to execute
-- **Stopped at:** Completed 03-06-construction-methodology-PLAN.md
-- **Progress:** [█████████░] 89%
+- **Stopped at:** Completed 03-07-trust-contact-PLAN.md
+- **Progress:** [█████████░] 94%
 
 ## Roadmap Summary
 
@@ -185,6 +185,20 @@ Targets from PROJECT.md Constraints:
 - **Doc-block self-consistency fix on ConstructionTeaser.tsx (Rule 3 — blocking, 6th codebase occurrence):** plan's verbatim TSX shipped JSDoc literally containing `NO inline transition={{}}`, but the same plan's `<verify>` automated grep gate `! grep -nE "transition=\{\{"` runs against the same file. Same precedent as Plans 02-04, 03-03, 03-04, 03-05. Resolution: rephrased to `NO inline Motion transition objects — Phase 5 owns easing config (Pitfall 14)`. Recurring across 6 plans is now firmly a planner-template smell — future plans MUST pre-screen `<action>` doc-blocks against their own `<verify>` regex battery before issuing. MethodologyTeaser was clean on first write (no doc-block grep collision).
 - **Build pipeline green:** `npm run lint` exits 0 after each task; `npm run build` exits 0 (full prebuild → tsc → vite → postbuild check-brand 4/4 PASS). Bundle **242.85 kB JS / 76.85 kB gzipped — unchanged** from Plan 03-05 (lucide-react ChevronLeft/Right already used by Footer; useRef and Link already in the import graph; tree-shaking preserves bundle stability). Within 200 KB-gzipped budget.
 
+### Plan 03-07 Decisions (2026-04-25)
+
+- **TrustBlock = 3-column horizontal table at lg breakpoint** (Юр. особа | Ліцензія | Контакт), inside `max-w-7xl px-6` on `bg-bg py-24`. Section H2 «Юридично та операційно» (24 chars) inline carve-out per D-29 short-structural-label rule. Each column: muted uppercase label (text-xs tracking-wider, label-pattern carve-out for `#A7AFBC`) + bold value (`text-text` AAA) + body-size caption (`text-text-muted` at `text-base` ≥14pt floor). Phase 1 Footer.tsx already shows the same 3 facts in column 3 — TrustBlock REPEATS them as the home-page higher-emphasis surface (HOME-06 mandate; Persona-3 bank-DD lands here from Google).
+- **TrustBlock col 2/3 captions imported** (`licenseScopeNote`, `contactNote` from `src/content/home.ts`) — closes plan-checker Warning 7. Eliminates inline Ukrainian paragraphs >40 chars per Phase 3 D-29. Same content-boundary discipline as MethodologyTeaser's `methodologyVerificationWarning` aria-label (Plan 03-06 / Warning 6).
+- **TrustBlock email = clickable `mailto:${email}` anchor** in col 3 (not just rendered text) — direct-action affordance, matches Footer pattern. Hover swap to `text-accent` (subtle, no underline-grow per brand-system §6 no-decorative-flourishes).
+- **Defensive grep guards on TrustBlock** — file MUST NOT contain `<img>`, `команда`, `керівник`, `обличчя`, `портрет` (any of these trip the grep). Survives future inadvertent additions; HOME-06 hard-rule «no team photos / no portraits» enforced at the file level.
+- **ContactForm = single mailto: anchor styled as button** (NO `<input>`, `<form>`, `<textarea>`, `<label>`) — PROJECT.md Out of Scope «mailto: достатньо для demo-handoff. Server endpoint = v2 INFR2-04». A fake form that only concatenates inputs into a mailto query string adds UI surface without real utility — D-29 rejects it.
+- **ContactForm `MAIL_SUBJECT` module-top const** (`'Ініціювати діалог через сайт ВИГОДА'`), wrapped in `encodeURIComponent` at href construction — Cyrillic-safe browser address-bar parsing. URL-context value, single-purpose; one place to edit.
+- **ContactForm bg-bg-black closer** (#020A0A) over bg-bg (#2F3640) — accent button on `#020A0A` is the brand's strongest contrast moment (8.85:1 AAA per brand-system §3), and the closer position warrants the maximum visual emphasis available in the closed palette. Visual button parity with Hero CTA (same Tailwind classes).
+- **ContactForm heading + body imported** (`contactHeading`, `contactBody` from `src/content/home.ts`) — closes plan-checker Warning 8. Both strings carry U+2019 typographic apostrophes («об'єкт», «зобов'язань») per CONCEPT §2 tone discipline.
+- **Doc-block self-consistency fixes on TrustBlock + ContactForm (Rule 3 — blocking, 7th + 8th codebase occurrence):** TrustBlock's verbatim plan TSX shipped a JSDoc literally containing «команда»/«керівник» policy descriptors that the file's own grep gate forbids. ContactForm's verbatim plan TSX shipped a JSDoc literally containing the email `vygoda.sales@gmail.com` that the file's own grep gate forbids (gate's intent: enforce email-via-import). Resolution: rephrased both doc-blocks to describe policy without embedding regex-bait literals. Same precedent as Plans 02-04 ×2, 03-03, 03-04, 03-05 ×2, 03-06. **Pattern is now confirmed across 8 plans — planner-template smell is real.** Future plans MUST pre-screen `<action>` doc-blocks against their own `<verify>` regex battery before issuing; recommended: planner-side automated check that greps proposed `<action>` text against proposed `<verify>` patterns and rejects collisions at plan time, not at executor time.
+- **Wave 3 home-section sweep complete: 7/7 home sections shipped** (Hero · BrandEssence · PortfolioOverview · ConstructionTeaser · MethodologyTeaser · TrustBlock · ContactForm). Plan 03-08 (last in phase) composes them into `src/pages/HomePage.tsx` and registers `/dev/brand` QA route.
+- **Build pipeline green:** `npm run lint` exits 0 after each task; `npm run build` exits 0 (full prebuild → tsc → vite → postbuild check-brand 4/4 PASS). Bundle **242.85 kB JS / 76.85 kB gzipped — unchanged** from Plan 03-06 (both new components are pure render, dependencies already in graph; tree-shaking preserves bundle stability). Within 200 KB-gzipped budget.
+
 ### Hard Rules (from brand-system + CONCEPT §10)
 
 - Closed palette: 6 hexes only (`#2F3640`, `#C1F33D`, `#F5F7FA`, `#A7AFBC`, `#3D3B43`, `#020A0A`)
@@ -219,6 +233,7 @@ Deferred to Phase 7 handoff doc:
 | Phase 03 P5 | 6min | 2 tasks | 2 files |
 | Phase 03 P6 | 7min | 2 tasks | 2 files |
 | Phase 03-brand-primitives-home-page P06 | 7min | 2 tasks | 2 files |
+| Phase 03 P07 | 4m 39s | 2 tasks | 2 files |
 
 ### Todos / Blockers
 
@@ -235,6 +250,7 @@ Deferred to Phase 7 handoff doc:
 - **03-04 complete: src/components/sections/home/Hero.tsx (~80 lines) — wordmark `<h1>` ВИГОДА + heroSlogan paragraph + heroCta `<Link to="/projects">` + parallax IsometricGridBG overlay (useScroll target=heroRef + useTransform [0,1]→[0,-120], linear, no spring); useReducedMotion() collapses outputRange to [0,0]; index.html AVIF aerial-1920 preload `<link>` above `<title>` (D-18); HOME-01 + ANI-01 closed; Phase 5 boundary preserved (no inline Motion transition objects); build pipeline 4/4 PASS**
 - **03-05 complete: src/components/sections/home/BrandEssence.tsx (~43 lines, 2×2 grid of 4 numbered cards from brandValues) + PortfolioOverview.tsx (~128 lines, flagship side-by-side at lg with eager+high+w=1280 h=720 ResponsivePicture, 3-card pipeline grid lazy with aspect-[4/3], aggregate row with `<IsometricCube variant="single" stroke="#A7AFBC" opacity={0.4}>`); HOME-02 + HOME-03 closed; first home consumer of VIS-03 single variant; LCP wiring end-to-end (index.html preload from 03-04 → flagship picture consume); 3 Rule 3 doc-block self-consistency fixes (4th codebase occurrence — pattern is a planner-template smell); build pipeline 4/4 PASS, bundle 242.85 kB JS / 76.85 kB gzipped (unchanged)**
 - **03-06 complete: src/components/sections/home/ConstructionTeaser.tsx (~96 lines, native CSS scroll-snap strip of 5 photos from latestMonth().teaserPhotos via ResponsivePicture widths=[640,960] lazy; ChevronLeft/Right buttons fire scrollBy({left: ±336, behavior: 'smooth'}) via useRef; CTA Link to /construction-log with constructionTeaserCta) + MethodologyTeaser.tsx (~61 lines, filters methodologyBlocks to FEATURED_INDEXES=[1,3,7], renders 3-card grid with defensive ⚠-marker conditional `{block.needsVerification && <span aria-label={methodologyVerificationWarning}>⚠</span>}`); HOME-04 + HOME-05 closed; first production consumer of construction-sized ResponsivePicture two-width branch; 1 Rule 3 doc-block self-consistency fix (6th codebase occurrence — confirmed planner-template smell); build pipeline 4/4 PASS, bundle 242.85 kB JS / 76.85 kB gzipped (unchanged)**
+- **03-07 complete: src/components/sections/home/TrustBlock.tsx (80 lines, 3-column horizontal table at lg breakpoint reading legalName/edrpou/licenseDate/licenseNote/email from content/company.ts + licenseScopeNote/contactNote captions from content/home.ts; clickable mailto:${email} in col 3; section H2 «Юридично та операційно»; defensive greps against `<img>` + portrait literals) + ContactForm.tsx (47 lines, single mailto: anchor on bg-bg-black closer with encodeURIComponent(MAIL_SUBJECT) for Cyrillic-safe href, NO `<input>`/`<form>`/`<textarea>`/`<label>`; heading + body + CTA imported from content/home.ts); HOME-06 + HOME-07 closed; 2 Rule 3 doc-block self-consistency fixes (7th + 8th codebase occurrence — pattern confirmed across 8 plans, planner-template smell); Wave 3 home-section sweep complete (7/7 sections shipped, ready for Plan 03-08 composition); build pipeline 4/4 PASS, bundle 242.85 kB JS / 76.85 kB gzipped (unchanged)**
 - **Phase 6 risk recorded:** `aerial-1920.avif` = 379 KB (above 200KB hero budget). Phase 6 must use `sizes` attribute on `<ResponsivePicture>` to deliver 1280-width AVIF (196 KB) or 640-width AVIF (58 KB) on typical desktop viewports. Encoder params pinned by D-19 — not tuned at Phase 3.
 - Two research spikes flagged for Phase 3 (Motion `useScroll` API, `vite-plugin-svgr` v4) and Phase 5 (AnimatePresence + Router v7, `useReducedMotion` export)
 
@@ -254,7 +270,7 @@ Deferred to Phase 7 handoff doc:
 /gsd:execute-phase
 ```
 
-Phase 3 in progress — 6/8 plans done (03-01 brand-primitives, 03-02 home-microcopy, 03-03 image-pipeline, 03-04 hero-section, 03-05 essence-portfolio, 03-06 construction-methodology). Continue with Plan 03-07 (trust-contact) next.
+Phase 3 in progress — 7/8 plans done (03-01 brand-primitives, 03-02 home-microcopy, 03-03 image-pipeline, 03-04 hero-section, 03-05 essence-portfolio, 03-06 construction-methodology, 03-07 trust-contact). Wave 3 home-section sweep complete (7/7 sections shipped). Continue with Plan 03-08 (compose-and-dev-route) next — composes all 7 sections into src/pages/HomePage.tsx + registers /dev/brand QA route.
 
 **If returning after context loss, read in order:**
 
