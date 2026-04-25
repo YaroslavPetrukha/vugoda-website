@@ -18,18 +18,21 @@
 - [x] **CON-02**: Дані портфеля (назва, стадія, рендери, slug) — у TypeScript-об'єкті `src/data/projects.ts`; додавання нового ЖК = один запис *(Validated in Phase 2: 5 канонічних ЖК у `projects.ts` + 10 синтетичних fixtures доводять scale-to-N)*
 - [x] **ZHK-02**: Шаблон має бути масштабований — без змін коду додаємо Маєток, NTEREST, Pipeline-4 через дані *(Validated in Phase 2: discriminated `presentation` union + fixtures для всіх 4 Stage × 4 Presentation варіантів)*
 - [x] **QA-04**: CI denylist — `grep -r "Pictorial\|Rubikon\|..." dist/` порожньо; hex ⊆ 6 брендбукових; `{{`/`TODO` у `dist/` порожньо *(Validated in Phase 2: `scripts/check-brand.ts` з 4 інваріантами, wired через postbuild + deploy.yml)*
+- [x] **HOME-01**: Desktop-first головна з hero-секцією *(Validated in Phase 3: Hero.tsx wordmark + IsometricGridBG opacity 0.15 + heroSlogan + CTA → /projects + parallax range [0,-100] under SC#1 strict «<120px»)*
+- [x] **HOME-02**: Секція бренд-есенції *(Validated in Phase 3: BrandEssence.tsx renders 4 numbered cards from `brandValues` content module)*
+- [x] **HOME-03**: Секція огляду портфеля *(Validated in Phase 3: PortfolioOverview.tsx flagship LCP + 3 pipeline cards + Pipeline-4 aggregate row with single-cube marker; reads derived views, never filters projects[])*
+- [x] **HOME-04**: Секція «Хід будівництва Lakeview» *(Validated in Phase 3: ConstructionTeaser.tsx CSS scroll-snap + ResponsivePicture + CTA from content layer with U+2192 baked-in glyph)*
+- [x] **HOME-05**: Методологія teaser *(Validated in Phase 3: MethodologyTeaser.tsx renders 3 §8 blocks with ⚠ DOM marker + aria-label for needsVerification)*
+- [x] **HOME-06**: Довіра-блок *(Validated in Phase 3: TrustBlock.tsx 3-column legal table from `company.ts` typed legal facts; zero `<img>` of people)*
+- [x] **HOME-07**: Форма контакту *(Validated in Phase 3: ContactForm.tsx zero `<form>/<input>/<textarea>` — single mailto: anchor styled as button on bg-bg-black closer)*
+- [x] **VIS-03**: Ізометричний куб-патерн *(Validated in Phase 3: IsometricCube typed-discriminated 3 variants × 3 strokes + IsometricGridBG svgr-imported with D-03 opacity 0.10–0.20 ceiling)*
+- [x] **VIS-04**: Офіційні SVG-логотипи *(Validated in Phase 3: Logo URL-import dark.svg + Mark URL-import mark.svg + favicon)*
+- [x] **ANI-01**: Hero slow-parallax *(Validated in Phase 3: useScroll target=heroRef + useTransform [0,1]→[0,-100] linear, no spring/bounce; useReducedMotion collapses to [0,0])*
 
 ### Active
 
 <!-- Core-4 MVP scope + Lakeview construction layer. -->
 
-- [ ] **HOME-01**: Desktop-first головна з hero-секцією (wordmark «ВИГОДА» + slow-parallax ізометричний куб + гасло + CTA «Переглянути проекти»)
-- [ ] **HOME-02**: Секція бренд-есенції (4 цінності: системність · доцільність · надійність · довгострокова цінність)
-- [ ] **HOME-03**: Секція огляду портфеля (дворівнева ієрархія: Lakeview-флагман + 3 pipeline-картки + агрегативний рядок Pipeline-4)
-- [ ] **HOME-04**: Секція «Хід будівництва Lakeview» — компактна стрічка-тизер (3–5 останніх фото з `/construction/mar-2026/` у горизонтальному скроллі + CTA «Дивитись повний таймлайн»)
-- [ ] **HOME-05**: Методологія teaser (2–3 блоки з «Як ми будуємо» §8) + CTA
-- [ ] **HOME-06**: Довіра-блок (ЄДРПОУ 42016395, ліцензія від 27.12.2019) — таблиця-реквізитів
-- [ ] **HOME-07**: Форма контакту («Ініціювати діалог», функціональний стиль, mailto:vygoda.sales@gmail.com для MVP)
 - [ ] **HUB-01**: Сторінка `/projects` з фільтром за 4 бакетами Модель-Б (У розрахунку · У погодженні · Будується · Здано)
 - [ ] **HUB-02**: Дворівнева картка Lakeview (hero-розмір, рендер `aerial.jpg`, CTA «Перейти на сайт проекту» → `https://yaroslavpetrukha.github.io/Lakeview/`)
 - [ ] **HUB-03**: Сітка 3-в-ряд для pipeline-карток з явним маркуванням стадії
@@ -41,9 +44,6 @@
 - [ ] **NAV-01**: Фіксований навбар (dark, `#2F3640`) + футер на КОЖНІЙ сторінці містить мінімум: юр. назву ТОВ «БК ВИГОДА ГРУП», ЄДРПОУ `42016395`, ліцензію `27.12.2019`, email `vygoda.sales@gmail.com`. Persona-3 (банк DD) заходить з Google на глибокі сторінки, не лише home. Desktop-first.
 - [ ] **VIS-01**: Брендові токени — точно `#2F3640` / `#C1F33D` / `#F5F7FA` / `#A7AFBC` / `#3D3B43` / `#020A0A` (CSS-змінні, Tailwind v4 theme)
 - [ ] **VIS-02**: Montserrat через `@fontsource/montserrat` (Bold/Medium/Regular), повна кирилиця
-- [ ] **VIS-03**: Ізометричний куб-патерн — SVG з `brand-assets/patterns/`, використовується як hero overlay (opacity 10–20%) та як state-marker для pipeline без рендерів (cube-ladder §5.2)
-- [ ] **VIS-04**: Офіційні SVG-логотипи з `brand-assets/logo/` (dark-version у навбарі, favicon з `brand-assets/favicon/`)
-- [ ] **ANI-01**: Hero slow-parallax ізометричного куб-патерну (Motion, ease-out, без bounce)
 - [ ] **ANI-02**: Scroll-triggered reveal секцій (fade + slight translate, ~400ms, stagger для карток)
 - [ ] **ANI-03**: Hover-стани карток ЖК (subtle scale/overlay, brand-consistent)
 - [ ] **ANI-04**: Smooth route-transitions між 5 сторінками (fade або slide, Motion `AnimatePresence`)
@@ -159,4 +159,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-24 — Phase 2 (Data Layer & Content) complete; CON-01, CON-02, ZHK-02, QA-04 validated*
+*Last updated: 2026-04-25 — Phase 3 (Brand Primitives & Home Page) complete; HOME-01..07, VIS-03, VIS-04, ANI-01 validated. Audit findings CF-1, QC-1, QC-3 closed by fix commit 3ae662d before transition to Phase 4.*
