@@ -11,8 +11,8 @@
  * LCP guarantee. The single 1920-AVIF preload link in index.html
  * (Phase 3 03-04) covers home; /projects gets the same cache hit.
  *
- * Phase 4 plan 04-10 (Wave 3, ANI-03) adds hover triple-effect classes
- * to this article. This plan ships extraction-only.
+ * Wave 3 plan 04-10 added the brand hover triple-effect (D-31..D-35) to
+ * the outer article — affects home, /projects, /dev/grid simultaneously.
  *
  * IMPORT BOUNDARY: forwards path templates into ResponsivePicture which
  * composes URLs via lib/assetUrl. Never embeds the quoted, slash-
@@ -29,7 +29,7 @@ interface Props {
 
 export function FlagshipCard({ project }: Props) {
   return (
-    <article className="mb-16 grid grid-cols-1 gap-8 bg-bg-surface lg:grid-cols-[3fr_2fr]">
+    <article className="mb-16 grid grid-cols-1 gap-8 bg-bg-surface lg:grid-cols-[3fr_2fr] transition-[transform,box-shadow,background-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[1.02] hover:shadow-[0_0_24px_rgba(193,243,61,0.15)] motion-reduce:hover:scale-100 motion-reduce:hover:shadow-none">
       {project.renders.length > 0 && (
         <ResponsivePicture
           src={`renders/${project.slug}/${project.renders[0]}`}
