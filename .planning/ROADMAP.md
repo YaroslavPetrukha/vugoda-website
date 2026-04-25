@@ -90,7 +90,7 @@
   - [ ] 04-06a-zhk-etno-dim-shell-PLAN.md — ZhkHero + ZhkFactBlock + ZhkWhatsHappening + ZhkLakeviewRedirect (Wave 2, ZHK-01 leaf components)
   - [ ] 04-06b-zhk-etno-dim-gallery-PLAN.md — ZhkGallery (Lightbox state) + ZhkCtaPair + ZhkPage dispatcher (Wave 2, ZHK-01 composition)
   - [ ] 04-07-construction-log-PLAN.md — /construction-log MonthGroup + Lightbox (Wave 2, LOG-01 + LOG-02)
-  - [ ] 04-08-contact-page-PLAN.md — /contact реквізити-block + mailto CTA (Wave 2, CTC-01)
+  - [x] 04-08-contact-page-PLAN.md — /contact реквізити-block + mailto CTA (Wave 2, CTC-01)
   - [ ] 04-09-dev-grid-PLAN.md — hidden /dev/grid fixtures stress test + App.tsx route (Wave 2, HUB-04 SC#6)
   - [ ] 04-10-ani03-hover-sweep-PLAN.md — ANI-03 retroactive hover sweep across 3 surfaces (Wave 3, ANI-03)
 **UI hint**: yes
@@ -140,7 +140,7 @@
 | 1. Foundation & Shell | 5/5 | Complete   | 2026-04-24 |
 | 2. Data Layer & Content | 5/5 | Complete   | 2026-04-24 |
 | 3. Brand Primitives & Home Page | 8/8 | Complete   | 2026-04-25 |
-| 4. Portfolio, ЖК, Log, Contact | 4/11 | In Progress|  |
+| 4. Portfolio, ЖК, Log, Contact | 5/11 | In Progress|  |
 | 5. Animations & Polish | 0/0 | Not started | — |
 | 6. Performance, Mobile Fallback, Deploy | 0/0 | Not started | — |
 | 7. Post-deploy QA & Handoff | 0/0 | Not started | — |

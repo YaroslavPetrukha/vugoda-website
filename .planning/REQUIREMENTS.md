@@ -36,7 +36,7 @@ Requirements for clickable demo URL handed to client. Each maps to a roadmap pha
 
 ### Contact (`/contact`)
 
-- [ ] **CTC-01**: Сторінка `/contact` — email `vygoda.sales@gmail.com` (активний `mailto:`); телефон / юр. адреса — текст `—` (placeholder для незапитаних у клієнта даних, не `{{token}}` в розмітці); соцмережі — `href="#"` заглушки до запуску
+- [x] **CTC-01**: Сторінка `/contact` — email `vygoda.sales@gmail.com` (активний `mailto:`); телефон / юр. адреса — текст `—` (placeholder для незапитаних у клієнта даних, не `{{token}}` в розмітці); соцмережі — `href="#"` заглушки до запуску
 
 ### Navigation & Layout
 
@@ -162,7 +162,7 @@ Populated 2026-04-24 by roadmapper agent. Every v1 REQ-ID maps to exactly one ph
 | ZHK-02 | Phase 2 (Data Layer & Content) | Complete |
 | LOG-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Complete |
 | LOG-02 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
-| CTC-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
+| CTC-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Complete |
 | NAV-01 | Phase 1 (Foundation & Shell) | Complete |
 | VIS-01 | Phase 1 (Foundation & Shell) | Complete |
 | VIS-02 | Phase 1 (Foundation & Shell) | Complete |
