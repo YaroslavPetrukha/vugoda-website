@@ -1,16 +1,64 @@
-import markUrl from '../../brand-assets/mark/mark.svg';
-
 /**
- * ЖК route stub. Phase 1 renders identically regardless of :slug (D-12).
- * Phase 4 adds findBySlug() + redirect logic for flagship-external / grid-only.
+ * @module pages/ZhkPage
+ *
+ * ZHK-01 — Slug dispatcher. Reads :slug param and dispatches:
+ *   - 'etno-dim' → render full template (the only full-internal project in v1)
+ *   - 'lakeview' → cross-origin redirect via <ZhkLakeviewRedirect>
+ *   - 'maietok-vynnykivskyi' / 'nterest' / 'pipeline-4' → same-origin redirect to /projects
+ *   - any other slug → render <NotFoundPage /> inline (the route ALREADY matched
+ *     /zhk/:slug, so the App.tsx catch-all does not fire for unknown slugs
+ *     under /zhk; we render NotFoundPage explicitly per RESEARCH Pattern 3 / Q6).
+ *
+ * Section ordering on full template (D-13):
+ *   ZhkHero → ZhkFactBlock → ZhkWhatsHappening → ZhkGallery → ZhkCtaPair
+ *
+ * Default export is preserved (App.tsx import unchanged).
  */
+
+import { useParams, Navigate } from 'react-router-dom';
+import { findBySlug, projects } from '../data/projects';
+import { ZhkHero } from '../components/sections/zhk/ZhkHero';
+import { ZhkFactBlock } from '../components/sections/zhk/ZhkFactBlock';
+import { ZhkWhatsHappening } from '../components/sections/zhk/ZhkWhatsHappening';
+import { ZhkGallery } from '../components/sections/zhk/ZhkGallery';
+import { ZhkCtaPair } from '../components/sections/zhk/ZhkCtaPair';
+import { ZhkLakeviewRedirect } from '../components/sections/zhk/ZhkLakeviewRedirect';
+import NotFoundPage from './NotFoundPage';
+
+/** Slugs that exist in data/projects but are NOT full-internal. They redirect
+ *  to /projects rather than render the template. */
+const REDIRECT_TO_PROJECTS = new Set(['maietok-vynnykivskyi', 'nterest', 'pipeline-4']);
+
 export default function ZhkPage() {
-  return (
-    <section className="flex flex-1 flex-col items-center justify-center px-6 py-24">
-      <div className="flex flex-col items-center gap-12">
-        <h1 className="font-bold tracking-tight text-6xl text-text">ЖК</h1>
-        <img src={markUrl} alt="" aria-hidden="true" className="h-24 w-auto" />
-      </div>
-    </section>
+  const { slug = '' } = useParams<{ slug: string }>();
+
+  // Full-internal template (etno-dim only in v1).
+  const project = findBySlug(slug);
+  if (project) {
+    return (
+      <>
+        <ZhkHero project={project} />
+        <ZhkFactBlock project={project} />
+        <ZhkWhatsHappening project={project} />
+        <ZhkGallery project={project} />
+        <ZhkCtaPair />
+      </>
+    );
+  }
+
+  // Cross-origin flagship redirect (lakeview).
+  const flagshipRecord = projects.find(
+    (p) => p.slug === slug && p.presentation === 'flagship-external',
   );
+  if (flagshipRecord && flagshipRecord.externalUrl) {
+    return <ZhkLakeviewRedirect url={flagshipRecord.externalUrl} />;
+  }
+
+  // Same-origin redirect for grid-only / aggregate slugs.
+  if (REDIRECT_TO_PROJECTS.has(slug)) {
+    return <Navigate to="/projects" replace />;
+  }
+
+  // Unknown slug — render 404 inline (route /zhk/:slug already matched).
+  return <NotFoundPage />;
 }
