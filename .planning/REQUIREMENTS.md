@@ -53,7 +53,7 @@ Requirements for clickable demo URL handed to client. Each maps to a roadmap pha
 
 - [x] **ANI-01**: Hero slow-parallax ізометричного куб-патерну — Motion `useScroll`+`useTransform`, ease-out, без bounce. Кінематографічна повільна подача (concept tone: стриманий).
 - [ ] **ANI-02**: Scroll-triggered reveal секцій — `<RevealOnScroll>` wrapper (Motion `whileInView` + `fadeUp` variant), ~400ms, stagger для карток. Один SOT варіантів у `lib/motionVariants.ts` — ніяких inline `transition={{…}}`.
-- [ ] **ANI-03**: Hover-стани карток ЖК — subtle scale (≤1.02) + overlay-opacity delta, brand-consistent (без пружинних springs)
+- [x] **ANI-03**: Hover-стани карток ЖК — subtle scale (≤1.02) + overlay-opacity delta, brand-consistent (без пружинних springs)
 - [ ] **ANI-04**: Smooth route-transitions між 5 сторінками — `AnimatePresence mode="wait"` keyed on pathname, `pageFade` варіант. Respects `useReducedMotion`.
 
 ### Deploy
@@ -170,7 +170,7 @@ Populated 2026-04-24 by roadmapper agent. Every v1 REQ-ID maps to exactly one ph
 | VIS-04 | Phase 3 (Brand Primitives & Home Page) | Complete |
 | ANI-01 | Phase 3 (Brand Primitives & Home Page) | Complete |
 | ANI-02 | Phase 5 (Animations & Polish) | Pending |
-| ANI-03 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
+| ANI-03 | Phase 4 (Portfolio, ЖК, Log, Contact) | Complete |
 | ANI-04 | Phase 5 (Animations & Polish) | Pending |
 | DEP-01 | Phase 6 (Performance, Mobile Fallback, Deploy) | Pending |
 | DEP-02 | Phase 6 (Performance, Mobile Fallback, Deploy) | Pending |

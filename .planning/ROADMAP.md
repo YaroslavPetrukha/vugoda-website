@@ -11,7 +11,7 @@
 - [x] **Phase 1: Foundation & Shell** — Vite + React + Tailwind v4 tokens, Montserrat, HashRouter, Layout (Nav + Footer), 5 route stubs, GH Actions scaffold (completed 2026-04-24)
 - [x] **Phase 2: Data Layer & Content** — typed `projects.ts` + fixtures, content modules, pre-build translit script, asset pipeline, CI denylist (completed 2026-04-24)
 - [ ] **Phase 3: Brand Primitives & Home Page** — Logo/Mark/IsometricCube/Wordmark + full `/` page (7 секцій), hero parallax, responsive picture pipeline
-- [ ] **Phase 4: Portfolio, ЖК, Construction Log, Contact** — `/projects` hub, `/zhk/etno-dim` template, `/construction-log` timeline, `/contact` mailto, card hover
+- [x] **Phase 4: Portfolio, ЖК, Construction Log, Contact** — `/projects` hub, `/zhk/etno-dim` template, `/construction-log` timeline, `/contact` mailto, card hover (completed 2026-04-25)
 - [ ] **Phase 5: Animations & Polish** — shared motion variants, scroll-reveal, AnimatePresence route-transitions, `useReducedMotion`, session-skip
 - [ ] **Phase 6: Performance, Mobile Fallback, Deploy** — image preload, bundle audit, mobile-fallback page, OG meta, GitHub Actions deploy live
 - [ ] **Phase 7: Post-deploy QA & Client Handoff** — keyboard walkthrough, hard-refresh test, Lighthouse archive, denylist verification, handoff doc
@@ -92,7 +92,7 @@
   - [x] 04-07-construction-log-PLAN.md — /construction-log MonthGroup + Lightbox (Wave 2, LOG-01 + LOG-02)
   - [x] 04-08-contact-page-PLAN.md — /contact реквізити-block + mailto CTA (Wave 2, CTC-01)
   - [x] 04-09-dev-grid-PLAN.md — hidden /dev/grid fixtures stress test + App.tsx route (Wave 2, HUB-04 SC#6)
-  - [ ] 04-10-ani03-hover-sweep-PLAN.md — ANI-03 retroactive hover sweep across 3 surfaces (Wave 3, ANI-03)
+  - [x] 04-10-ani03-hover-sweep-PLAN.md — ANI-03 retroactive hover sweep across 3 surfaces (Wave 3, ANI-03)
 **UI hint**: yes
 
 ### Phase 5: Animations & Polish
@@ -140,7 +140,7 @@
 | 1. Foundation & Shell | 5/5 | Complete   | 2026-04-24 |
 | 2. Data Layer & Content | 5/5 | Complete   | 2026-04-24 |
 | 3. Brand Primitives & Home Page | 8/8 | Complete   | 2026-04-25 |
-| 4. Portfolio, ЖК, Log, Contact | 10/11 | In Progress|  |
+| 4. Portfolio, ЖК, Log, Contact | 11/11 | Complete   | 2026-04-25 |
 | 5. Animations & Polish | 0/0 | Not started | — |
 | 6. Performance, Mobile Fallback, Deploy | 0/0 | Not started | — |
 | 7. Post-deploy QA & Handoff | 0/0 | Not started | — |
