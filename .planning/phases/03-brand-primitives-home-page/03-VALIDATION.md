@@ -1,10 +1,11 @@
 ---
 phase: 3
 slug: brand-primitives-home-page
-status: draft
-nyquist_compliant: false
+status: approved
+nyquist_compliant: true
 wave_0_complete: false
 created: 2026-04-25
+approved: 2026-04-25
 ---
 
 # Phase 3 — Validation Strategy
@@ -114,4 +115,4 @@ Files that must be created BEFORE the wave that consumes them. Tracked from RESE
 - [ ] Feedback latency < 60s (lint ≈ 5s; build ≈ 60s cold)
 - [ ] `nyquist_compliant: true` set in frontmatter once gsd-planner has populated the `Plan` column for every requirement and gsd-plan-checker confirms
 
-**Approval:** pending
+**Approval:** approved 2026-04-25 — gsd-plan-checker iteration 2/3 PASSED all 10 dimensions (5 prior blockers + 7 warnings cleanly fixed)
