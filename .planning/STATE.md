@@ -4,20 +4,20 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 03 (brand-primitives-home-page)
 current_plan: 8
-status: executing
-stopped_at: Completed 03-07-trust-contact-PLAN.md
-last_updated: "2026-04-25T07:21:08.765Z"
+status: verifying
+stopped_at: Completed 03-08-compose-and-dev-route-PLAN.md (Phase 3 ready for verification)
+last_updated: "2026-04-25T07:33:17.786Z"
 progress:
   total_phases: 7
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 18
-  completed_plans: 17
-  percent: 94
+  completed_plans: 18
+  percent: 100
 ---
 
 # Project State: Vugoda Website
 
-**Last updated:** 2026-04-25 — Plan 03-07 complete (trust-contact: TrustBlock + ContactForm, HOME-06 + HOME-07 closed; Wave 3 = 7/7 home sections shipped)
+**Last updated:** 2026-04-25 — Plan 03-08 complete (compose-and-dev-route: HomePage 7-section composition + /dev/brand QA surface + route registration; **Phase 3 fully closed: 8/8 plans, all 10 requirements end-to-end, ready for verification**)
 **Updated by:** /gsd:execute-phase orchestrator
 
 ## Project Reference
@@ -32,9 +32,9 @@ progress:
 - **Current Phase:** 03 (brand-primitives-home-page)
 - **Current Plan:** 8
 - **Total Plans in Phase:** 8
-- **Status:** Ready to execute
-- **Stopped at:** Completed 03-07-trust-contact-PLAN.md
-- **Progress:** [█████████░] 94%
+- **Status:** Phase complete — ready for verification
+- **Stopped at:** Completed 03-08-compose-and-dev-route-PLAN.md (Phase 3 ready for verification)
+- **Progress:** [██████████] 100%
 
 ## Roadmap Summary
 
@@ -199,6 +199,16 @@ Targets from PROJECT.md Constraints:
 - **Wave 3 home-section sweep complete: 7/7 home sections shipped** (Hero · BrandEssence · PortfolioOverview · ConstructionTeaser · MethodologyTeaser · TrustBlock · ContactForm). Plan 03-08 (last in phase) composes them into `src/pages/HomePage.tsx` and registers `/dev/brand` QA route.
 - **Build pipeline green:** `npm run lint` exits 0 after each task; `npm run build` exits 0 (full prebuild → tsc → vite → postbuild check-brand 4/4 PASS). Bundle **242.85 kB JS / 76.85 kB gzipped — unchanged** from Plan 03-06 (both new components are pure render, dependencies already in graph; tree-shaking preserves bundle stability). Within 200 KB-gzipped budget.
 
+### Plan 03-08 Decisions (2026-04-25)
+
+- **HomePage = React fragment composer** (no extra wrapper) — Layout.tsx already provides Nav + `<main>` + Footer; sections sit directly inside `<Outlet>`. D-17 order Hero → BrandEssence → PortfolioOverview → ConstructionTeaser → MethodologyTeaser → TrustBlock → ContactForm. Default export preserved (App.tsx import unchanged).
+- **DevBrandPage Wordmark sample uses `<span className="block">` not `<h1>`** — page-level H1 is `/dev/brand` (the route name); each demo section is `<h2>`. Using a second `<h1>` for the wordmark sample would break single-H1 a11y discipline. Visual contract preserved verbatim (`clamp(80px, 8vw, 180px)`); semantic element is the only change. Documented in 03-08-SUMMARY.md as Decision (Rule 1/Rule 2 grey-zone, leaning Rule 2 a11y correctness).
+- **`/dev/brand` registered INSIDE the `<Route element={<Layout/>}>` block** — QA surface inherits Nav + Footer chrome. Acceptable per CONTEXT D-25 note; helps verify Nav primitive at multiple route contexts. If a future plan flags Nav should be hidden on /dev/brand, single-line edit moves the route outside the Layout wrapper.
+- **Eager (non-lazy) DevBrandPage import** — ~5KB overhead per CONTEXT D-26 + RESEARCH §H; lazy + Suspense was rejected as premature complexity for a single QA route.
+- **Pre-screen `<action>` doc-blocks against own `<verify>` regexes BEFORE writing** — applied successfully in 03-08; **zero Rule 3 self-consistency fixes needed**. First plan in Phase 3 with zero doc-block-grep collisions, breaking the 8-plan streak (02-04 ×2, 03-03, 03-04, 03-05 ×2, 03-06, 03-07 ×2). The planner-template smell is mitigated executor-side this round; Phase 4 planner should still adopt pre-screen as standard procedure (`<action>` text greppy text vs `<verify>` regexes at plan time, not executor time).
+- **Bundle 131.60 kB gzipped (was 76.85 kB unchanged across 03-04..03-07)** — NOT a regression. Sections were authored in 03-04..03-07 but no page imported them, so tree-shaking dropped them. HomePage composition in this plan brings them all into the reachable graph for the first time, plus motion's useScroll/useReducedMotion/useTransform/motion components, plus lucide-react ChevronLeft/Right, plus the IsometricGridBG svgr `?react` inline SVG. **131.60 kB gzipped = 65% of the 200 KB-gzipped Phase 6 budget**, leaving 35% headroom for Phase 4 (`/zhk/etno-dim`, `/projects` filter, `/construction-log`) + Phase 5 (motion variants library, AnimatePresence).
+- **Phase 3 fully closed: 8/8 plans done, all 10 phase requirements (HOME-01..07 + VIS-03 + VIS-04 + ANI-01) end-to-end functional on running build.** All Phase 3 Roadmap Success Criteria #1-#5 achievable via direct URL navigation on `/` and `/#/dev/brand`. Manual visual QA at 1920×1080 deferred to Phase 7 client-handoff.
+
 ### Hard Rules (from brand-system + CONCEPT §10)
 
 - Closed palette: 6 hexes only (`#2F3640`, `#C1F33D`, `#F5F7FA`, `#A7AFBC`, `#3D3B43`, `#020A0A`)
@@ -234,6 +244,7 @@ Deferred to Phase 7 handoff doc:
 | Phase 03 P6 | 7min | 2 tasks | 2 files |
 | Phase 03-brand-primitives-home-page P06 | 7min | 2 tasks | 2 files |
 | Phase 03 P07 | 4m 39s | 2 tasks | 2 files |
+| Phase 03 P8 | 6m 3s | 3 tasks | 3 files |
 
 ### Todos / Blockers
 
@@ -251,7 +262,9 @@ Deferred to Phase 7 handoff doc:
 - **03-05 complete: src/components/sections/home/BrandEssence.tsx (~43 lines, 2×2 grid of 4 numbered cards from brandValues) + PortfolioOverview.tsx (~128 lines, flagship side-by-side at lg with eager+high+w=1280 h=720 ResponsivePicture, 3-card pipeline grid lazy with aspect-[4/3], aggregate row with `<IsometricCube variant="single" stroke="#A7AFBC" opacity={0.4}>`); HOME-02 + HOME-03 closed; first home consumer of VIS-03 single variant; LCP wiring end-to-end (index.html preload from 03-04 → flagship picture consume); 3 Rule 3 doc-block self-consistency fixes (4th codebase occurrence — pattern is a planner-template smell); build pipeline 4/4 PASS, bundle 242.85 kB JS / 76.85 kB gzipped (unchanged)**
 - **03-06 complete: src/components/sections/home/ConstructionTeaser.tsx (~96 lines, native CSS scroll-snap strip of 5 photos from latestMonth().teaserPhotos via ResponsivePicture widths=[640,960] lazy; ChevronLeft/Right buttons fire scrollBy({left: ±336, behavior: 'smooth'}) via useRef; CTA Link to /construction-log with constructionTeaserCta) + MethodologyTeaser.tsx (~61 lines, filters methodologyBlocks to FEATURED_INDEXES=[1,3,7], renders 3-card grid with defensive ⚠-marker conditional `{block.needsVerification && <span aria-label={methodologyVerificationWarning}>⚠</span>}`); HOME-04 + HOME-05 closed; first production consumer of construction-sized ResponsivePicture two-width branch; 1 Rule 3 doc-block self-consistency fix (6th codebase occurrence — confirmed planner-template smell); build pipeline 4/4 PASS, bundle 242.85 kB JS / 76.85 kB gzipped (unchanged)**
 - **03-07 complete: src/components/sections/home/TrustBlock.tsx (80 lines, 3-column horizontal table at lg breakpoint reading legalName/edrpou/licenseDate/licenseNote/email from content/company.ts + licenseScopeNote/contactNote captions from content/home.ts; clickable mailto:${email} in col 3; section H2 «Юридично та операційно»; defensive greps against `<img>` + portrait literals) + ContactForm.tsx (47 lines, single mailto: anchor on bg-bg-black closer with encodeURIComponent(MAIL_SUBJECT) for Cyrillic-safe href, NO `<input>`/`<form>`/`<textarea>`/`<label>`; heading + body + CTA imported from content/home.ts); HOME-06 + HOME-07 closed; 2 Rule 3 doc-block self-consistency fixes (7th + 8th codebase occurrence — pattern confirmed across 8 plans, planner-template smell); Wave 3 home-section sweep complete (7/7 sections shipped, ready for Plan 03-08 composition); build pipeline 4/4 PASS, bundle 242.85 kB JS / 76.85 kB gzipped (unchanged)**
-- **Phase 6 risk recorded:** `aerial-1920.avif` = 379 KB (above 200KB hero budget). Phase 6 must use `sizes` attribute on `<ResponsivePicture>` to deliver 1280-width AVIF (196 KB) or 640-width AVIF (58 KB) on typical desktop viewports. Encoder params pinned by D-19 — not tuned at Phase 3.
+- **03-08 complete: src/pages/HomePage.tsx REPLACED (Phase 1 placeholder removed) — fragment composer of 7 sections in canonical D-17 order (Hero → BrandEssence → PortfolioOverview → ConstructionTeaser → MethodologyTeaser → TrustBlock → ContactForm); src/pages/DevBrandPage.tsx CREATED (184 lines — palette swatch grid + Montserrat 3×8 weight ladder + Logo at 2 sizes + Mark + Wordmark hero-scale + IsometricCube 3×3×2=18 matrix + IsometricGridBG @ 0.10/0.20); src/App.tsx adds DevBrandPage import + `<Route path="dev/brand">` above catch-all (inside Layout wrapper, NO NavLink per D-26); HOME-01..07 + VIS-03 + VIS-04 + ANI-01 all close end-to-end; ZERO Rule 3 doc-block self-consistency fixes (pre-screen pattern worked first try, breaking 8-plan streak); build pipeline 4/4 PASS, bundle 421.36 kB JS / 131.60 kB gzipped (sections finally reachable from entry — was 76.85 kB unreachable; 65% of 200 KB-gzipped Phase 6 budget)**
+- **Phase 3 complete — 8/8 plans done; all 10 phase requirements (HOME-01..07, VIS-03, VIS-04, ANI-01) closed end-to-end; ready for `/gsd:transition` to Phase 4 (Portfolio, ЖК, Log, Contact)**
+- **Phase 6 risk recorded:** `aerial-1920.avif` = 388.5 KB (above 200KB hero budget). Phase 6 must use `sizes` attribute on `<ResponsivePicture>` to deliver 1280-width AVIF (200.7 KB — at budget edge) or 640-width AVIF (58 KB) on typical desktop viewports. Encoder params pinned by D-19 — not tuned at Phase 3. Mitigation already wired in PortfolioOverview (`sizes="(min-width: 1280px) 768px, 100vw"`).
 - Two research spikes flagged for Phase 3 (Motion `useScroll` API, `vite-plugin-svgr` v4) and Phase 5 (AnimatePresence + Router v7, `useReducedMotion` export)
 
 ### Research Artifacts Available
@@ -267,10 +280,10 @@ Deferred to Phase 7 handoff doc:
 **Next action for user:**
 
 ```
-/gsd:execute-phase
+/gsd:transition
 ```
 
-Phase 3 in progress — 7/8 plans done (03-01 brand-primitives, 03-02 home-microcopy, 03-03 image-pipeline, 03-04 hero-section, 03-05 essence-portfolio, 03-06 construction-methodology, 03-07 trust-contact). Wave 3 home-section sweep complete (7/7 sections shipped). Continue with Plan 03-08 (compose-and-dev-route) next — composes all 7 sections into src/pages/HomePage.tsx + registers /dev/brand QA route.
+Phase 3 complete — 8/8 plans done (03-01 brand-primitives, 03-02 home-microcopy, 03-03 image-pipeline, 03-04 hero-section, 03-05 essence-portfolio, 03-06 construction-methodology, 03-07 trust-contact, 03-08 compose-and-dev-route). All 10 phase requirements (HOME-01..07, VIS-03, VIS-04, ANI-01) close end-to-end on running build. `/` renders the 7-section composed home page; `/#/dev/brand` exposes the hidden QA surface (palette + typography + cube matrix + grid backdrop). Bundle 131.60 kB gzipped — 65% of Phase 6 200 KB budget. Phase 4 (Portfolio, ЖК, Log, Contact) next: HUB-01..04, ZHK-01, LOG-01, LOG-02, CTC-01, ANI-03 (9 requirements).
 
 **If returning after context loss, read in order:**
 

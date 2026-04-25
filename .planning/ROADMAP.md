@@ -67,7 +67,7 @@
   - [x] 03-05-essence-portfolio-PLAN.md — BrandEssence + PortfolioOverview (Wave 2)
   - [x] 03-06-construction-methodology-PLAN.md — ConstructionTeaser + MethodologyTeaser (Wave 2)
   - [x] 03-07-trust-contact-PLAN.md — TrustBlock + ContactForm (Wave 2)
-  - [ ] 03-08-compose-and-dev-route-PLAN.md — HomePage compose + DevBrandPage + App.tsx route (Wave 3)
+  - [x] 03-08-compose-and-dev-route-PLAN.md — HomePage compose + DevBrandPage + App.tsx route (Wave 3)
 **UI hint**: yes
 
 ### Phase 4: Portfolio, ЖК, Construction Log, Contact
