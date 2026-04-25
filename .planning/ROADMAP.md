@@ -82,7 +82,7 @@
   5. ЖК cards + FlagshipCard show subtle hover-state: scale ≤1.02 + overlay-opacity delta + accent border-glow; no pружинні springs, no `transition-all`, only brand-compliant ease-out ~200ms
   6. Hidden `/dev/grid` route uses `projects.fixtures.ts` (10 synthetic ЖК across 4+ stage buckets) — grid reflows correctly at N=4, 6, 8, 10; stage-to-badge lookup returns default for unknown stage (no runtime crash, no invisible label)
 **Plans**: 11 plans
-  - [ ] 04-01-stages-and-content-PLAN.md — src/lib/stages.ts + 3 content modules (Wave 1, foundation)
+  - [x] 04-01-stages-and-content-PLAN.md — src/lib/stages.ts + 3 content modules (Wave 1, foundation)
   - [x] 04-02-lightbox-PLAN.md — shared <Lightbox> primitive (Wave 1, LOG-01 + ZHK-01 dependency)
   - [ ] 04-03-flagship-extract-PLAN.md — extract FlagshipCard + AggregateRow from home (Wave 1, HUB-02 + HUB-04)
   - [ ] 04-04-scripts-edits-PLAN.md — check-brand DevGridPage exclusion + optimizer 1920w widths (Wave 1, infrastructure)
@@ -140,7 +140,7 @@
 | 1. Foundation & Shell | 5/5 | Complete   | 2026-04-24 |
 | 2. Data Layer & Content | 5/5 | Complete   | 2026-04-24 |
 | 3. Brand Primitives & Home Page | 8/8 | Complete   | 2026-04-25 |
-| 4. Portfolio, ЖК, Log, Contact | 1/11 | In Progress|  |
+| 4. Portfolio, ЖК, Log, Contact | 2/11 | In Progress|  |
 | 5. Animations & Polish | 0/0 | Not started | — |
 | 6. Performance, Mobile Fallback, Deploy | 0/0 | Not started | — |
 | 7. Post-deploy QA & Handoff | 0/0 | Not started | — |
