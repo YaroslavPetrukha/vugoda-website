@@ -22,9 +22,9 @@
  * (image left 60%, text right 40% at ≥1280px). Pipeline cards: 3 columns,
  * equal width. Aggregate row: cube left + text right, full-width strip.
  *
- * Static section in Phase 3 — Phase 5 owns scroll reveal + card hover via
- * shared Motion variants; this file ships with no inline keyframe transition
- * objects (Pitfall 14).
+ * Phase 4 plan 04-10 added inline hover triple-effect (Tailwind classes,
+ * D-31..D-35) to pipeline cards. Phase 5 may absorb the cubic-bezier into
+ * motionVariants.ts.
  *
  * Extracted (D-02 + HUB-04 — Phase 4 plan 04-03): the flagship card and
  * aggregate-row shapes were lifted out to
@@ -56,7 +56,7 @@ export function PortfolioOverview() {
         {/* Pipeline grid — 3 cards in row at ≥lg (D-15). Static in Phase 3; hover in Phase 4. */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           {pipelineGridProjects.map((project) => (
-            <article key={project.slug} className="flex flex-col gap-4 bg-bg-surface">
+            <article key={project.slug} className="flex flex-col gap-4 bg-bg-surface transition-[transform,box-shadow,background-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[1.02] hover:shadow-[0_0_24px_rgba(193,243,61,0.15)] motion-reduce:hover:scale-100 motion-reduce:hover:shadow-none">
               <ResponsivePicture
                 src={`renders/${project.slug}/${project.renders[0]}`}
                 alt={project.title}
