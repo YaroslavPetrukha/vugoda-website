@@ -165,10 +165,16 @@ function importBoundaries(): boolean {
         `src/components/ --include='*.ts' --include='*.tsx'`,
     },
     {
-      label: 'pages and components must not import projects.fixtures',
+      // Rule 4 exclusion (Phase 4 plan 04-04, RESEARCH Open Question 1):
+      // src/pages/DevGridPage.tsx is THE hidden QA surface for the
+      // /dev/grid route (D-39..D-42 + ZHK-02 scale-to-N stress test). It is
+      // expected and required to import fixtures — that is the explicit
+      // boundary exception per src/data/projects.fixtures.ts module rule.
+      // The fixtures-import ban applies to ALL OTHER pages/components.
+      label: 'pages and components must not import projects.fixtures (DevGridPage exempt)',
       cmd:
         `grep -rnE 'projects\\.fixtures' src/pages/ src/components/ ` +
-        `--include='*.ts' --include='*.tsx'`,
+        `--include='*.ts' --include='*.tsx' | grep -v 'DevGridPage'`,
     },
   ];
 
