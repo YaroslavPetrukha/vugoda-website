@@ -26,12 +26,12 @@ Requirements for clickable demo URL handed to client. Each maps to a roadmap pha
 
 ### ЖК Template (`/zhk/etno-dim`)
 
-- [ ] **ZHK-01**: Повноцінна сторінка `/zhk/etno-dim` — hero-рендер з `renders/ЖК Етно Дім/` (→ public/renders/etno-dim/), факт-блок (стадія «меморандум про відновлення будівництва», розташування вул. Судова Львів), блок «Що відбувається зараз» (стадія-специфічний текст), галерея 8 рендерів, CTA «Підписатись на оновлення (Instagram)» + форма зв'язку. Без цін, без умов продажу — pipeline не продається.
+- [x] **ZHK-01**: Повноцінна сторінка `/zhk/etno-dim` — hero-рендер з `renders/ЖК Етно Дім/` (→ public/renders/etno-dim/), факт-блок (стадія «меморандум про відновлення будівництва», розташування вул. Судова Львів), блок «Що відбувається зараз» (стадія-специфічний текст), галерея 8 рендерів, CTA «Підписатись на оновлення (Instagram)» + форма зв'язку. Без цін, без умов продажу — pipeline не продається.
 - [x] **ZHK-02**: Шаблон масштабований — додавання ЖК #6 = один запис у `src/data/projects.ts`. Discriminated union `presentation: 'flagship-external' | 'full-internal' | 'grid-only' | 'aggregate'`. Маєток/NTEREST у v1 залишаються як `grid-only` (картка на хабі, без внутрішньої сторінки).
 
 ### Construction Log (`/construction-log`)
 
-- [ ] **LOG-01**: Окрема сторінка `/construction-log` з галерею-таймлайном Lakeview — 50 фото з `/construction/{dec-2025, jan-2026, feb-2026, mar-2026}/` згруповані по місяцях, lazy-load, lightbox (native `<dialog>`)
+- [x] **LOG-01**: Окрема сторінка `/construction-log` з галерею-таймлайном Lakeview — 50 фото з `/construction/{dec-2025, jan-2026, feb-2026, mar-2026}/` згруповані по місяцях, lazy-load, lightbox (native `<dialog>`)
 - [ ] **LOG-02**: Підписи у стилі «Січень 2026 — фундамент, секція 1», без маркетингових хвастощів; alt-и короткі («Будівельний майданчик, січень 2026»). WebP first, AVIF якщо доступно, JPG fallback через `<picture>`
 
 ### Contact (`/contact`)
@@ -158,9 +158,9 @@ Populated 2026-04-24 by roadmapper agent. Every v1 REQ-ID maps to exactly one ph
 | HUB-02 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
 | HUB-03 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
 | HUB-04 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
-| ZHK-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
+| ZHK-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Complete |
 | ZHK-02 | Phase 2 (Data Layer & Content) | Complete |
-| LOG-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
+| LOG-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Complete |
 | LOG-02 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
 | CTC-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
 | NAV-01 | Phase 1 (Foundation & Shell) | Complete |
