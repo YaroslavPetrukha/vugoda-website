@@ -1,12 +1,31 @@
-import markUrl from '../../brand-assets/mark/mark.svg';
+/**
+ * @module pages/ConstructionLogPage
+ *
+ * LOG-01 — Lakeview construction-log timeline. Reads constructionLog
+ * (already sorted latest-first per Phase 2 D-21) and renders one
+ * <MonthGroup> per month. Each MonthGroup owns its own Lightbox state
+ * (Pitfall 9 — per-group state).
+ *
+ * Page header: simple <h1>Хід будівництва Lakeview</h1> at top. Subtitle
+ * not needed (CONCEPT §7.9 stripped tone — page label says it all).
+ *
+ * Default export preserved (App.tsx import unchanged).
+ */
+
+import { constructionLog } from '../data/construction';
+import { MonthGroup } from '../components/sections/construction-log/MonthGroup';
 
 export default function ConstructionLogPage() {
   return (
-    <section className="flex flex-1 flex-col items-center justify-center px-6 py-24">
-      <div className="flex flex-col items-center gap-12">
-        <h1 className="font-bold tracking-tight text-6xl text-text">Хід будівництва</h1>
-        <img src={markUrl} alt="" aria-hidden="true" className="h-24 w-auto" />
-      </div>
-    </section>
+    <>
+      <section className="bg-bg pt-24 pb-8">
+        <div className="mx-auto max-w-7xl px-6">
+          <h1 className="font-bold text-6xl text-text">Хід будівництва Lakeview</h1>
+        </div>
+      </section>
+      {constructionLog.map((month) => (
+        <MonthGroup key={month.key} month={month} />
+      ))}
+    </>
   );
 }
