@@ -9,6 +9,9 @@ node_modules/
 public/renders/
 public/construction/
 
+# Brand-conflict imagery — filtered at copy-renders boundary, also excluded from VCS
+construction/_social-covers/
+
 # macOS
 .DS_Store
 
