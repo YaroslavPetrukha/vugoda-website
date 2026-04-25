@@ -32,7 +32,7 @@ Requirements for clickable demo URL handed to client. Each maps to a roadmap pha
 ### Construction Log (`/construction-log`)
 
 - [x] **LOG-01**: Окрема сторінка `/construction-log` з галерею-таймлайном Lakeview — 50 фото з `/construction/{dec-2025, jan-2026, feb-2026, mar-2026}/` згруповані по місяцях, lazy-load, lightbox (native `<dialog>`)
-- [ ] **LOG-02**: Підписи у стилі «Січень 2026 — фундамент, секція 1», без маркетингових хвастощів; alt-и короткі («Будівельний майданчик, січень 2026»). WebP first, AVIF якщо доступно, JPG fallback через `<picture>`
+- [x] **LOG-02**: Підписи у стилі «Січень 2026 — фундамент, секція 1», без маркетингових хвастощів; alt-и короткі («Будівельний майданчик, січень 2026»). WebP first, AVIF якщо доступно, JPG fallback через `<picture>`
 
 ### Contact (`/contact`)
 
@@ -161,7 +161,7 @@ Populated 2026-04-24 by roadmapper agent. Every v1 REQ-ID maps to exactly one ph
 | ZHK-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Complete |
 | ZHK-02 | Phase 2 (Data Layer & Content) | Complete |
 | LOG-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Complete |
-| LOG-02 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
+| LOG-02 | Phase 4 (Portfolio, ЖК, Log, Contact) | Complete |
 | CTC-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Complete |
 | NAV-01 | Phase 1 (Foundation & Shell) | Complete |
 | VIS-01 | Phase 1 (Foundation & Shell) | Complete |
