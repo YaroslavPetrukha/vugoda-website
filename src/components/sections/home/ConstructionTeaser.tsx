@@ -88,7 +88,7 @@ export function ConstructionTeaser() {
           to="/construction-log"
           className="mt-6 inline-block text-sm font-medium text-accent underline-offset-4 hover:underline"
         >
-          {constructionTeaserCta} →
+          {constructionTeaserCta}
         </Link>
       </div>
     </section>

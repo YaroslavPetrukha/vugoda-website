@@ -12,7 +12,8 @@
  *
  * Parallax recipe (D-04):
  *   - useScroll scoped to hero section (target: heroRef) — stops once hero scrolls out
- *   - useTransform maps scrollYProgress 0->1 to translateY 0 -> -120px
+ *   - useTransform maps scrollYProgress 0->1 to translateY 0 -> -100px
+ *     (Roadmap SC#1 says strictly «<120px»; -100 keeps a 20px headroom)
  *   - Reduced-motion: output range collapses to [0, 0] (Phase 5 owns full hook threading)
  *   - Linear (no spring, no bounce — D-04)
  *
@@ -42,7 +43,7 @@ export function Hero() {
   const cubeY = useTransform(
     scrollYProgress,
     [0, 1],
-    prefersReducedMotion ? [0, 0] : [0, -120],
+    prefersReducedMotion ? [0, 0] : [0, -100],
   );
 
   return (

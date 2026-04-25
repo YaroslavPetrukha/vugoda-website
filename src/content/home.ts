@@ -37,8 +37,11 @@ export const portfolioSubtitle = '1 в активній фазі будівни�
  *  Trailing arrow is U+2197 NORTH EAST ARROW. */
 export const flagshipExternalCta = 'Перейти на сайт проекту ↗';
 
-/** ConstructionTeaser CTA — navigates to /construction-log (HOME-04). */
-export const constructionTeaserCta = 'Дивитись повний таймлайн';
+/** ConstructionTeaser CTA — navigates to /construction-log (HOME-04).
+ *  Trailing arrow is U+2192 RIGHTWARDS ARROW (typographic glyph, not ASCII >),
+ *  baked into the constant so the JSX call site renders the literal verbatim
+ *  (parity with flagshipExternalCta U+2197 ↗ pattern; Phase 3 D-29 / QC-3). */
+export const constructionTeaserCta = 'Дивитись повний таймлайн →';
 
 /** ContactForm primary CTA — opens mailto: (HOME-07 / D-29). */
 export const contactCta = 'Ініціювати діалог';
