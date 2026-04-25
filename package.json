@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "predev": "tsx scripts/copy-renders.ts && node scripts/optimize-images.mjs",
+    "predev": "tsx scripts/copy-renders.ts && node scripts/optimize-images.mjs renders && node scripts/optimize-images.mjs construction",
     "dev": "vite",
-    "prebuild": "tsx scripts/copy-renders.ts && node scripts/optimize-images.mjs",
+    "prebuild": "tsx scripts/copy-renders.ts && node scripts/optimize-images.mjs renders && node scripts/optimize-images.mjs construction",
     "build": "tsc --noEmit && vite build",
     "postbuild": "tsx scripts/check-brand.ts",
     "preview": "vite preview",

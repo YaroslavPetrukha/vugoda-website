@@ -80,6 +80,18 @@ async function processTree(treeDir, widths) {
   console.log(`[optimize-images] ${relative(ROOT, treeDir)}: done`);
 }
 
-await processTree(join(PUBLIC, 'renders'), [640, 1280, 1920]);
-await processTree(join(PUBLIC, 'construction'), [640, 960]);
+// Optional CLI argument: node optimize-images.mjs [renders|construction]
+// Running each tree in its own Node.js process avoids HEIF encoder resource
+// exhaustion that manifests when processing >~180 AVIF outputs in a single
+// process on Node.js v25 + macOS (libheif 1.20). Without the argument,
+// both trees run sequentially in one process (original behaviour, works on
+// Node 20 per .nvmrc; use split invocations on Node 22+).
+const TREE_ARG = process.argv[2]; // 'renders' | 'construction' | undefined
+
+if (!TREE_ARG || TREE_ARG === 'renders') {
+  await processTree(join(PUBLIC, 'renders'), [640, 1280, 1920]);
+}
+if (!TREE_ARG || TREE_ARG === 'construction') {
+  await processTree(join(PUBLIC, 'construction'), [640, 960, 1920]);
+}
 console.log('[optimize-images] complete');
