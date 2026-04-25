@@ -13,7 +13,7 @@ Requirements for clickable demo URL handed to client. Each maps to a roadmap pha
 - [x] **HOME-02**: Секція бренд-есенції — 4 цінності картками (системність · доцільність · надійність · довгострокова цінність)
 - [x] **HOME-03**: Секція огляду портфеля — дворівнева ієрархія: Lakeview-флагман (велика hero-картка) + 3 pipeline-картки (Етно Дім / Маєток / NTEREST) у сітці 3-в-ряд + агрегативний рядок Pipeline-4
 - [x] **HOME-04**: Секція «Хід будівництва Lakeview» — компактна стрічка-тизер (3–5 фото з `/construction/mar-2026/` горизонтально) + дата + CTA «Дивитись повний таймлайн» → `/construction-log`
-- [ ] **HOME-05**: Методологія teaser — 2–3 блоки з «Як ми будуємо» (§8 концепції) + CTA «Детальніше про процес»
+- [x] **HOME-05**: Методологія teaser — 2–3 блоки з «Як ми будуємо» (§8 концепції) + CTA «Детальніше про процес»
 - [ ] **HOME-06**: Довіра-блок — реквізити-таблиця: ТОВ «БК ВИГОДА ГРУП», ЄДРПОУ 42016395, безстрокова ліцензія від 27.12.2019. Не «команда», не обличчя.
 - [ ] **HOME-07**: Форма контакту «Ініціювати діалог» — функціональний стиль, `mailto:vygoda.sales@gmail.com` для MVP
 
@@ -151,7 +151,7 @@ Populated 2026-04-24 by roadmapper agent. Every v1 REQ-ID maps to exactly one ph
 | HOME-02 | Phase 3 (Brand Primitives & Home Page) | Complete |
 | HOME-03 | Phase 3 (Brand Primitives & Home Page) | Complete |
 | HOME-04 | Phase 3 (Brand Primitives & Home Page) | Complete |
-| HOME-05 | Phase 3 (Brand Primitives & Home Page) | Pending |
+| HOME-05 | Phase 3 (Brand Primitives & Home Page) | Complete |
 | HOME-06 | Phase 3 (Brand Primitives & Home Page) | Pending |
 | HOME-07 | Phase 3 (Brand Primitives & Home Page) | Pending |
 | HUB-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |

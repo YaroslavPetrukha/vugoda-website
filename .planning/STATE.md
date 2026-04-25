@@ -3,21 +3,21 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 03 (brand-primitives-home-page)
-current_plan: 6
+current_plan: 7
 status: executing
-stopped_at: Completed 03-05-essence-portfolio-PLAN.md
-last_updated: "2026-04-25T07:00:23.163Z"
+stopped_at: Completed 03-06-construction-methodology-PLAN.md
+last_updated: "2026-04-25T07:11:56.148Z"
 progress:
   total_phases: 7
   completed_phases: 2
   total_plans: 18
-  completed_plans: 15
-  percent: 83
+  completed_plans: 16
+  percent: 89
 ---
 
 # Project State: Vugoda Website
 
-**Last updated:** 2026-04-25 — Plan 03-05 complete (essence-portfolio: BrandEssence + PortfolioOverview, HOME-02 + HOME-03 closed)
+**Last updated:** 2026-04-25 — Plan 03-06 complete (construction-methodology: ConstructionTeaser + MethodologyTeaser, HOME-04 + HOME-05 closed)
 **Updated by:** /gsd:execute-phase orchestrator
 
 ## Project Reference
@@ -30,11 +30,11 @@ progress:
 ## Current Position
 
 - **Current Phase:** 03 (brand-primitives-home-page)
-- **Current Plan:** 6
+- **Current Plan:** 7
 - **Total Plans in Phase:** 8
 - **Status:** Ready to execute
-- **Stopped at:** Completed 03-05-essence-portfolio-PLAN.md
-- **Progress:** [████████░░] 83%
+- **Stopped at:** Completed 03-06-construction-methodology-PLAN.md
+- **Progress:** [█████████░] 89%
 
 ## Roadmap Summary
 
@@ -172,6 +172,19 @@ Targets from PROJECT.md Constraints:
 - **LCP wiring end-to-end:** index.html AVIF preload (Plan 03-04) → flagship `<ResponsivePicture loading="eager" fetchPriority="high">` (this plan). HTML-parse-time fetch start, React-render-time `<picture>` consume. Phase 6 LCP test now exercisable via DevTools Network panel + Lighthouse LCP-element trace.
 - **Build pipeline green:** `npm run lint` exits 0 after each task; `npm run build` exits 0 (full prebuild → tsc → vite → postbuild check-brand 4/4 PASS). Bundle 242.85 kB JS / 76.85 kB gzipped — unchanged from Plan 03-04 (no new imports, two pure-render components added). Within 200 KB-gzipped budget.
 
+### Plan 03-06 Decisions (2026-04-25)
+
+- **Native CSS scroll-snap over carousel libs (D-22 reaffirmed)** for ConstructionTeaser: container `flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-4` + child `snap-start flex-shrink-0` with explicit `w-[320px] h-[200px]`. Zero swiper/embla/keen-slider footprint per CLAUDE.md What NOT to Use. Arrow buttons fire `scroller.current?.scrollBy({ left: SCROLL_STEP * dir, behavior: 'smooth' })` via React `useRef<HTMLDivElement>`.
+- **`SCROLL_STEP = 336` (320 card width + 16 gap)** as a module-level constant in ConstructionTeaser — single literal, easy retune. Arrow click moves exactly one card distance.
+- **First production consumer of construction-sized ResponsivePicture variant set** (`widths=[640, 960]` `sizes="320px"` `loading="lazy"`) — validates Plan 03-03 D-19's two-width construction encoder branch end-to-end. Teaser sits below fold so lazy is correct (NOT eager — that's exclusively the LCP target's domain).
+- **MethodologyTeaser `FEATURED_INDEXES = [1, 3, 7]`** per RESEARCH Open Question 2 recommendation — all `needsVerification: false`. Avoids foregrounding §8 blocks 2/5/6 on home (CONCEPT §11.5). Index 7 chosen over 4 for "soft inter-section flow" handoff to TrustBlock.
+- **Defensive ⚠-marker conditional always rendered** in MethodologyTeaser — even though current `[1, 3, 7]` selection produces zero ⚠ at runtime. Conditional is cheap (one `&&` + nullable JSX) and survives future content swaps without component touch. Selection swap = single-line `FEATURED_INDEXES` const edit. ⚠ marker is a real DOM `<span>` with `aria-label={methodologyVerificationWarning}`, NOT string concat — preserves screenreader provenance.
+- **`methodologyVerificationWarning` aria-label sourced from `src/content/home.ts`** (Plan 03-02) — D-29 content-boundary applied to short Cyrillic strings used in aria attributes. Closes plan-checker Warning 6. Pattern: any user-perceivable Cyrillic string in components (visible OR aria) goes through content layer.
+- **Numbered prefix uses `block.index` directly (01/03/07)** — preserves §8 source structure visibly, signals home page is showing curated subset of a longer 7-block document. NOT consecutive 01/02/03 (which would erase the curation signal).
+- **Section h2 inline carve-out reaffirmed:** «Хід будівництва Lakeview» (24 chars) and «Як ми будуємо» (13 chars) stay as JSX literals. Both under the 40-char content-boundary threshold + match Plan 03-04 (Hero «ВИГОДА»), Plan 03-05 (PortfolioOverview «Проєкти» imported from content but BrandEssence has no h2 at all). Body copy continues to be 100% from content modules.
+- **Doc-block self-consistency fix on ConstructionTeaser.tsx (Rule 3 — blocking, 6th codebase occurrence):** plan's verbatim TSX shipped JSDoc literally containing `NO inline transition={{}}`, but the same plan's `<verify>` automated grep gate `! grep -nE "transition=\{\{"` runs against the same file. Same precedent as Plans 02-04, 03-03, 03-04, 03-05. Resolution: rephrased to `NO inline Motion transition objects — Phase 5 owns easing config (Pitfall 14)`. Recurring across 6 plans is now firmly a planner-template smell — future plans MUST pre-screen `<action>` doc-blocks against their own `<verify>` regex battery before issuing. MethodologyTeaser was clean on first write (no doc-block grep collision).
+- **Build pipeline green:** `npm run lint` exits 0 after each task; `npm run build` exits 0 (full prebuild → tsc → vite → postbuild check-brand 4/4 PASS). Bundle **242.85 kB JS / 76.85 kB gzipped — unchanged** from Plan 03-05 (lucide-react ChevronLeft/Right already used by Footer; useRef and Link already in the import graph; tree-shaking preserves bundle stability). Within 200 KB-gzipped budget.
+
 ### Hard Rules (from brand-system + CONCEPT §10)
 
 - Closed palette: 6 hexes only (`#2F3640`, `#C1F33D`, `#F5F7FA`, `#A7AFBC`, `#3D3B43`, `#020A0A`)
@@ -204,6 +217,8 @@ Deferred to Phase 7 handoff doc:
 | Phase 03-brand-primitives-home-page P03 | 14min | 3 tasks | 4 files |
 | Phase 03 P04 | 5min | 2 tasks | 2 files |
 | Phase 03 P5 | 6min | 2 tasks | 2 files |
+| Phase 03 P6 | 7min | 2 tasks | 2 files |
+| Phase 03-brand-primitives-home-page P06 | 7min | 2 tasks | 2 files |
 
 ### Todos / Blockers
 
@@ -219,6 +234,7 @@ Deferred to Phase 7 handoff doc:
 - **03-03 complete: sharp@^0.34.5 installed; scripts/optimize-images.mjs (AVIF q50/effort4, WebP q75, JPG mozjpeg q80; widths [640,1280,1920] for renders + [640,960] for construction); chained predev/prebuild after copy-renders.ts; src/components/ui/ResponsivePicture.tsx (assetUrl-based srcset, AVIF→WebP→JPG fallback, no /renders/ literals — passes check-brand 4/4); 480 optimized files generated (180 renders + 300 construction); HOME-03 + HOME-04 partial (full closure when Hero/PortfolioOverview consume in Wave 3)**
 - **03-04 complete: src/components/sections/home/Hero.tsx (~80 lines) — wordmark `<h1>` ВИГОДА + heroSlogan paragraph + heroCta `<Link to="/projects">` + parallax IsometricGridBG overlay (useScroll target=heroRef + useTransform [0,1]→[0,-120], linear, no spring); useReducedMotion() collapses outputRange to [0,0]; index.html AVIF aerial-1920 preload `<link>` above `<title>` (D-18); HOME-01 + ANI-01 closed; Phase 5 boundary preserved (no inline Motion transition objects); build pipeline 4/4 PASS**
 - **03-05 complete: src/components/sections/home/BrandEssence.tsx (~43 lines, 2×2 grid of 4 numbered cards from brandValues) + PortfolioOverview.tsx (~128 lines, flagship side-by-side at lg with eager+high+w=1280 h=720 ResponsivePicture, 3-card pipeline grid lazy with aspect-[4/3], aggregate row with `<IsometricCube variant="single" stroke="#A7AFBC" opacity={0.4}>`); HOME-02 + HOME-03 closed; first home consumer of VIS-03 single variant; LCP wiring end-to-end (index.html preload from 03-04 → flagship picture consume); 3 Rule 3 doc-block self-consistency fixes (4th codebase occurrence — pattern is a planner-template smell); build pipeline 4/4 PASS, bundle 242.85 kB JS / 76.85 kB gzipped (unchanged)**
+- **03-06 complete: src/components/sections/home/ConstructionTeaser.tsx (~96 lines, native CSS scroll-snap strip of 5 photos from latestMonth().teaserPhotos via ResponsivePicture widths=[640,960] lazy; ChevronLeft/Right buttons fire scrollBy({left: ±336, behavior: 'smooth'}) via useRef; CTA Link to /construction-log with constructionTeaserCta) + MethodologyTeaser.tsx (~61 lines, filters methodologyBlocks to FEATURED_INDEXES=[1,3,7], renders 3-card grid with defensive ⚠-marker conditional `{block.needsVerification && <span aria-label={methodologyVerificationWarning}>⚠</span>}`); HOME-04 + HOME-05 closed; first production consumer of construction-sized ResponsivePicture two-width branch; 1 Rule 3 doc-block self-consistency fix (6th codebase occurrence — confirmed planner-template smell); build pipeline 4/4 PASS, bundle 242.85 kB JS / 76.85 kB gzipped (unchanged)**
 - **Phase 6 risk recorded:** `aerial-1920.avif` = 379 KB (above 200KB hero budget). Phase 6 must use `sizes` attribute on `<ResponsivePicture>` to deliver 1280-width AVIF (196 KB) or 640-width AVIF (58 KB) on typical desktop viewports. Encoder params pinned by D-19 — not tuned at Phase 3.
 - Two research spikes flagged for Phase 3 (Motion `useScroll` API, `vite-plugin-svgr` v4) and Phase 5 (AnimatePresence + Router v7, `useReducedMotion` export)
 
@@ -238,7 +254,7 @@ Deferred to Phase 7 handoff doc:
 /gsd:execute-phase
 ```
 
-Phase 3 in progress — 5/8 plans done (03-01 brand-primitives, 03-02 home-microcopy, 03-03 image-pipeline, 03-04 hero-section, 03-05 essence-portfolio). Continue with Plan 03-06 (construction-methodology) next.
+Phase 3 in progress — 6/8 plans done (03-01 brand-primitives, 03-02 home-microcopy, 03-03 image-pipeline, 03-04 hero-section, 03-05 essence-portfolio, 03-06 construction-methodology). Continue with Plan 03-07 (trust-contact) next.
 
 **If returning after context loss, read in order:**
 
