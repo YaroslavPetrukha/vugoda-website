@@ -20,9 +20,9 @@ Requirements for clickable demo URL handed to client. Each maps to a roadmap pha
 ### Portfolio Hub (`/projects`)
 
 - [x] **HUB-01**: Сторінка `/projects` з фільтром за 4 бакетами Моделі-Б: «У розрахунку» · «У погодженні» · «Будується» · «Здано»; бакет «Здано (0)» видимий як прозорість
-- [ ] **HUB-02**: Lakeview — дворівнева hero-картка, рендер `renders/likeview/aerial.jpg` (→ public/renders/lakeview/), ключові параметри, CTA «Перейти на сайт проекту» → `https://yaroslavpetrukha.github.io/Lakeview/` (зовнішній редирект, без внутрішньої ЖК-сторінки)
+- [x] **HUB-02**: Lakeview — дворівнева hero-картка, рендер `renders/likeview/aerial.jpg` (→ public/renders/lakeview/), ключові параметри, CTA «Перейти на сайт проекту» → `https://yaroslavpetrukha.github.io/Lakeview/` (зовнішній редирект, без внутрішньої ЖК-сторінки)
 - [ ] **HUB-03**: Сітка 3-в-ряд для pipeline-карток з явним маркуванням стадії («меморандум», «кошторисна документація», «дозвільна документація»); одна стадія на картку словами з CONCEPT §2, не синоніми
-- [ ] **HUB-04**: Агрегативний рядок Pipeline-4 під сіткою — без візуалу, текст: «+1 об'єкт у роботі — стадія прорахунку кошторисної вартості. Назва та локація будуть опубліковані після завершення розрахунків.» + ізометричний куб base-module (cube-ladder page-20)
+- [x] **HUB-04**: Агрегативний рядок Pipeline-4 під сіткою — без візуалу, текст: «+1 об'єкт у роботі — стадія прорахунку кошторисної вартості. Назва та локація будуть опубліковані після завершення розрахунків.» + ізометричний куб base-module (cube-ladder page-20)
 
 ### ЖК Template (`/zhk/etno-dim`)
 
@@ -155,9 +155,9 @@ Populated 2026-04-24 by roadmapper agent. Every v1 REQ-ID maps to exactly one ph
 | HOME-06 | Phase 3 (Brand Primitives & Home Page) | Complete |
 | HOME-07 | Phase 3 (Brand Primitives & Home Page) | Complete |
 | HUB-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Complete |
-| HUB-02 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
+| HUB-02 | Phase 4 (Portfolio, ЖК, Log, Contact) | Complete |
 | HUB-03 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
-| HUB-04 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
+| HUB-04 | Phase 4 (Portfolio, ЖК, Log, Contact) | Complete |
 | ZHK-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Complete |
 | ZHK-02 | Phase 2 (Data Layer & Content) | Complete |
 | LOG-01 | Phase 4 (Portfolio, ЖК, Log, Contact) | Complete |
