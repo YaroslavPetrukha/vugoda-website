@@ -86,7 +86,7 @@
   - [x] 04-02-lightbox-PLAN.md — shared <Lightbox> primitive (Wave 1, LOG-01 + ZHK-01 dependency)
   - [x] 04-03-flagship-extract-PLAN.md — extract FlagshipCard + AggregateRow from home (Wave 1, HUB-02 + HUB-04)
   - [x] 04-04-scripts-edits-PLAN.md — check-brand DevGridPage exclusion + optimizer 1920w widths (Wave 1, infrastructure)
-  - [ ] 04-05-projects-page-PLAN.md — /projects with StageFilter + PipelineGrid + dispatched body (Wave 2, HUB-01..04)
+  - [x] 04-05-projects-page-PLAN.md — /projects with StageFilter + PipelineGrid + dispatched body (Wave 2, HUB-01..04)
   - [x] 04-06a-zhk-etno-dim-shell-PLAN.md — ZhkHero + ZhkFactBlock + ZhkWhatsHappening + ZhkLakeviewRedirect (Wave 2, ZHK-01 leaf components)
   - [ ] 04-06b-zhk-etno-dim-gallery-PLAN.md — ZhkGallery (Lightbox state) + ZhkCtaPair + ZhkPage dispatcher (Wave 2, ZHK-01 composition)
   - [x] 04-07-construction-log-PLAN.md — /construction-log MonthGroup + Lightbox (Wave 2, LOG-01 + LOG-02)
@@ -140,7 +140,7 @@
 | 1. Foundation & Shell | 5/5 | Complete   | 2026-04-24 |
 | 2. Data Layer & Content | 5/5 | Complete   | 2026-04-24 |
 | 3. Brand Primitives & Home Page | 8/8 | Complete   | 2026-04-25 |
-| 4. Portfolio, ЖК, Log, Contact | 8/11 | In Progress|  |
+| 4. Portfolio, ЖК, Log, Contact | 9/11 | In Progress|  |
 | 5. Animations & Polish | 0/0 | Not started | — |
 | 6. Performance, Mobile Fallback, Deploy | 0/0 | Not started | — |
 | 7. Post-deploy QA & Handoff | 0/0 | Not started | — |
