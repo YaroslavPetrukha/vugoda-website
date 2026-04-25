@@ -61,7 +61,7 @@
   5. Hidden `/dev/brand` route renders all brand primitives standalone for visual QA (Storybook replacement); not linked from production Nav
 **Plans**: 8 plans
   - [x] 03-01-brand-primitives-PLAN.md — IsometricCube + IsometricGridBG + Mark + delete MinimalCube + svgr typedef (Wave 1)
-  - [ ] 03-02-home-microcopy-PLAN.md — src/content/home.ts (Wave 1)
+  - [x] 03-02-home-microcopy-PLAN.md — src/content/home.ts (Wave 1)
   - [ ] 03-03-image-pipeline-PLAN.md — sharp install + scripts/optimize-images.mjs + ResponsivePicture (Wave 1)
   - [ ] 03-04-hero-section-PLAN.md — Hero + index.html AVIF preload (Wave 2)
   - [ ] 03-05-essence-portfolio-PLAN.md — BrandEssence + PortfolioOverview (Wave 2)
