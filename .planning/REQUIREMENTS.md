@@ -9,7 +9,7 @@ Requirements for clickable demo URL handed to client. Each maps to a roadmap pha
 
 ### Home (`/`)
 
-- [ ] **HOME-01**: Desktop-first головна з hero-секцією — wordmark «ВИГОДА» + slow-parallax ізометричний куб-патерн (opacity 10–20%) + гасло «Системний девелопмент, у якому цінність є результатом точних рішень.» + функціональний CTA «Переглянути проекти»
+- [x] **HOME-01**: Desktop-first головна з hero-секцією — wordmark «ВИГОДА» + slow-parallax ізометричний куб-патерн (opacity 10–20%) + гасло «Системний девелопмент, у якому цінність є результатом точних рішень.» + функціональний CTA «Переглянути проекти»
 - [ ] **HOME-02**: Секція бренд-есенції — 4 цінності картками (системність · доцільність · надійність · довгострокова цінність)
 - [x] **HOME-03**: Секція огляду портфеля — дворівнева ієрархія: Lakeview-флагман (велика hero-картка) + 3 pipeline-картки (Етно Дім / Маєток / NTEREST) у сітці 3-в-ряд + агрегативний рядок Pipeline-4
 - [x] **HOME-04**: Секція «Хід будівництва Lakeview» — компактна стрічка-тизер (3–5 фото з `/construction/mar-2026/` горизонтально) + дата + CTA «Дивитись повний таймлайн» → `/construction-log`
@@ -51,7 +51,7 @@ Requirements for clickable demo URL handed to client. Each maps to a roadmap pha
 
 ### Animations
 
-- [ ] **ANI-01**: Hero slow-parallax ізометричного куб-патерну — Motion `useScroll`+`useTransform`, ease-out, без bounce. Кінематографічна повільна подача (concept tone: стриманий).
+- [x] **ANI-01**: Hero slow-parallax ізометричного куб-патерну — Motion `useScroll`+`useTransform`, ease-out, без bounce. Кінематографічна повільна подача (concept tone: стриманий).
 - [ ] **ANI-02**: Scroll-triggered reveal секцій — `<RevealOnScroll>` wrapper (Motion `whileInView` + `fadeUp` variant), ~400ms, stagger для карток. Один SOT варіантів у `lib/motionVariants.ts` — ніяких inline `transition={{…}}`.
 - [ ] **ANI-03**: Hover-стани карток ЖК — subtle scale (≤1.02) + overlay-opacity delta, brand-consistent (без пружинних springs)
 - [ ] **ANI-04**: Smooth route-transitions між 5 сторінками — `AnimatePresence mode="wait"` keyed on pathname, `pageFade` варіант. Respects `useReducedMotion`.
@@ -147,7 +147,7 @@ Populated 2026-04-24 by roadmapper agent. Every v1 REQ-ID maps to exactly one ph
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| HOME-01 | Phase 3 (Brand Primitives & Home Page) | Pending |
+| HOME-01 | Phase 3 (Brand Primitives & Home Page) | Complete |
 | HOME-02 | Phase 3 (Brand Primitives & Home Page) | Pending |
 | HOME-03 | Phase 3 (Brand Primitives & Home Page) | Complete |
 | HOME-04 | Phase 3 (Brand Primitives & Home Page) | Complete |
@@ -168,7 +168,7 @@ Populated 2026-04-24 by roadmapper agent. Every v1 REQ-ID maps to exactly one ph
 | VIS-02 | Phase 1 (Foundation & Shell) | Complete |
 | VIS-03 | Phase 3 (Brand Primitives & Home Page) | Complete |
 | VIS-04 | Phase 3 (Brand Primitives & Home Page) | Complete |
-| ANI-01 | Phase 3 (Brand Primitives & Home Page) | Pending |
+| ANI-01 | Phase 3 (Brand Primitives & Home Page) | Complete |
 | ANI-02 | Phase 5 (Animations & Polish) | Pending |
 | ANI-03 | Phase 4 (Portfolio, ЖК, Log, Contact) | Pending |
 | ANI-04 | Phase 5 (Animations & Polish) | Pending |

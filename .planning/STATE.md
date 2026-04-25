@@ -3,22 +3,22 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 03 (brand-primitives-home-page)
-current_plan: 4
+current_plan: 5
 status: executing
-stopped_at: Completed 03-03-image-pipeline-PLAN.md
-last_updated: "2026-04-25T06:38:23.670Z"
+stopped_at: Completed 03-04-hero-section-PLAN.md
+last_updated: "2026-04-25T06:49:14.958Z"
 progress:
   total_phases: 7
   completed_phases: 2
   total_plans: 18
-  completed_plans: 13
-  percent: 72
+  completed_plans: 14
+  percent: 78
 ---
 
 # Project State: Vugoda Website
 
-**Last updated:** 2026-04-24 — Quick task 260424-whr (verify Logo.tsx SVG lands in prod build) PASSED
-**Updated by:** /gsd:quick orchestrator
+**Last updated:** 2026-04-25 — Plan 03-04 complete (hero-section: Hero.tsx + index.html AVIF preload)
+**Updated by:** /gsd:execute-phase orchestrator
 
 ## Project Reference
 
@@ -30,11 +30,11 @@ progress:
 ## Current Position
 
 - **Current Phase:** 03 (brand-primitives-home-page)
-- **Current Plan:** 4
+- **Current Plan:** 5
 - **Total Plans in Phase:** 8
 - **Status:** Ready to execute
-- **Stopped at:** Completed 03-03-image-pipeline-PLAN.md
-- **Progress:** [███████░░░] 72%
+- **Stopped at:** Completed 03-04-hero-section-PLAN.md
+- **Progress:** [████████░░] 78%
 
 ## Roadmap Summary
 
@@ -147,6 +147,16 @@ Targets from PROJECT.md Constraints:
 - **Risk note for Phase 6:** `aerial-1920.avif` = 379 KB (above the 200KB Lighthouse hero budget at 1920 width). Encoder params are pinned by D-19 — not tuned. Phase 6 must use `sizes` attribute on `<ResponsivePicture>` to deliver the **1280-width AVIF (196 KB)** or **640-width AVIF (58 KB)** to typical 1280–1920 desktop viewports. The 1920 variant exists for high-DPI (2× DPR) edge cases. If QA-02 still fails, escalate to a Phase 6 encoder-tune deviation (would override D-19 — requires user sign-off).
 - **First prebuild output:** 480 optimized files (180 in `public/renders/**/_opt/`, 300 in `public/construction/**/_opt/`); `aerial-1920.{avif,webp,jpg}` triplet present; `npm run build` exits 0 (prebuild → tsc → vite build → postbuild check-brand 4/4 PASS).
 
+### Plan 03-04 Decisions (2026-04-25)
+
+- **Verbatim plan execution.** `src/components/sections/home/Hero.tsx` body matches Plan 03-04 `<action>` Step B character-for-character; substantive code byte-identical. Only the module-level doc-block was rephrased (see next bullet).
+- **Doc-block self-consistency fix (Rule 3 — blocking):** the plan's verbatim TSX contained the literal string `NO inline transition={{}}` in a doc comment, but the plan's own `<verify>` automated check asserts `! grep -nE "transition=\{\{"` against the same file. Same self-consistency anti-pattern as Plans 02-04 (`placeholders.ts`/`values.ts` forbidden-lexicon docs) and 03-03 (`ResponsivePicture.tsx` render-tree literal docs). Resolution: rephrased the comment to `NO inline Motion transition objects — Phase 5 owns easing config (Pitfall 14)`. Documents the Phase 5 boundary as well as the original wording would have, without literally embedding the regex pattern the file's own grep gate forbids. Pattern to keep: source text must be self-consistent under its own CI/grep rules.
+- **`useReducedMotion()` guard via outputRange swap, NOT conditional hook calls.** Recipe from 03-RESEARCH §A lines 263-268: `useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, -120])`. The `useTransform` call itself is unconditional → React rule-of-hooks safe; only the output range is swapped at hook-call time. MotionValue identity stays stable across re-renders. Phase 5 ANI-04 deferred = full project-wide RM hook threading; Plan 03-04 ships the minimum viable form.
+- **AVIF preload uses simple-form `href` (single 1920w URL), no `imagesrcset` / `imagesizes`** — per 03-RESEARCH §C lines 397-437 recommendation for desktop-first MVP. Avoids the imagesrcset-vs-href browser-quirk surface area; 1920w covers all desktop targets. `type="image/avif"` silently ignored by non-AVIF browsers (Pitfall 4 acceptable degraded path; `<picture>` JPG fallback handles them at render time). NO `crossorigin` attribute — same-origin Pages avoids Pitfall 5 double-fetch.
+- **Section directory pattern established:** `src/components/sections/home/{SectionName}.tsx` is the home-page section directory (created in this plan; first member `Hero.tsx`). Plans 03-05 / 03-06 / 03-07 add siblings (`PortfolioOverview.tsx`, `ConstructionTeaser.tsx`, etc.) under same path. `HomePage.tsx` (Plan 03-08) composes them.
+- **Hero ВИГОДА wordmark inline exception.** `<h1>` text «ВИГОДА» (6 Cyrillic chars) stays as JSX literal per D-02 — it IS the brand display moment, not editorial copy. Gasло (heroSlogan, 70+ chars) and CTA label (heroCta) come from `src/content/home.ts` per D-29 content boundary. The 40-char threshold + brand-display-moment carve-out is the documented edge of the content-boundary rule.
+- **Build pipeline green on first run:** prebuild (copy-renders → optimize-images: skip-path active, 480 files mtime-checked) → `tsc --noEmit` clean → vite build 3.09 s → postbuild check-brand 4/4 PASS. Bundle 242.85 kB JS / 76.85 kB gzipped — within 200 KB-gzipped budget.
+
 ### Hard Rules (from brand-system + CONCEPT §10)
 
 - Closed palette: 6 hexes only (`#2F3640`, `#C1F33D`, `#F5F7FA`, `#A7AFBC`, `#3D3B43`, `#020A0A`)
@@ -177,6 +187,7 @@ Deferred to Phase 7 handoff doc:
 | 260424-whr | verify Logo.tsx SVG lands in prod build | 2026-04-24 | 110c997 | [260424-whr-verify-logo-tsx-svg-lands-in-prod-build](./quick/260424-whr-verify-logo-tsx-svg-lands-in-prod-build/) |
 | Phase 03 P01 | 3m 9s | 4 tasks | 5 files |
 | Phase 03-brand-primitives-home-page P03 | 14min | 3 tasks | 4 files |
+| Phase 03 P04 | 5min | 2 tasks | 2 files |
 
 ### Todos / Blockers
 
@@ -190,6 +201,7 @@ Deferred to Phase 7 handoff doc:
 - **Phase 2 complete — 5/5 plans done; all phase requirements (CON-01, CON-02, ZHK-02, QA-04) complete; ready for `/gsd:transition` to Phase 3**
 - **03-01 complete: src/components/brand/IsometricGridBG.tsx (svgr ?react wrapper); IsometricCube.tsx (3-variant typed primitive with D-03 grid opacity clamp); Mark.tsx (URL-import wrapper); src/vite-env.d.ts (svgr/client TS reference); MinimalCube.tsx deleted (geometry preserved in IsometricCube variant=single); VIS-03 + VIS-04 partially closed**
 - **03-03 complete: sharp@^0.34.5 installed; scripts/optimize-images.mjs (AVIF q50/effort4, WebP q75, JPG mozjpeg q80; widths [640,1280,1920] for renders + [640,960] for construction); chained predev/prebuild after copy-renders.ts; src/components/ui/ResponsivePicture.tsx (assetUrl-based srcset, AVIF→WebP→JPG fallback, no /renders/ literals — passes check-brand 4/4); 480 optimized files generated (180 renders + 300 construction); HOME-03 + HOME-04 partial (full closure when Hero/PortfolioOverview consume in Wave 3)**
+- **03-04 complete: src/components/sections/home/Hero.tsx (~80 lines) — wordmark `<h1>` ВИГОДА + heroSlogan paragraph + heroCta `<Link to="/projects">` + parallax IsometricGridBG overlay (useScroll target=heroRef + useTransform [0,1]→[0,-120], linear, no spring); useReducedMotion() collapses outputRange to [0,0]; index.html AVIF aerial-1920 preload `<link>` above `<title>` (D-18); HOME-01 + ANI-01 closed; Phase 5 boundary preserved (no inline Motion transition objects); build pipeline 4/4 PASS**
 - **Phase 6 risk recorded:** `aerial-1920.avif` = 379 KB (above 200KB hero budget). Phase 6 must use `sizes` attribute on `<ResponsivePicture>` to deliver 1280-width AVIF (196 KB) or 640-width AVIF (58 KB) on typical desktop viewports. Encoder params pinned by D-19 — not tuned at Phase 3.
 - Two research spikes flagged for Phase 3 (Motion `useScroll` API, `vite-plugin-svgr` v4) and Phase 5 (AnimatePresence + Router v7, `useReducedMotion` export)
 
@@ -206,10 +218,10 @@ Deferred to Phase 7 handoff doc:
 **Next action for user:**
 
 ```
-/gsd:transition
+/gsd:execute-phase
 ```
 
-Phase 3 in progress — 3/8 plans done (03-01 brand-primitives, 03-02 home-microcopy, 03-03 image-pipeline). Continue with Plan 03-04 (hero-section) next.
+Phase 3 in progress — 4/8 plans done (03-01 brand-primitives, 03-02 home-microcopy, 03-03 image-pipeline, 03-04 hero-section). Continue with Plan 03-05 (essence-portfolio) next.
 
 **If returning after context loss, read in order:**
 
