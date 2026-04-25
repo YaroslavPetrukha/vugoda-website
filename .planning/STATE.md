@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 03 (brand-primitives-home-page)
-current_plan: 3
+current_plan: 4
 status: executing
-stopped_at: Completed 03-01-brand-primitives-PLAN.md
-last_updated: "2026-04-25T06:19:14.403Z"
+stopped_at: Completed 03-03-image-pipeline-PLAN.md
+last_updated: "2026-04-25T06:38:23.670Z"
 progress:
   total_phases: 7
   completed_phases: 2
   total_plans: 18
-  completed_plans: 12
-  percent: 61
+  completed_plans: 13
+  percent: 72
 ---
 
 # Project State: Vugoda Website
@@ -30,11 +30,11 @@ progress:
 ## Current Position
 
 - **Current Phase:** 03 (brand-primitives-home-page)
-- **Current Plan:** 3
+- **Current Plan:** 4
 - **Total Plans in Phase:** 8
 - **Status:** Ready to execute
-- **Stopped at:** Completed 03-01-brand-primitives-PLAN.md
-- **Progress:** [██████░░░░] 61%
+- **Stopped at:** Completed 03-03-image-pipeline-PLAN.md
+- **Progress:** [███████░░░] 72%
 
 ## Roadmap Summary
 
@@ -133,6 +133,20 @@ Targets from PROJECT.md Constraints:
 - **MinimalCube deleted in same atomic commit as IsometricCube introduction** (D-12). Pre-deletion grep confirmed zero call sites in `src/` — clean delete with no consumer touch. Geometry preserved verbatim in IsometricCube `variant='single'` (3 polygons, viewBox `0 0 100 100`).
 - **Build pipeline green on first run:** lint → check-brand 4/4 → vite build → postbuild check-brand 4/4. Bundle 242.85 kB JS / 76.85 kB gzipped (well under 200KB-gzipped budget).
 
+### Plan 03-03 Decisions (2026-04-25)
+
+- **sharp@^0.34.5 + script-based image pipeline (Path A from STACK.md)** — Vite plugin path B (`vite-imagetools`) rejected for 70-image cold-start perf; sharp script keeps Vite untouched.
+- **`scripts/optimize-images.mjs` is ESM `.mjs`, not `.ts`** (per D-20) — keeps `tsconfig.scripts.json` free of `@types/sharp`. Run with `node` (not `tsx`) — plain ESM, no TS surface, no transpile cost.
+- **`fileURLToPath(new URL('..', import.meta.url))` repo-root pattern** reused from `scripts/copy-renders.ts` (Plan 02-03 D-precedent) — handles the Cyrillic «Проєкти» checkout path; `.pathname` would percent-encode and `existsSync` would fail.
+- **Walker skips `_opt/` AND dotfiles** — prevents infinite recursion into output dirs and macOS `.DS_Store` noise. Same `.DS_Store`-filter precedent as Plan 02-03's `copy-renders.ts` `FILTER`.
+- **Idempotency at script level only** (mtime stat per output triplet); chained `predev`/`prebuild` re-runs do full encode because Phase 2's `copy-renders.ts` is destructive (`rmSync` before copy). Standalone `node scripts/optimize-images.mjs` re-run = **337 ms** on 480 outputs (skip path active). Acceptable: heavy first-build cost paid once per CI run; local devs only re-encode when they touch `/renders/` or `/construction/`.
+- **`<ResponsivePicture>` default `loading='lazy'` + caller-explicit `loading='eager' fetchPriority='high'`** for hero LCP (D-18 + Pitfall 11). Component never assumes hero usage; Wave 3 Hero/PortfolioOverview MUST opt in.
+- **`<ResponsivePicture>` uses generic `assetUrl()` (not `renderUrl`/`constructionUrl`)** — receives an already-domain-qualified path like `'renders/lakeview/aerial.jpg'` and appends the `_opt/{base}-{w}.{fmt}` suffix via string template. Final URL identical to domain-helper composition.
+- **Default `height = round(largestWidth * 9 / 16)`** assumes 16:9 architectural CGI — matches all current renders + construction photos. Caller can override `width`/`height` for non-16:9 sources.
+- **Self-consistency fix on doc-block (Rule 1 auto-fix):** ResponsivePicture.tsx JSDoc initially contained the literal forbidden quoted-path substrings that `check-brand importBoundaries()` greps for. Rephrased to describe the policy without embedding the literals — same anti-pattern + same fix as Plan 02-04 (`placeholders.ts`/`values.ts`). Source must be self-consistent under its own CI rules.
+- **Risk note for Phase 6:** `aerial-1920.avif` = 379 KB (above the 200KB Lighthouse hero budget at 1920 width). Encoder params are pinned by D-19 — not tuned. Phase 6 must use `sizes` attribute on `<ResponsivePicture>` to deliver the **1280-width AVIF (196 KB)** or **640-width AVIF (58 KB)** to typical 1280–1920 desktop viewports. The 1920 variant exists for high-DPI (2× DPR) edge cases. If QA-02 still fails, escalate to a Phase 6 encoder-tune deviation (would override D-19 — requires user sign-off).
+- **First prebuild output:** 480 optimized files (180 in `public/renders/**/_opt/`, 300 in `public/construction/**/_opt/`); `aerial-1920.{avif,webp,jpg}` triplet present; `npm run build` exits 0 (prebuild → tsc → vite build → postbuild check-brand 4/4 PASS).
+
 ### Hard Rules (from brand-system + CONCEPT §10)
 
 - Closed palette: 6 hexes only (`#2F3640`, `#C1F33D`, `#F5F7FA`, `#A7AFBC`, `#3D3B43`, `#020A0A`)
@@ -162,6 +176,7 @@ Deferred to Phase 7 handoff doc:
 |---|-------------|------|--------|-----------|
 | 260424-whr | verify Logo.tsx SVG lands in prod build | 2026-04-24 | 110c997 | [260424-whr-verify-logo-tsx-svg-lands-in-prod-build](./quick/260424-whr-verify-logo-tsx-svg-lands-in-prod-build/) |
 | Phase 03 P01 | 3m 9s | 4 tasks | 5 files |
+| Phase 03-brand-primitives-home-page P03 | 14min | 3 tasks | 4 files |
 
 ### Todos / Blockers
 
@@ -174,6 +189,8 @@ Deferred to Phase 7 handoff doc:
 - **02-05 complete: scripts/check-brand.ts (4-check CI guard, 195 lines, 0 npm deps); package.json postbuild hook; deploy.yml "Check brand invariants" step; QA-04 marked complete**
 - **Phase 2 complete — 5/5 plans done; all phase requirements (CON-01, CON-02, ZHK-02, QA-04) complete; ready for `/gsd:transition` to Phase 3**
 - **03-01 complete: src/components/brand/IsometricGridBG.tsx (svgr ?react wrapper); IsometricCube.tsx (3-variant typed primitive with D-03 grid opacity clamp); Mark.tsx (URL-import wrapper); src/vite-env.d.ts (svgr/client TS reference); MinimalCube.tsx deleted (geometry preserved in IsometricCube variant=single); VIS-03 + VIS-04 partially closed**
+- **03-03 complete: sharp@^0.34.5 installed; scripts/optimize-images.mjs (AVIF q50/effort4, WebP q75, JPG mozjpeg q80; widths [640,1280,1920] for renders + [640,960] for construction); chained predev/prebuild after copy-renders.ts; src/components/ui/ResponsivePicture.tsx (assetUrl-based srcset, AVIF→WebP→JPG fallback, no /renders/ literals — passes check-brand 4/4); 480 optimized files generated (180 renders + 300 construction); HOME-03 + HOME-04 partial (full closure when Hero/PortfolioOverview consume in Wave 3)**
+- **Phase 6 risk recorded:** `aerial-1920.avif` = 379 KB (above 200KB hero budget). Phase 6 must use `sizes` attribute on `<ResponsivePicture>` to deliver 1280-width AVIF (196 KB) or 640-width AVIF (58 KB) on typical desktop viewports. Encoder params pinned by D-19 — not tuned at Phase 3.
 - Two research spikes flagged for Phase 3 (Motion `useScroll` API, `vite-plugin-svgr` v4) and Phase 5 (AnimatePresence + Router v7, `useReducedMotion` export)
 
 ### Research Artifacts Available
@@ -192,7 +209,7 @@ Deferred to Phase 7 handoff doc:
 /gsd:transition
 ```
 
-Phase 3 in progress — 1/8 plans done. Continue with Plan 03-02 (home-microcopy) next.
+Phase 3 in progress — 3/8 plans done (03-01 brand-primitives, 03-02 home-microcopy, 03-03 image-pipeline). Continue with Plan 03-04 (hero-section) next.
 
 **If returning after context loss, read in order:**
 

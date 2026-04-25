@@ -62,7 +62,7 @@
 **Plans**: 8 plans
   - [x] 03-01-brand-primitives-PLAN.md — IsometricCube + IsometricGridBG + Mark + delete MinimalCube + svgr typedef (Wave 1)
   - [x] 03-02-home-microcopy-PLAN.md — src/content/home.ts (Wave 1)
-  - [ ] 03-03-image-pipeline-PLAN.md — sharp install + scripts/optimize-images.mjs + ResponsivePicture (Wave 1)
+  - [x] 03-03-image-pipeline-PLAN.md — sharp install + scripts/optimize-images.mjs + ResponsivePicture (Wave 1)
   - [ ] 03-04-hero-section-PLAN.md — Hero + index.html AVIF preload (Wave 2)
   - [ ] 03-05-essence-portfolio-PLAN.md — BrandEssence + PortfolioOverview (Wave 2)
   - [ ] 03-06-construction-methodology-PLAN.md — ConstructionTeaser + MethodologyTeaser (Wave 2)
@@ -128,7 +128,7 @@
 |-------|----------------|--------|-----------|
 | 1. Foundation & Shell | 5/5 | Complete   | 2026-04-24 |
 | 2. Data Layer & Content | 5/5 | Complete   | 2026-04-24 |
-| 3. Brand Primitives & Home Page | 0/8 | Planned | — |
+| 3. Brand Primitives & Home Page | 3/8 | In Progress | — |
 | 4. Portfolio, ЖК, Log, Contact | 0/0 | Not started | — |
 | 5. Animations & Polish | 0/0 | Not started | — |
 | 6. Performance, Mobile Fallback, Deploy | 0/0 | Not started | — |
