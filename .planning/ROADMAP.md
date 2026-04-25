@@ -59,7 +59,15 @@
   3. Hero image ships as `<picture>` with AVIF → WebP → JPG fallback, ≤200KB for the loaded format, `<link rel="preload" as="image" fetchpriority="high">` in `index.html`, `loading="eager"` (never lazy); Lighthouse Performance on `/` alone ≥90 at desktop profile
   4. `IsometricCube` component exposes typed `variant: 'single' | 'group' | 'grid'` + typed `stroke` restricted to 3 allowed hexes; `Logo` imports canonical `brand-assets/logo/dark.svg` via `vite-plugin-svgr` (no re-coded SVG paths)
   5. Hidden `/dev/brand` route renders all brand primitives standalone for visual QA (Storybook replacement); not linked from production Nav
-**Plans**: TBD
+**Plans**: 8 plans
+  - [x] 03-01-brand-primitives-PLAN.md — IsometricCube + IsometricGridBG + Mark + delete MinimalCube + svgr typedef (Wave 1)
+  - [ ] 03-02-home-microcopy-PLAN.md — src/content/home.ts (Wave 1)
+  - [ ] 03-03-image-pipeline-PLAN.md — sharp install + scripts/optimize-images.mjs + ResponsivePicture (Wave 1)
+  - [ ] 03-04-hero-section-PLAN.md — Hero + index.html AVIF preload (Wave 2)
+  - [ ] 03-05-essence-portfolio-PLAN.md — BrandEssence + PortfolioOverview (Wave 2)
+  - [ ] 03-06-construction-methodology-PLAN.md — ConstructionTeaser + MethodologyTeaser (Wave 2)
+  - [ ] 03-07-trust-contact-PLAN.md — TrustBlock + ContactForm (Wave 2)
+  - [ ] 03-08-compose-and-dev-route-PLAN.md — HomePage compose + DevBrandPage + App.tsx route (Wave 3)
 **UI hint**: yes
 
 ### Phase 4: Portfolio, ЖК, Construction Log, Contact
@@ -120,7 +128,7 @@
 |-------|----------------|--------|-----------|
 | 1. Foundation & Shell | 5/5 | Complete   | 2026-04-24 |
 | 2. Data Layer & Content | 5/5 | Complete   | 2026-04-24 |
-| 3. Brand Primitives & Home Page | 0/0 | Not started | — |
+| 3. Brand Primitives & Home Page | 0/8 | Planned | — |
 | 4. Portfolio, ЖК, Log, Contact | 0/0 | Not started | — |
 | 5. Animations & Polish | 0/0 | Not started | — |
 | 6. Performance, Mobile Fallback, Deploy | 0/0 | Not started | — |

@@ -2,15 +2,17 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: planning
-stopped_at: Phase 3 context gathered
-last_updated: "2026-04-25T00:19:49.554Z"
+current_phase: 03 (brand-primitives-home-page)
+current_plan: 2
+status: executing
+stopped_at: Completed 03-01-brand-primitives-PLAN.md
+last_updated: "2026-04-25T02:19:28.141Z"
 progress:
   total_phases: 7
   completed_phases: 2
-  total_plans: 10
-  completed_plans: 10
-  percent: 100
+  total_plans: 18
+  completed_plans: 11
+  percent: 61
 ---
 
 # Project State: Vugoda Website
@@ -23,18 +25,16 @@ progress:
 - **Project:** Vugoda Website — корпоративний сайт забудовника «ВИГОДА»
 - **Core Value:** Клієнт отримує публічний URL, за яким видно «ахуєнний» desktop-варіант корпсайту ВИГОДИ у бренді (точна палітра, ізометричні куби, cinematic-анімації на Motion, чесне відображення портфеля 0-здано / 1-активно / 4-pipeline).
 - **Domain:** Ukrainian real-estate developer corporate hub, static desktop-first React SPA on GitHub Pages
-- **Current focus:** Phase 02 — data-layer-content
+- **Current focus:** Phase 03 — brand-primitives-home-page
 
 ## Current Position
 
-Phase: 02 (data-layer-content) — COMPLETE
-Plan: 5 of 5 complete (all plans done; Phase 2 ready for transition)
-
-- **Phase:** 3
-- **Plan:** Not started
-- **Status:** Ready to plan
-- **Stopped at:** Phase 3 context gathered
-- **Progress:** [██████████] 100%
+- **Current Phase:** 03 (brand-primitives-home-page)
+- **Current Plan:** 2
+- **Total Plans in Phase:** 8
+- **Status:** Executing Phase 03
+- **Stopped at:** Completed 03-01-brand-primitives-PLAN.md
+- **Progress:** [██████░░░░] 61%
 
 ## Roadmap Summary
 
@@ -124,6 +124,15 @@ Targets from PROJECT.md Constraints:
 - **D-28 double-coverage kept** — `postbuild` is the enforcing gate (runs on every `npm run build` locally + in CI); the `Check brand invariants` named step in deploy.yml re-runs the same script for PR log visibility. Overlapping safety nets by design.
 - **`PALETTE_WHITELIST` in script mirrors `@theme` in src/index.css** — drift is only caught if BOTH are updated in lockstep. Inline doc-block notes the coupling; adding a 7th color requires editing both.
 
+### Plan 03-01 Decisions (2026-04-25)
+
+- **`AllowedStroke` type alias** for the 3-hex stroke literal union (instead of inlining `'#A7AFBC' | '#F5F7FA' | '#C1F33D'` on the `stroke?` prop). TypeScript constraint identical to inline form; alias improves readability and lets future brand primitives reuse the same constraint. Per plan `<action>` verbatim TSX.
+- **D-03 hero opacity ceiling enforced INSIDE IsometricCube grid branch** (not just by call-site convention). When `variant='grid'`: `undefined → 0.15`, `explicit → Math.min(opacity, 0.2)`. Prevents accidental `<IsometricCube variant='grid' />` from washing the hero in 30% accent-overlay (the global default opacity for single/group). Contract is local to the component — reviewer can see the clamp in the file.
+- **Grid variant DELEGATES to IsometricGridBG** (D-09 wrapper option, not duplicate hand-authored geometry). Single source of truth for grid SVG; no risk of duplicate `<defs><style>` blocks if multiple variant=grid instances ever land on the same page.
+- **Mark uses URL-import (no `?react`)** per D-28, mirroring Logo.tsx D-27. Quick-task 260424-whr verified URL-imported SVGs land in `dist/assets/` as binary assets; svgr `?react` would inline the markup which is wrong for binary brand-asset references.
+- **MinimalCube deleted in same atomic commit as IsometricCube introduction** (D-12). Pre-deletion grep confirmed zero call sites in `src/` — clean delete with no consumer touch. Geometry preserved verbatim in IsometricCube `variant='single'` (3 polygons, viewBox `0 0 100 100`).
+- **Build pipeline green on first run:** lint → check-brand 4/4 → vite build → postbuild check-brand 4/4. Bundle 242.85 kB JS / 76.85 kB gzipped (well under 200KB-gzipped budget).
+
 ### Hard Rules (from brand-system + CONCEPT §10)
 
 - Closed palette: 6 hexes only (`#2F3640`, `#C1F33D`, `#F5F7FA`, `#A7AFBC`, `#3D3B43`, `#020A0A`)
@@ -152,6 +161,7 @@ Deferred to Phase 7 handoff doc:
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 260424-whr | verify Logo.tsx SVG lands in prod build | 2026-04-24 | 110c997 | [260424-whr-verify-logo-tsx-svg-lands-in-prod-build](./quick/260424-whr-verify-logo-tsx-svg-lands-in-prod-build/) |
+| Phase 03 P01 | 3m 9s | 4 tasks | 5 files |
 
 ### Todos / Blockers
 
@@ -163,6 +173,7 @@ Deferred to Phase 7 handoff doc:
 - 02-04 complete: src/content/{methodology,values,company,placeholders}.ts (content modules)
 - **02-05 complete: scripts/check-brand.ts (4-check CI guard, 195 lines, 0 npm deps); package.json postbuild hook; deploy.yml "Check brand invariants" step; QA-04 marked complete**
 - **Phase 2 complete — 5/5 plans done; all phase requirements (CON-01, CON-02, ZHK-02, QA-04) complete; ready for `/gsd:transition` to Phase 3**
+- **03-01 complete: src/components/brand/IsometricGridBG.tsx (svgr ?react wrapper); IsometricCube.tsx (3-variant typed primitive with D-03 grid opacity clamp); Mark.tsx (URL-import wrapper); src/vite-env.d.ts (svgr/client TS reference); MinimalCube.tsx deleted (geometry preserved in IsometricCube variant=single); VIS-03 + VIS-04 partially closed**
 - Two research spikes flagged for Phase 3 (Motion `useScroll` API, `vite-plugin-svgr` v4) and Phase 5 (AnimatePresence + Router v7, `useReducedMotion` export)
 
 ### Research Artifacts Available
@@ -181,7 +192,7 @@ Deferred to Phase 7 handoff doc:
 /gsd:transition
 ```
 
-Phase 2 complete — 5/5 plans done. Transition into Phase 3 (Brand Primitives & Home Page) or run `/gsd:verify-phase 02-data-layer-content` first for a verifier-agent double-check.
+Phase 3 in progress — 1/8 plans done. Continue with Plan 03-02 (home-microcopy) next.
 
 **If returning after context loss, read in order:**
 
