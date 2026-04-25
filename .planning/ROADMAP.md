@@ -64,7 +64,7 @@
   - [x] 03-02-home-microcopy-PLAN.md — src/content/home.ts (Wave 1)
   - [x] 03-03-image-pipeline-PLAN.md — sharp install + scripts/optimize-images.mjs + ResponsivePicture (Wave 1)
   - [x] 03-04-hero-section-PLAN.md — Hero + index.html AVIF preload (Wave 2)
-  - [ ] 03-05-essence-portfolio-PLAN.md — BrandEssence + PortfolioOverview (Wave 2)
+  - [x] 03-05-essence-portfolio-PLAN.md — BrandEssence + PortfolioOverview (Wave 2)
   - [ ] 03-06-construction-methodology-PLAN.md — ConstructionTeaser + MethodologyTeaser (Wave 2)
   - [ ] 03-07-trust-contact-PLAN.md — TrustBlock + ContactForm (Wave 2)
   - [ ] 03-08-compose-and-dev-route-PLAN.md — HomePage compose + DevBrandPage + App.tsx route (Wave 3)

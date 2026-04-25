@@ -3,21 +3,21 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 03 (brand-primitives-home-page)
-current_plan: 5
+current_plan: 6
 status: executing
-stopped_at: Completed 03-04-hero-section-PLAN.md
-last_updated: "2026-04-25T06:49:14.958Z"
+stopped_at: Completed 03-05-essence-portfolio-PLAN.md
+last_updated: "2026-04-25T07:00:23.163Z"
 progress:
   total_phases: 7
   completed_phases: 2
   total_plans: 18
-  completed_plans: 14
-  percent: 78
+  completed_plans: 15
+  percent: 83
 ---
 
 # Project State: Vugoda Website
 
-**Last updated:** 2026-04-25 — Plan 03-04 complete (hero-section: Hero.tsx + index.html AVIF preload)
+**Last updated:** 2026-04-25 — Plan 03-05 complete (essence-portfolio: BrandEssence + PortfolioOverview, HOME-02 + HOME-03 closed)
 **Updated by:** /gsd:execute-phase orchestrator
 
 ## Project Reference
@@ -30,11 +30,11 @@ progress:
 ## Current Position
 
 - **Current Phase:** 03 (brand-primitives-home-page)
-- **Current Plan:** 5
+- **Current Plan:** 6
 - **Total Plans in Phase:** 8
 - **Status:** Ready to execute
-- **Stopped at:** Completed 03-04-hero-section-PLAN.md
-- **Progress:** [████████░░] 78%
+- **Stopped at:** Completed 03-05-essence-portfolio-PLAN.md
+- **Progress:** [████████░░] 83%
 
 ## Roadmap Summary
 
@@ -157,6 +157,21 @@ Targets from PROJECT.md Constraints:
 - **Hero ВИГОДА wordmark inline exception.** `<h1>` text «ВИГОДА» (6 Cyrillic chars) stays as JSX literal per D-02 — it IS the brand display moment, not editorial copy. Gasло (heroSlogan, 70+ chars) and CTA label (heroCta) come from `src/content/home.ts` per D-29 content boundary. The 40-char threshold + brand-display-moment carve-out is the documented edge of the content-boundary rule.
 - **Build pipeline green on first run:** prebuild (copy-renders → optimize-images: skip-path active, 480 files mtime-checked) → `tsc --noEmit` clean → vite build 3.09 s → postbuild check-brand 4/4 PASS. Bundle 242.85 kB JS / 76.85 kB gzipped — within 200 KB-gzipped budget.
 
+### Plan 03-05 Decisions (2026-04-25)
+
+- **BrandEssence layout = 2×2 numbered (01–04)** per RESEARCH Open Question 1 recommendation. `brandValues` body strings are 150–200 chars; 4-in-row at ~280px column width was rejected as too dense. 2×2 at ~600px gives breathing room and echoes the brandbook §5 «3 ступені складності» numbered ladder. Numbered prefix derived from index via `String(i+1).padStart(2,'0')` — no `BrandValue` type edit required.
+- **PortfolioOverview flagship = side-by-side (3fr/2fr) at lg breakpoint** per RESEARCH Open Question 8 + 03-CONTEXT.md §Specifics. Overlay variant rejected: dark-gradient masks on architectural CGI tend to murk the render. Image left 60%, text right 40% at ≥1280px container.
+- **Flagship `sizes="(min-width: 1280px) 768px, 100vw"`** — at 1280-container width, 3fr/(3fr+2fr) ≈ 60% × 1280 ≈ 768px. The 1280w srcset entry (~196 KB AVIF) is the actual LCP target on typical desktop viewports; the 1920w (388 KB, exceeds Plan 03-03 risk budget) stays available for 2× DPR edge cases. Phase 6 Lighthouse verification consumes this hint to confirm browser picks the 1280w entry at standard resolution.
+- **Explicit `width={1280} height={720}` on flagship ResponsivePicture (16:9)** — closes plan checker Blocker 4. Documents the AVIF/WebP/JPG triple's intrinsic-ratio contract; prevents CLS at hydration. Standard architectural CGI ratio matches the encoder pipeline output.
+- **External CTA `target="_blank" rel="noopener"` (NOT `noreferrer`)** — preserves the `Referer` header so Lakeview's analytics can attribute cross-property traffic; `noopener` alone is sufficient to defeat the tabnabbing vector. Per D-14: we WANT cross-property referrer signal between vugoda-website and Lakeview.
+- **Doc-block self-consistency fix (Rule 3 — blocking, 4th occurrence in codebase):** both files initially shipped doc-blocks containing literal substrings their own plan grep gates forbid. BrandEssence: `lucide-react` / `<IsometricCube>` (Test 10). PortfolioOverview: `Lakeview` / `Етно Дім` / `Маєток` / `NTEREST` (Test 15). Resolution: rephrased to describe policy without embedding regex-bait literals. Same precedent as Plans 02-04 (`placeholders.ts` / `values.ts`), 03-03 (`ResponsivePicture.tsx`), 03-04 (`Hero.tsx`). The recurring pattern across 4 plans is now a planner-template smell — future plans should pre-screen `<action>` doc-blocks against their own `<verify>` regexes before issuing.
+- **Single-line `<IsometricCube variant="single"` opening tag (Rule 3 - blocking):** plan's verbatim `<action>` JSX showed multi-line attribute layout, but the plan's verify regex `<IsometricCube variant="single"` is single-line and returned 0 matches against multi-line layout. Resolution: moved `variant="single"` onto the opening tag line (`<IsometricCube variant="single"\n  stroke=…`). JSX-equivalent at runtime; readability cost negligible at 4 attributes.
+- **Derived-view discipline preserved on 2nd surface:** PortfolioOverview imports `flagship` / `pipelineGridProjects` / `aggregateProjects` as named imports — zero `.filter(p => p.presentation === ...)` calls in component code. Confirms the ZHK-02 scale-to-N invariant (Phase 2 D-04): adding ЖК #6 = append one record with the right `presentation`, no component touch.
+- **Content-boundary discipline extended:** heading + subtitle + external-CTA label all sourced from `src/content/home.ts` even though the external-CTA arrow ↗ is microcopy-eligible per D-20. Preference for one-edit propagation over inline tactical literals when the string carries content semantics. Matches Plan 03-04's exception treatment: brand display moments (wordmark) inline, everything else via content imports.
+- **VIS-03 production debut for `variant='single'`:** first home consumer of the single-cube state-marker (D-16). Phase 4 will reuse the same variant for «Здано (0)» empty-state on `/projects` per cube-ladder D-10. Stroke `#A7AFBC` opacity 0.4 — within brandbook 5–60% band, on the muted side as a non-foreground signal.
+- **LCP wiring end-to-end:** index.html AVIF preload (Plan 03-04) → flagship `<ResponsivePicture loading="eager" fetchPriority="high">` (this plan). HTML-parse-time fetch start, React-render-time `<picture>` consume. Phase 6 LCP test now exercisable via DevTools Network panel + Lighthouse LCP-element trace.
+- **Build pipeline green:** `npm run lint` exits 0 after each task; `npm run build` exits 0 (full prebuild → tsc → vite → postbuild check-brand 4/4 PASS). Bundle 242.85 kB JS / 76.85 kB gzipped — unchanged from Plan 03-04 (no new imports, two pure-render components added). Within 200 KB-gzipped budget.
+
 ### Hard Rules (from brand-system + CONCEPT §10)
 
 - Closed palette: 6 hexes only (`#2F3640`, `#C1F33D`, `#F5F7FA`, `#A7AFBC`, `#3D3B43`, `#020A0A`)
@@ -188,6 +203,7 @@ Deferred to Phase 7 handoff doc:
 | Phase 03 P01 | 3m 9s | 4 tasks | 5 files |
 | Phase 03-brand-primitives-home-page P03 | 14min | 3 tasks | 4 files |
 | Phase 03 P04 | 5min | 2 tasks | 2 files |
+| Phase 03 P5 | 6min | 2 tasks | 2 files |
 
 ### Todos / Blockers
 
@@ -202,6 +218,7 @@ Deferred to Phase 7 handoff doc:
 - **03-01 complete: src/components/brand/IsometricGridBG.tsx (svgr ?react wrapper); IsometricCube.tsx (3-variant typed primitive with D-03 grid opacity clamp); Mark.tsx (URL-import wrapper); src/vite-env.d.ts (svgr/client TS reference); MinimalCube.tsx deleted (geometry preserved in IsometricCube variant=single); VIS-03 + VIS-04 partially closed**
 - **03-03 complete: sharp@^0.34.5 installed; scripts/optimize-images.mjs (AVIF q50/effort4, WebP q75, JPG mozjpeg q80; widths [640,1280,1920] for renders + [640,960] for construction); chained predev/prebuild after copy-renders.ts; src/components/ui/ResponsivePicture.tsx (assetUrl-based srcset, AVIF→WebP→JPG fallback, no /renders/ literals — passes check-brand 4/4); 480 optimized files generated (180 renders + 300 construction); HOME-03 + HOME-04 partial (full closure when Hero/PortfolioOverview consume in Wave 3)**
 - **03-04 complete: src/components/sections/home/Hero.tsx (~80 lines) — wordmark `<h1>` ВИГОДА + heroSlogan paragraph + heroCta `<Link to="/projects">` + parallax IsometricGridBG overlay (useScroll target=heroRef + useTransform [0,1]→[0,-120], linear, no spring); useReducedMotion() collapses outputRange to [0,0]; index.html AVIF aerial-1920 preload `<link>` above `<title>` (D-18); HOME-01 + ANI-01 closed; Phase 5 boundary preserved (no inline Motion transition objects); build pipeline 4/4 PASS**
+- **03-05 complete: src/components/sections/home/BrandEssence.tsx (~43 lines, 2×2 grid of 4 numbered cards from brandValues) + PortfolioOverview.tsx (~128 lines, flagship side-by-side at lg with eager+high+w=1280 h=720 ResponsivePicture, 3-card pipeline grid lazy with aspect-[4/3], aggregate row with `<IsometricCube variant="single" stroke="#A7AFBC" opacity={0.4}>`); HOME-02 + HOME-03 closed; first home consumer of VIS-03 single variant; LCP wiring end-to-end (index.html preload from 03-04 → flagship picture consume); 3 Rule 3 doc-block self-consistency fixes (4th codebase occurrence — pattern is a planner-template smell); build pipeline 4/4 PASS, bundle 242.85 kB JS / 76.85 kB gzipped (unchanged)**
 - **Phase 6 risk recorded:** `aerial-1920.avif` = 379 KB (above 200KB hero budget). Phase 6 must use `sizes` attribute on `<ResponsivePicture>` to deliver 1280-width AVIF (196 KB) or 640-width AVIF (58 KB) on typical desktop viewports. Encoder params pinned by D-19 — not tuned at Phase 3.
 - Two research spikes flagged for Phase 3 (Motion `useScroll` API, `vite-plugin-svgr` v4) and Phase 5 (AnimatePresence + Router v7, `useReducedMotion` export)
 
@@ -221,7 +238,7 @@ Deferred to Phase 7 handoff doc:
 /gsd:execute-phase
 ```
 
-Phase 3 in progress — 4/8 plans done (03-01 brand-primitives, 03-02 home-microcopy, 03-03 image-pipeline, 03-04 hero-section). Continue with Plan 03-05 (essence-portfolio) next.
+Phase 3 in progress — 5/8 plans done (03-01 brand-primitives, 03-02 home-microcopy, 03-03 image-pipeline, 03-04 hero-section, 03-05 essence-portfolio). Continue with Plan 03-06 (construction-methodology) next.
 
 **If returning after context loss, read in order:**
 
