@@ -6,6 +6,7 @@ import ZhkPage from './pages/ZhkPage';
 import ConstructionLogPage from './pages/ConstructionLogPage';
 import ContactPage from './pages/ContactPage';
 import DevBrandPage from './pages/DevBrandPage';
+import DevGridPage from './pages/DevGridPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 /**
@@ -20,6 +21,7 @@ import NotFoundPage from './pages/NotFoundPage';
  *   /#/construction-log     → ConstructionLogPage
  *   /#/contact              → ContactPage
  *   /#/dev/brand            → DevBrandPage (Phase 3 D-25, hidden — not linked from Nav)
+ *   /#/dev/grid             → DevGridPage (Phase 4 D-39, hidden — fixtures stress test)
  *   /#/anything-else        → NotFoundPage
  *
  * Phase 5 will wrap the Outlet inside Layout.tsx with the route-transition
@@ -36,6 +38,7 @@ export default function App() {
           <Route path="construction-log" element={<ConstructionLogPage />} />
           <Route path="contact" element={<ContactPage />} />
           <Route path="dev/brand" element={<DevBrandPage />} />
+          <Route path="dev/grid" element={<DevGridPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
