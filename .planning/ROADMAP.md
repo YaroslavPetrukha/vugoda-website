@@ -81,7 +81,18 @@
   4. `/contact` renders email `vygoda.sales@gmail.com` as active `mailto:` (opens mail client, not fake form), phone / юр. адреса render as `—` (visible placeholder, NOT `{{token}}`), соцмережі render as `href="#"` with cursor-disabled styling
   5. ЖК cards + FlagshipCard show subtle hover-state: scale ≤1.02 + overlay-opacity delta + accent border-glow; no pружинні springs, no `transition-all`, only brand-compliant ease-out ~200ms
   6. Hidden `/dev/grid` route uses `projects.fixtures.ts` (10 synthetic ЖК across 4+ stage buckets) — grid reflows correctly at N=4, 6, 8, 10; stage-to-badge lookup returns default for unknown stage (no runtime crash, no invisible label)
-**Plans**: TBD
+**Plans**: 11 plans
+  - [ ] 04-01-stages-and-content-PLAN.md — src/lib/stages.ts + 3 content modules (Wave 1, foundation)
+  - [ ] 04-02-lightbox-PLAN.md — shared <Lightbox> primitive (Wave 1, LOG-01 + ZHK-01 dependency)
+  - [ ] 04-03-flagship-extract-PLAN.md — extract FlagshipCard + AggregateRow from home (Wave 1, HUB-02 + HUB-04)
+  - [ ] 04-04-scripts-edits-PLAN.md — check-brand DevGridPage exclusion + optimizer 1920w widths (Wave 1, infrastructure)
+  - [ ] 04-05-projects-page-PLAN.md — /projects with StageFilter + PipelineGrid + dispatched body (Wave 2, HUB-01..04)
+  - [ ] 04-06a-zhk-etno-dim-shell-PLAN.md — ZhkHero + ZhkFactBlock + ZhkWhatsHappening + ZhkLakeviewRedirect (Wave 2, ZHK-01 leaf components)
+  - [ ] 04-06b-zhk-etno-dim-gallery-PLAN.md — ZhkGallery (Lightbox state) + ZhkCtaPair + ZhkPage dispatcher (Wave 2, ZHK-01 composition)
+  - [ ] 04-07-construction-log-PLAN.md — /construction-log MonthGroup + Lightbox (Wave 2, LOG-01 + LOG-02)
+  - [ ] 04-08-contact-page-PLAN.md — /contact реквізити-block + mailto CTA (Wave 2, CTC-01)
+  - [ ] 04-09-dev-grid-PLAN.md — hidden /dev/grid fixtures stress test + App.tsx route (Wave 2, HUB-04 SC#6)
+  - [ ] 04-10-ani03-hover-sweep-PLAN.md — ANI-03 retroactive hover sweep across 3 surfaces (Wave 3, ANI-03)
 **UI hint**: yes
 
 ### Phase 5: Animations & Polish
@@ -128,8 +139,8 @@
 |-------|----------------|--------|-----------|
 | 1. Foundation & Shell | 5/5 | Complete   | 2026-04-24 |
 | 2. Data Layer & Content | 5/5 | Complete   | 2026-04-24 |
-| 3. Brand Primitives & Home Page | 3/8 | In Progress | — |
-| 4. Portfolio, ЖК, Log, Contact | 0/0 | Not started | — |
+| 3. Brand Primitives & Home Page | 8/8 | Complete   | 2026-04-25 |
+| 4. Portfolio, ЖК, Log, Contact | 0/11 | Not started | — |
 | 5. Animations & Polish | 0/0 | Not started | — |
 | 6. Performance, Mobile Fallback, Deploy | 0/0 | Not started | — |
 | 7. Post-deploy QA & Handoff | 0/0 | Not started | — |
