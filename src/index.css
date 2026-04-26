@@ -77,3 +77,37 @@
     color: var(--color-bg-black);
   }
 }
+
+/*
+ * Hover-card consolidation — Phase 5 D-24.
+ * Replaces the Phase 4 inline hover-class string previously duplicated across
+ * 5 surfaces (home PortfolioOverview pipeline cards, FlagshipCard outer
+ * article, PipelineCard inner article, ZhkGallery thumb buttons, MonthGroup
+ * thumb buttons). Single source of truth for the brand hover triple-effect:
+ *   - transform: scale(1.02)
+ *   - box-shadow: 0 0 24px rgba accent at 15%
+ *   - transition: 200ms cubic-bezier(0.22, 1, 0.36, 1)
+ *
+ * Reduced-motion neutralisation lives in the nested @media block below —
+ * no Tailwind motion-reduce: variants are needed at consumer sites (RESEARCH
+ * Risk 3: single source of RM behaviour).
+ *
+ * Couples with --ease-brand declared in @theme above (D-23 lockstep rule).
+ */
+@utility hover-card {
+  transition-property: transform, box-shadow, background-color;
+  transition-duration: 200ms;
+  transition-timing-function: var(--ease-brand);
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 24px rgba(193, 243, 61, 0.15);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &:hover {
+      transform: scale(1);
+      box-shadow: none;
+    }
+  }
+}
