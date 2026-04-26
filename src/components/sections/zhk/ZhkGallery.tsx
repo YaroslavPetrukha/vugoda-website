@@ -21,9 +21,12 @@
  */
 
 import { useState } from 'react';
+import { motion } from 'motion/react';
 import type { Project } from '../../../data/types';
 import { ResponsivePicture } from '../../ui/ResponsivePicture';
 import { Lightbox, type LightboxPhoto } from '../../ui/Lightbox';
+import { RevealOnScroll } from '../../ui/RevealOnScroll';
+import { fadeUp } from '../../../lib/motionVariants';
 
 interface Props {
   project: Project;
@@ -41,28 +44,34 @@ export function ZhkGallery({ project }: Props) {
   if (project.renders.length === 0) return null;
 
   return (
-    <section className="bg-bg py-16">
+    <RevealOnScroll as="section" className="bg-bg py-16">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <RevealOnScroll
+          as="ul"
+          staggerChildren
+          role="list"
+          className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"
+        >
           {project.renders.map((file, i) => (
-            <button
-              key={file}
-              type="button"
-              onClick={() => setIndex(i)}
-              aria-label={`Відкрити рендер ${i + 1}`}
-              className="block overflow-hidden bg-bg-surface hover-card focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-            >
-              <ResponsivePicture
-                src={`renders/${project.slug}/${file}`}
-                alt={`${project.title} — рендер ${i + 1}`}
-                widths={[640, 1280]}
-                sizes="(min-width: 1280px) 320px, 50vw"
-                loading="lazy"
-                className="w-full aspect-video object-cover"
-              />
-            </button>
+            <motion.li key={file} variants={fadeUp} className="list-none">
+              <button
+                type="button"
+                onClick={() => setIndex(i)}
+                aria-label={`Відкрити рендер ${i + 1}`}
+                className="block w-full overflow-hidden bg-bg-surface hover-card focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              >
+                <ResponsivePicture
+                  src={`renders/${project.slug}/${file}`}
+                  alt={`${project.title} — рендер ${i + 1}`}
+                  widths={[640, 1280]}
+                  sizes="(min-width: 1280px) 320px, 50vw"
+                  loading="lazy"
+                  className="w-full aspect-video object-cover"
+                />
+              </button>
+            </motion.li>
           ))}
-        </div>
+        </RevealOnScroll>
       </div>
       <Lightbox
         photos={photos}
@@ -70,6 +79,6 @@ export function ZhkGallery({ project }: Props) {
         onClose={() => setIndex(-1)}
         onIndexChange={setIndex}
       />
-    </section>
+    </RevealOnScroll>
   );
 }
