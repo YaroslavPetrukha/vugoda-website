@@ -32,17 +32,20 @@
  * /projects (Phase 4) and /dev/grid (Phase 4) reuse them verbatim.
  */
 
+import { motion } from 'motion/react';
 import { flagship, pipelineGridProjects, aggregateProjects } from '../../../data/projects';
 import { ResponsivePicture } from '../../ui/ResponsivePicture';
 import { portfolioHeading, portfolioSubtitle } from '../../../content/home';
 import { FlagshipCard } from '../projects/FlagshipCard';
 import { AggregateRow } from '../projects/AggregateRow';
+import { RevealOnScroll } from '../../ui/RevealOnScroll';
+import { fadeUp } from '../../../lib/motionVariants';
 
 export function PortfolioOverview() {
   const aggregate = aggregateProjects[0];
 
   return (
-    <section className="bg-bg py-24">
+    <RevealOnScroll as="section" className="bg-bg py-24">
       <div className="mx-auto max-w-7xl px-6">
         {/* Section heading + honest 0/1/4 subtitle (D-13) */}
         <header className="mb-12 flex flex-col gap-2">
@@ -53,10 +56,14 @@ export function PortfolioOverview() {
         {/* Flagship card — extracted to <FlagshipCard> for cross-surface reuse (D-02) */}
         <FlagshipCard project={flagship} />
 
-        {/* Pipeline grid — 3 cards in row at ≥lg (D-15). Static in Phase 3; hover in Phase 4. */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        {/* Pipeline grid — 3 cards in row at ≥lg (D-15). Phase 5: 80ms stagger cascade per D-02 + D-08. */}
+        <RevealOnScroll staggerChildren className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           {pipelineGridProjects.map((project) => (
-            <article key={project.slug} className="flex flex-col gap-4 bg-bg-surface hover-card">
+            <motion.article
+              key={project.slug}
+              variants={fadeUp}
+              className="flex flex-col gap-4 bg-bg-surface hover-card"
+            >
               <ResponsivePicture
                 src={`renders/${project.slug}/${project.renders[0]}`}
                 alt={project.title}
@@ -74,13 +81,13 @@ export function PortfolioOverview() {
                   <span className="text-sm text-text-muted">{project.location}</span>
                 )}
               </div>
-            </article>
+            </motion.article>
           ))}
-        </div>
+        </RevealOnScroll>
 
         {/* Aggregate row — extracted to <AggregateRow> for cross-surface reuse (HUB-04) */}
         <AggregateRow project={aggregate} />
       </div>
-    </section>
+    </RevealOnScroll>
   );
 }
