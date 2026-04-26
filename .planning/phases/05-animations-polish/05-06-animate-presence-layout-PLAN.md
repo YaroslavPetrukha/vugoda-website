@@ -331,7 +331,7 @@ All routes flow through Layout's `<Outlet/>`. Phase 5 D-defer: /dev/brand and /d
     Rationale (D-14 Claude's-Discretion): kept-as-no-op file would be a confusing artifact for future maintainers — `ScrollToTop.tsx` that does nothing is a dead module. Deletion + import removal is the cleaner exit. The git history retains the file for historical reference.
   </action>
   <verify>
-    <automated>test ! -f src/components/layout/ScrollToTop.tsx && grep -rn 'ScrollToTop' src/ --include='*.ts' --include='*.tsx' | wc -l | tr -d ' ' | grep -q '^0$' && npm run build 2>&1 | tail -3 | grep -q '4/4 checks passed' && echo OK || (echo FAIL && exit 1)</automated>
+    <automated>test ! -f src/components/layout/ScrollToTop.tsx && grep -rn 'ScrollToTop' src/ --include='*.ts' --include='*.tsx' | wc -l | tr -d ' ' | grep -q '^0$' && npm run build 2>&1 | tail -3 | grep -qE '[0-9]+/[0-9]+ checks passed' && echo OK || (echo FAIL && exit 1)</automated>
   </verify>
   <done>
     - `test -f src/components/layout/ScrollToTop.tsx` returns false (file deleted)

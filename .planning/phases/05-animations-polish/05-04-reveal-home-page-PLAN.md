@@ -3,7 +3,7 @@ phase: 05-animations-polish
 plan: 04
 type: execute
 wave: 3
-depends_on: [05-01-foundation-sot, 05-03-reveal-on-scroll-component]
+depends_on: [05-01-foundation-sot, 05-02-hover-card-utility, 05-03-reveal-on-scroll-component]
 files_modified:
   - src/components/sections/home/BrandEssence.tsx
   - src/components/sections/home/PortfolioOverview.tsx
@@ -16,12 +16,14 @@ requirements: [ANI-02]
 must_haves:
   truths:
     - "Every below-fold section on `/` (HomePage) is wrapped in <RevealOnScroll> exactly once — Hero is excluded (LCP target)"
+    - "BrandEssence 4-card grid uses 80ms parent stagger across the 4 value cards (D-02 + D-08)"
     - "PortfolioOverview pipeline grid uses 80ms parent stagger across the 3 cards (D-02 + D-08)"
     - "TrustBlock 3-column legal table uses 80ms stagger across the 3 columns (D-03)"
     - "MethodologyTeaser 3-card grid uses 80ms stagger across the 3 blocks (D-08)"
+    - "Cumulative `grep -rn '<RevealOnScroll' src/components/sections/ src/pages/ | wc -l` ≥ 18 across all reveal-application plans (05-04 + 05-05a + 05-05b) per VALIDATION.md SC#2 bound"
   artifacts:
     - path: src/components/sections/home/BrandEssence.tsx
-      provides: "Section wrapped in RevealOnScroll (single instance)"
+      provides: "Section wrapped in RevealOnScroll + inner staggerChildren on the 4-card grid (D-02)"
       contains: "RevealOnScroll"
     - path: src/components/sections/home/PortfolioOverview.tsx
       provides: "Section wrapped in RevealOnScroll; pipeline grid items inside use motion.article + variants={fadeUp} for stagger to land"
@@ -157,7 +159,8 @@ Hero.tsx (do NOT touch in this plan): is a `<section>` element holding the LCP t
     - src/components/sections/home/BrandEssence.tsx
     - src/components/sections/home/ConstructionTeaser.tsx
     - src/components/sections/home/ContactForm.tsx
-    - .planning/phases/05-animations-polish/05-CONTEXT.md §D-06 (Hero excluded), §D-08 (HomePage section coverage map)
+    - src/lib/motionVariants.ts (verify `fadeUp` named export from 05-01 — needed for BrandEssence cascade children)
+    - .planning/phases/05-animations-polish/05-CONTEXT.md §D-02 (80ms cadence — BrandEssence 4 cards 2×2), §D-06 (Hero excluded), §D-08 (HomePage section coverage map)
     - .planning/phases/05-animations-polish/05-RESEARCH.md §Risk 4 (Risk 4 — replace `<section>` with `<RevealOnScroll as="section">`, do NOT nest)
   </read_first>
   <files>
@@ -167,19 +170,23 @@ Hero.tsx (do NOT touch in this plan): is a `<section>` element holding the LCP t
   </files>
   <behavior>
     - Test 1: BrandEssence outer JSX element is `<RevealOnScroll as="section" className="bg-bg py-24">` (NOT `<section>` wrapped INSIDE another `<section>`)
-    - Test 2: ConstructionTeaser outer JSX element is `<RevealOnScroll as="section" className="bg-bg py-24">`
-    - Test 3: ContactForm outer JSX element is `<RevealOnScroll as="section" className="bg-bg-black py-24">` (preserve bg-bg-black)
-    - Test 4: All 3 files import `RevealOnScroll` from `'../../ui/RevealOnScroll'`
-    - Test 5: All inner JSX (children of the original section) preserved byte-identical
+    - Test 2: BrandEssence inner 4-card grid `<div className="grid grid-cols-2 ...">` is replaced with `<RevealOnScroll staggerChildren className="grid grid-cols-2 ...">` (D-02 — 80ms cascade across the 4 value cards)
+    - Test 3: BrandEssence each `<article>` becomes `<motion.article key={value.title} variants={fadeUp}>` (cascade child opt-in)
+    - Test 4: ConstructionTeaser outer JSX element is `<RevealOnScroll as="section" className="bg-bg py-24">` (no inner stagger — single section reveal per D-08)
+    - Test 5: ContactForm outer JSX element is `<RevealOnScroll as="section" className="bg-bg-black py-24">` (preserve bg-bg-black; no inner stagger)
+    - Test 6: All 3 files import `RevealOnScroll`; BrandEssence ALSO imports `motion` and `fadeUp`
+    - Test 7: Inner content of ConstructionTeaser and ContactForm (children of the original section) preserved byte-identical
   </behavior>
   <action>
     Edit 3 files. Each follows the SAME pattern: locate the outer `<section>...</section>` element and replace its opening/closing tags with `<RevealOnScroll as="section" ...>` / `</RevealOnScroll>`. Add the named import at the top of the file.
 
     **File 1 — `src/components/sections/home/BrandEssence.tsx`:**
 
-    Add import (after the existing `brandValues` import on line 16):
+    Add imports (after the existing `brandValues` import on line 16):
     ```tsx
+    import { motion } from 'motion/react';
     import { RevealOnScroll } from '../../ui/RevealOnScroll';
+    import { fadeUp } from '../../../lib/motionVariants';
     ```
 
     Locate this JSX (lines 19-42 of current file):
@@ -187,24 +194,59 @@ Hero.tsx (do NOT touch in this plan): is a `<section>` element holding the LCP t
     return (
       <section className="bg-bg py-24">
         <div className="mx-auto max-w-7xl px-6">
-          ...existing inner content unchanged...
+          <div className="grid grid-cols-2 gap-x-12 gap-y-16">
+            {brandValues.map((value, i) => {
+              const num = String(i + 1).padStart(2, '0');
+              return (
+                <article key={value.title} className="flex flex-col gap-4">
+                  ...
+                </article>
+              );
+            })}
+          </div>
         </div>
       </section>
     );
     ```
 
-    Replace with:
+    Replace with (per D-02 — 80ms stagger across 4 cards 2×2):
     ```tsx
     return (
       <RevealOnScroll as="section" className="bg-bg py-24">
         <div className="mx-auto max-w-7xl px-6">
-          ...existing inner content unchanged (the grid + brandValues.map output verbatim)...
+          <RevealOnScroll staggerChildren className="grid grid-cols-2 gap-x-12 gap-y-16">
+            {brandValues.map((value, i) => {
+              const num = String(i + 1).padStart(2, '0');
+              return (
+                <motion.article
+                  key={value.title}
+                  variants={fadeUp}
+                  className="flex flex-col gap-4"
+                >
+                  <span className="font-medium text-sm text-text-muted">
+                    {num}
+                  </span>
+                  <h3 className="font-bold text-2xl text-text">
+                    {value.title}
+                  </h3>
+                  <p className="text-base leading-relaxed text-text-muted">
+                    {value.body}
+                  </p>
+                </motion.article>
+              );
+            })}
+          </RevealOnScroll>
         </div>
       </RevealOnScroll>
     );
     ```
 
-    Inner `<div className="mx-auto max-w-7xl px-6">` and the `<div className="grid grid-cols-2 ...">` and the `brandValues.map(...)` body all stay byte-identical.
+    Notes:
+    - Outer `<RevealOnScroll as="section">` covers the section as one reveal wave (h2 if present + grid as a block).
+    - Inner nested `<RevealOnScroll staggerChildren>` is the cascade orchestrator for the 4 value cards (D-02 lists BrandEssence: «4 cards 2×2» as a stagger surface). Same pattern as PortfolioOverview pipeline grid in Task 2.
+    - Each `<motion.article variants={fadeUp}>` opts into the cascade. Without `variants={fadeUp}`, the cards would render at their final state immediately and the cascade would have nothing to animate.
+    - `key={value.title}` preserved on the motion.article (React reconciliation).
+    - All inner spans / h3 / p children byte-identical to pre-edit.
 
     **File 2 — `src/components/sections/home/ConstructionTeaser.tsx`:**
 
@@ -229,11 +271,15 @@ Hero.tsx (do NOT touch in this plan): is a `<section>` element holding the LCP t
     Doc-block self-screen: no plan-action text contains `transition={{`, `Pictorial`, `Rubikon`, `/renders/`, or `/construction/` — confirmed.
   </action>
   <verify>
-    <automated>FAIL=0; for f in src/components/sections/home/BrandEssence.tsx src/components/sections/home/ConstructionTeaser.tsx src/components/sections/home/ContactForm.tsx; do grep -q "import { RevealOnScroll } from '../../ui/RevealOnScroll'" "$f" || { echo "MISSING import in $f"; FAIL=1; }; grep -nE '<RevealOnScroll as="section"' "$f" | wc -l | tr -d ' ' | grep -q '^1$' || { echo "wrong RevealOnScroll usage in $f"; FAIL=1; }; grep -nc '<RevealOnScroll' "$f" | tr -d ' ' | grep -q '^1$' || { echo "wrong RevealOnScroll count in $f"; FAIL=1; }; done; if [ $FAIL -eq 0 ]; then npm run lint && echo OK || { echo FAIL lint; exit 1; }; else exit 1; fi</automated>
+    <automated>FAIL=0; for f in src/components/sections/home/BrandEssence.tsx src/components/sections/home/ConstructionTeaser.tsx src/components/sections/home/ContactForm.tsx; do grep -q "import { RevealOnScroll } from '../../ui/RevealOnScroll'" "$f" || { echo "MISSING import in $f"; FAIL=1; }; grep -nE '<RevealOnScroll as="section"' "$f" | wc -l | tr -d ' ' | grep -q '^1$' || { echo "wrong RevealOnScroll usage in $f"; FAIL=1; }; done; grep -nc '<RevealOnScroll' src/components/sections/home/BrandEssence.tsx | tr -d ' ' | grep -q '^2$' || { echo "BrandEssence MUST have 2 RevealOnScroll (section + inner staggerChildren)"; FAIL=1; }; grep -n 'staggerChildren' src/components/sections/home/BrandEssence.tsx | wc -l | tr -d ' ' | grep -q '^1$' || { echo "BrandEssence MUST have inner staggerChildren (D-02)"; FAIL=1; }; grep -n '<motion.article' src/components/sections/home/BrandEssence.tsx | wc -l | tr -d ' ' | grep -q '^1$' || { echo "BrandEssence MUST have <motion.article> in cascade"; FAIL=1; }; grep -n 'variants={fadeUp}' src/components/sections/home/BrandEssence.tsx | wc -l | tr -d ' ' | grep -q '^1$' || { echo "BrandEssence motion.article MUST use variants={fadeUp}"; FAIL=1; }; for f in src/components/sections/home/ConstructionTeaser.tsx src/components/sections/home/ContactForm.tsx; do grep -nc '<RevealOnScroll' "$f" | tr -d ' ' | grep -q '^1$' || { echo "wrong RevealOnScroll count in $f (expect 1, no inner stagger)"; FAIL=1; }; done; if [ $FAIL -eq 0 ]; then npm run lint && echo OK || { echo FAIL lint; exit 1; }; else exit 1; fi</automated>
   </verify>
   <done>
     - All 3 files have `import { RevealOnScroll } from '../../ui/RevealOnScroll'`
-    - All 3 files have exactly 1 `<RevealOnScroll as="section"` opening tag and 1 `</RevealOnScroll>` closing tag (no double-wrapping, no inner `<section>` left behind)
+    - All 3 files have exactly 1 `<RevealOnScroll as="section"` opening tag (the outer section)
+    - BrandEssence ALSO has 1 inner `<RevealOnScroll staggerChildren>` wrapping the 4-card grid (`grep -nc '<RevealOnScroll' BrandEssence.tsx` returns 2)
+    - BrandEssence imports `motion` from 'motion/react' and `fadeUp` from '../../../lib/motionVariants'
+    - BrandEssence has 1 `<motion.article>` with `variants={fadeUp}` (the cascade child)
+    - ConstructionTeaser and ContactForm each have exactly 1 `<RevealOnScroll>` (no inner stagger — single reveal per D-08)
     - `grep -rnc '<RevealOnScroll' src/components/sections/home/Hero.tsx` returns 0 (Hero NOT wrapped — D-06)
     - `npm run lint` exits 0
   </done>
@@ -490,7 +536,7 @@ Hero.tsx (do NOT touch in this plan): is a `<section>` element holding the LCP t
     Doc-block self-screen: no `transition={{`, `Pictorial`, `Rubikon`, `/renders/`, `/construction/` literals introduced.
   </action>
   <verify>
-    <automated>FAIL=0; for f in src/components/sections/home/MethodologyTeaser.tsx src/components/sections/home/TrustBlock.tsx; do grep -q "import { RevealOnScroll } from '../../ui/RevealOnScroll'" "$f" || { echo "MISSING import RevealOnScroll in $f"; FAIL=1; }; grep -q "import { motion } from 'motion/react'" "$f" || { echo "MISSING import motion in $f"; FAIL=1; }; grep -q "import { fadeUp } from '../../../lib/motionVariants'" "$f" || { echo "MISSING import fadeUp in $f"; FAIL=1; }; grep -nc '<RevealOnScroll' "$f" | tr -d ' ' | grep -q '^2$' || { echo "wrong RevealOnScroll count in $f"; FAIL=1; }; grep -n 'staggerChildren' "$f" | wc -l | tr -d ' ' | grep -q '^1$' || { echo "wrong staggerChildren count in $f"; FAIL=1; }; grep -n 'variants={fadeUp}' "$f" | wc -l | tr -d ' ' | grep -q '^3$' || { echo "wrong variants count in $f"; FAIL=1; }; done; grep -nE '<img|команда|керівник|обличчя|портрет' src/components/sections/home/TrustBlock.tsx | wc -l | tr -d ' ' | grep -q '^0$' || { echo "TrustBlock guard failed"; FAIL=1; }; if [ $FAIL -eq 0 ]; then npm run build 2>&1 | tail -3 | grep -q '4/4 checks passed' && echo OK || { echo FAIL build; exit 1; }; else exit 1; fi</automated>
+    <automated>FAIL=0; for f in src/components/sections/home/MethodologyTeaser.tsx src/components/sections/home/TrustBlock.tsx; do grep -q "import { RevealOnScroll } from '../../ui/RevealOnScroll'" "$f" || { echo "MISSING import RevealOnScroll in $f"; FAIL=1; }; grep -q "import { motion } from 'motion/react'" "$f" || { echo "MISSING import motion in $f"; FAIL=1; }; grep -q "import { fadeUp } from '../../../lib/motionVariants'" "$f" || { echo "MISSING import fadeUp in $f"; FAIL=1; }; grep -nc '<RevealOnScroll' "$f" | tr -d ' ' | grep -q '^2$' || { echo "wrong RevealOnScroll count in $f"; FAIL=1; }; grep -n 'staggerChildren' "$f" | wc -l | tr -d ' ' | grep -q '^1$' || { echo "wrong staggerChildren count in $f"; FAIL=1; }; grep -n 'variants={fadeUp}' "$f" | wc -l | tr -d ' ' | grep -q '^3$' || { echo "wrong variants count in $f"; FAIL=1; }; done; grep -nE '<img|команда|керівник|обличчя|портрет' src/components/sections/home/TrustBlock.tsx | wc -l | tr -d ' ' | grep -q '^0$' || { echo "TrustBlock guard failed"; FAIL=1; }; if [ $FAIL -eq 0 ]; then npm run build 2>&1 | tail -3 | grep -qE '[0-9]+/[0-9]+ checks passed' && echo OK || { echo FAIL build; exit 1; }; else exit 1; fi</automated>
   </verify>
   <done>
     - Both files import RevealOnScroll, motion, fadeUp
@@ -507,24 +553,25 @@ Hero.tsx (do NOT touch in this plan): is a `<section>` element holding the LCP t
 
 <verification>
 - After all 3 tasks: `grep -rnc '<RevealOnScroll' src/components/sections/home/` returns:
-  - BrandEssence: 1 (section only)
+  - BrandEssence: 2 (section + inner 4-card stagger per D-02)
   - ConstructionTeaser: 1 (section only)
   - ContactForm: 1 (section only)
-  - PortfolioOverview: 2 (section + grid stagger)
-  - MethodologyTeaser: 2 (section + grid stagger)
-  - TrustBlock: 2 (section + grid stagger)
+  - PortfolioOverview: 2 (section + 3-card grid stagger)
+  - MethodologyTeaser: 2 (section + 3-card grid stagger)
+  - TrustBlock: 2 (section + 3-column grid stagger)
   - Hero: 0 (excluded — D-06)
-  - Total home contribution: 9 RevealOnScroll occurrences
+  - Total home contribution: 10 RevealOnScroll occurrences
 - Hero exclusion: `! grep -n '<RevealOnScroll' src/components/sections/home/Hero.tsx` exits 1 (covers VALIDATION map row "Hero NOT wrapped")
-- 80ms stagger evidence: `grep -rnE 'staggerChildren' src/components/sections/home/ | wc -l` returns 3 (PortfolioOverview, MethodologyTeaser, TrustBlock — covers VALIDATION map row "80ms stagger cadence for card lists ≥1 match")
+- 80ms stagger evidence: `grep -rnE 'staggerChildren' src/components/sections/home/ | wc -l` returns 4 (BrandEssence, PortfolioOverview, MethodologyTeaser, TrustBlock — covers VALIDATION map row "80ms stagger cadence for card lists ≥1 match")
 - `npm run build` exits 0 (full pipeline)
 - Phase 5 SC#1 grep gate `! grep -rn 'transition=\{\{' src/` still exits 1 (no inline transition objects added — variants carry transition)
 - Bundle: ≤135 KB gzipped (motionVariants ~0.3 KB + RevealOnScroll ~0.5 KB now reachable; ~67% of 200 KB Phase 6 budget)
 </verification>
 
 <success_criteria>
-- [ ] All 6 home sections wrapped exactly once: BrandEssence, PortfolioOverview, ConstructionTeaser, MethodologyTeaser, TrustBlock, ContactForm
+- [ ] All 6 home sections wrapped at section level: BrandEssence, PortfolioOverview, ConstructionTeaser, MethodologyTeaser, TrustBlock, ContactForm
 - [ ] Hero NOT wrapped (LCP target — D-06)
+- [ ] BrandEssence 4-card grid uses 80ms stagger across 4 value cards via inner `<RevealOnScroll staggerChildren>` + `<motion.article variants={fadeUp}>` children (D-02)
 - [ ] PortfolioOverview pipeline grid uses 80ms stagger across 3 cards via inner `<RevealOnScroll staggerChildren>` + `<motion.article variants={fadeUp}>` children
 - [ ] MethodologyTeaser 3-card grid uses 80ms stagger
 - [ ] TrustBlock 3-column legal table uses 80ms stagger (D-03)

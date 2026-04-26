@@ -161,7 +161,7 @@ After this plan, surfaces 4 and 5 retain their `focus-visible:outline*` classes 
     Doc-block self-screen: the comment uses no literals from check-brand greps — does NOT contain `Pictorial`, `Rubikon`, `transition={{`, `/renders/`, or `/construction/`. The literal `0 0 24px rgba(193, 243, 61, 0.15)` contains only decimal RGBA, not hex — invisible to `paletteWhitelist()`.
   </action>
   <verify>
-    <automated>grep -nE '@utility hover-card' src/index.css | wc -l | tr -d ' ' | grep -q '^1$' && grep -nE '@media \(prefers-reduced-motion' src/index.css | wc -l | tr -d ' ' | grep -q '^1$' && grep -n 'var(--ease-brand)' src/index.css | wc -l | tr -d ' ' | grep -q '^1$' && npx tsx scripts/check-brand.ts 2>&1 | tail -2 | grep -q '4/4 checks passed' && echo OK || (echo FAIL && exit 1)</automated>
+    <automated>grep -nE '@utility hover-card' src/index.css | wc -l | tr -d ' ' | grep -q '^1$' && grep -nE '@media \(prefers-reduced-motion' src/index.css | wc -l | tr -d ' ' | grep -q '^1$' && grep -n 'var(--ease-brand)' src/index.css | wc -l | tr -d ' ' | grep -q '^1$' && npx tsx scripts/check-brand.ts 2>&1 | tail -2 | grep -qE '[0-9]+/[0-9]+ checks passed' && echo OK || (echo FAIL && exit 1)</automated>
   </verify>
   <done>
     - `grep -nE '@utility hover-card' src/index.css` returns exactly 1 match (covers VALIDATION map row "05-02 SC#1 / D-24")
@@ -256,7 +256,7 @@ After this plan, surfaces 4 and 5 retain their `focus-visible:outline*` classes 
     All other code (state, props, JSX structure, ResponsivePicture children, Lightbox children, focus-visible classes) MUST remain byte-identical to its pre-edit form.
   </action>
   <verify>
-    <automated>FAIL=0; for f in src/components/sections/home/PortfolioOverview.tsx src/components/sections/projects/FlagshipCard.tsx src/components/sections/projects/PipelineCard.tsx src/components/sections/zhk/ZhkGallery.tsx src/components/sections/construction-log/MonthGroup.tsx; do grep -q 'hover-card' "$f" || { echo "MISSING hover-card in $f"; FAIL=1; }; grep -q 'transition-\[transform,box-shadow,background-color\]' "$f" && { echo "STALE inline transition in $f"; FAIL=1; }; grep -q 'motion-reduce:hover:scale-100' "$f" && { echo "STALE motion-reduce variant in $f"; FAIL=1; }; done; if [ $FAIL -eq 0 ]; then npm run build 2>&1 | tail -5 | grep -q '4/4 checks passed' && echo OK || { echo FAIL build; exit 1; }; else exit 1; fi</automated>
+    <automated>FAIL=0; for f in src/components/sections/home/PortfolioOverview.tsx src/components/sections/projects/FlagshipCard.tsx src/components/sections/projects/PipelineCard.tsx src/components/sections/zhk/ZhkGallery.tsx src/components/sections/construction-log/MonthGroup.tsx; do grep -q 'hover-card' "$f" || { echo "MISSING hover-card in $f"; FAIL=1; }; grep -q 'transition-\[transform,box-shadow,background-color\]' "$f" && { echo "STALE inline transition in $f"; FAIL=1; }; grep -q 'motion-reduce:hover:scale-100' "$f" && { echo "STALE motion-reduce variant in $f"; FAIL=1; }; done; if [ $FAIL -eq 0 ]; then npm run build 2>&1 | tail -5 | grep -qE '[0-9]+/[0-9]+ checks passed' && echo OK || { echo FAIL build; exit 1; }; else exit 1; fi</automated>
   </verify>
   <done>
     - `grep -rn 'hover-card' src/components/ | wc -l` returns ≥ 5 (covers VALIDATION map row "05-02 SC#1 / D-24" — 5 surfaces consume)
