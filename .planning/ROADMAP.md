@@ -131,7 +131,7 @@
   - [x] 06-01-hooks-foundation-PLAN.md — useMatchMedia + usePageTitle hooks (Wave 1, foundation for QA-01 + QA-03)
   - [x] 06-02-content-and-og-svg-PLAN.md — src/content/mobile-fallback.ts + brand-assets/og/og.svg with pre-pathed Cyrillic wordmark (Wave 1, foundation for QA-01 + QA-03)
   - [x] 06-03-devdep-and-utility-PLAN.md — install @lhci/cli + add @utility mark-pulse + .gitignore PNG artifacts (Wave 1, foundation chores for QA-02)
-  - [ ] 06-04-mobile-fallback-PLAN.md — MobileFallback.tsx + Layout.tsx short-circuit at <1024px (Wave 2, QA-01 SC#1)
+  - [x] 06-04-mobile-fallback-PLAN.md — MobileFallback.tsx + Layout.tsx short-circuit at <1024px (Wave 2, QA-01 SC#1)
   - [ ] 06-05-lazy-routes-suspense-PLAN.md — MarkSpinner + App.tsx React.lazy 3 routes + Suspense fallback (Wave 2, QA-02 SC#3 lazy split)
   - [ ] 06-06-meta-and-og-image-PLAN.md — index.html OG/Twitter/canonical/description/apple-touch + scripts/build-og-image.mjs + prebuild chain (Wave 2, QA-03 SC#2 + QA-02 hero preload limit)
   - [x] 06-07-page-titles-PLAN.md — usePageTitle wiring across 8 pages + 5 content-module pageTitle exports (Wave 2, QA-03 SEO/tab discrimination)

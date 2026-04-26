@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 06
-current_plan: 5
+current_plan: 6
 status: executing
-stopped_at: Completed 06-07-page-titles-PLAN.md
-last_updated: "2026-04-26T19:38:32.853Z"
+stopped_at: Completed 06-04-mobile-fallback-PLAN.md
+last_updated: "2026-04-26T19:45:36.863Z"
 progress:
   total_phases: 7
   completed_phases: 5
   total_plans: 47
-  completed_plans: 42
-  percent: 89
+  completed_plans: 43
+  percent: 91
 ---
 
 # Project State: Vugoda Website
@@ -30,14 +30,14 @@ progress:
 ## Current Position
 
 Phase: 06 (performance-mobile-fallback-deploy) — EXECUTING
-Plan: 5 of 9
+Plan: 6 of 9
 
 - **Current Phase:** 06
-- **Current Plan:** 5
+- **Current Plan:** 6
 - **Total Plans in Phase:** 9
 - **Status:** Ready to execute
-- **Stopped at:** Completed 06-07-page-titles-PLAN.md
-- **Progress:** [█████████░] 89%
+- **Stopped at:** Completed 06-04-mobile-fallback-PLAN.md
+- **Progress:** [█████████░] 91%
 
 ## Roadmap Summary
 
@@ -271,6 +271,17 @@ Targets from PROJECT.md Constraints:
 - **Pre-existing prebuild race (NOT introduced by 06-02):** First `npm run build` failed with `ENOENT: terrace.jpg` — concurrent prebuild scripts from sibling parallel-wave executors raced with `copy-renders.ts`. Same symptom Plans 05-03 and 05-08 documented. Re-run after manual `npx tsx scripts/copy-renders.ts` succeeded. Logged for Wave-coordination follow-up.
 - **Build pipeline green:** `npm run build` exits 0 (prebuild copy-renders → optimize-images → tsc --noEmit → vite build → postbuild check-brand 5/5 PASS). Bundle 445.31 kB JS / **137.11 kB gzipped** (slight uptick from prior 135.53 kB — within Wave 1 expected variance from sibling concurrent commits; no new runtime imports from this plan since both files are out-of-bundle assets).
 
+### Plan 06-04 Decisions (2026-04-26)
+
+- **Used `w-[120px]` arbitrary value (not `w-30` utility)** for the Logo width on MobileFallback per D-04 «~120px wide» — explicit pixel intent that cannot drift if the project's @theme spacing-scale ever excludes 30 from defaults. Same end pixel.
+- **Layout.tsx mobile short-circuit replaces (not hides) `<Outlet>`** via early-return pattern at the top of the function body, after hooks but before the existing `return`. Saves Motion runtime + lazy chunks for mobile users; CSS-only `@media display:none` rejected per D-02 because it ships the desktop DOM tree to mobile bytes AND cannot semantically replace `<Outlet>`.
+- **`/dev/*` pathname.startsWith() exemption is a permanent invariant.** Any future `/dev/*` route inherits the desktop-render exemption automatically (D-07). New `/dev/perf-test`, `/dev/lhci-trace`, etc. all pass through. Conversely, any future surface that wants the mobile fallback at <1024px must NOT live under `/dev/`.
+- **MobileFallback is Motion-free by design** — zero `from 'motion'` imports in the new component (verified via `grep -cE "from ['\"]motion"` returns 0). Mobile users never load Motion's runtime exit/enter path.
+- **Logo prop alignment:** plan's verbatim TSX called `<Logo aria-label="ВИГОДА">` but the Phase 1 Logo accepts `title` (renders `<img alt={title}>`). Used `title="ВИГОДА"` — same screen-reader semantic via `<img alt>`.
+- **Pre-existing prebuild failure persists** (Plan 06-01 deferred-items): `optimize-images.mjs` fails on `_opt/` writes because `copy-renders.ts` runs `rmSync` first. Verification proxy: `tsc --noEmit` (PASS) + `npx tsx scripts/check-brand.ts` (5/5 PASS) + `npx vite build` directly (PASS, 137.93 KB gzipped — within 200 KB budget).
+- **Bundle pipeline green at vite layer:** vite build succeeds in 11.84s; 2215 modules transformed; **137.93 KB gzipped** JS (was 137.11 KB pre-plan; +0.82 KB for the new component + import; well under 200 KB Phase 6 budget — 69% headroom).
+- **Manual UAT deferred to Plan 06-09** per VALIDATION.md: SC#1 letter is satisfied at runtime by code inspection (early-return at `isMobile && !isDevSurface`; `useMatchMedia` is the React-canonical `useSyncExternalStore` form), and the planner accepted that the automated gate is UAT-only. Live-browser DevTools resize swap + `/dev/brand` exemption smoke + reduced-motion smoke run alongside Lighthouse in Plan 06-09.
+
 ### Hard Rules (from brand-system + CONCEPT §10)
 
 - Closed palette: 6 hexes only (`#2F3640`, `#C1F33D`, `#F5F7FA`, `#A7AFBC`, `#3D3B43`, `#020A0A`)
@@ -332,6 +343,7 @@ Deferred to Phase 7 handoff doc:
 | Phase 06-performance-mobile-fallback-deploy P03 | 334s | 3 tasks | 4 files |
 | Phase 06 P02 | 11min | 2 tasks | 2 files |
 | Phase 06 P07 | 10min | 3 tasks | 13 files |
+| Phase 06-performance-mobile-fallback-deploy P04 | 18min | 2 tasks | 2 files |
 
 ### Todos / Blockers
 
