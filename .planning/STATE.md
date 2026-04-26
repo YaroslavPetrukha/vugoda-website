@@ -2,22 +2,22 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 4
-current_plan: Not started
-status: planning
-stopped_at: Phase 5 context gathered
-last_updated: "2026-04-26T02:15:46.262Z"
+current_phase: 05
+current_plan: 2
+status: executing
+stopped_at: Completed 05-01-foundation-sot-PLAN.md
+last_updated: "2026-04-26T06:03:51.726Z"
 progress:
   total_phases: 7
   completed_phases: 4
-  total_plans: 29
-  completed_plans: 29
-  percent: 100
+  total_plans: 38
+  completed_plans: 30
+  percent: 79
 ---
 
 # Project State: Vugoda Website
 
-**Last updated:** 2026-04-25 — Plan 03-08 complete (compose-and-dev-route: HomePage 7-section composition + /dev/brand QA surface + route registration; **Phase 3 fully closed: 8/8 plans, all 10 requirements end-to-end, ready for verification**)
+**Last updated:** 2026-04-26 — Plan 05-01 complete (foundation-sot: src/lib/motionVariants.ts with 7 named exports + --ease-brand CSS variable in @theme; foundation only, zero consumers in this plan, full build green)
 **Updated by:** /gsd:execute-phase orchestrator
 
 ## Project Reference
@@ -25,16 +25,19 @@ progress:
 - **Project:** Vugoda Website — корпоративний сайт забудовника «ВИГОДА»
 - **Core Value:** Клієнт отримує публічний URL, за яким видно «ахуєнний» desktop-варіант корпсайту ВИГОДИ у бренді (точна палітра, ізометричні куби, cinematic-анімації на Motion, чесне відображення портфеля 0-здано / 1-активно / 4-pipeline).
 - **Domain:** Ukrainian real-estate developer corporate hub, static desktop-first React SPA on GitHub Pages
-- **Current focus:** Phase 03 — brand-primitives-home-page
+- **Current focus:** Phase 05 — animations-polish
 
 ## Current Position
 
-- **Current Phase:** 4
-- **Current Plan:** Not started
-- **Total Plans in Phase:** 8
-- **Status:** Ready to plan
-- **Stopped at:** Phase 5 context gathered
-- **Progress:** [██████████] 100%
+Phase: 05 (animations-polish) — EXECUTING
+Plan: 2 of 9
+
+- **Current Phase:** 05
+- **Current Plan:** 2
+- **Total Plans in Phase:** 9
+- **Status:** Ready to execute
+- **Stopped at:** Completed 05-01-foundation-sot-PLAN.md
+- **Progress:** [████████░░] 79%
 
 ## Roadmap Summary
 
@@ -209,6 +212,17 @@ Targets from PROJECT.md Constraints:
 - **Bundle 131.60 kB gzipped (was 76.85 kB unchanged across 03-04..03-07)** — NOT a regression. Sections were authored in 03-04..03-07 but no page imported them, so tree-shaking dropped them. HomePage composition in this plan brings them all into the reachable graph for the first time, plus motion's useScroll/useReducedMotion/useTransform/motion components, plus lucide-react ChevronLeft/Right, plus the IsometricGridBG svgr `?react` inline SVG. **131.60 kB gzipped = 65% of the 200 KB-gzipped Phase 6 budget**, leaving 35% headroom for Phase 4 (`/zhk/etno-dim`, `/projects` filter, `/construction-log`) + Phase 5 (motion variants library, AnimatePresence).
 - **Phase 3 fully closed: 8/8 plans done, all 10 phase requirements (HOME-01..07 + VIS-03 + VIS-04 + ANI-01) end-to-end functional on running build.** All Phase 3 Roadmap Success Criteria #1-#5 achievable via direct URL navigation on `/` and `/#/dev/brand`. Manual visual QA at 1920×1080 deferred to Phase 7 client-handoff.
 
+### Plan 05-01 Decisions (2026-04-26)
+
+- **Phase 5 SOT shipped: `src/lib/motionVariants.ts`** — 7 named exports (`easeBrand` 4-tuple readonly, `durations` {fast/base/slow = 0.2/0.4/1.2}, `fadeUp`/`fade`/`stagger`/`pageFade` Variants, `parallaxRange` readonly tuple) per CONTEXT D-22 verbatim. NO namespace object, NO default export. Type-only import of `Variants` from `motion/react`. 69 lines total. Pure-config module; consumers in 05-02 (CSS-side via `--ease-brand`), 05-03 (`<RevealOnScroll>` consumes fadeUp/fade/stagger/easeBrand), 05-06 (`<AnimatePresence>` consumes pageFade), 05-07 (Hero consumes parallaxRange + easeBrand transitively).
+- **`--ease-brand: cubic-bezier(0.22, 1, 0.36, 1)` added to `@theme` block in `src/index.css`** per D-23 — placed after spacing-rhythm tokens with motion-section comment. Tailwind v4 generates `ease-brand` utility from this `--ease-*` token. Second physical representation of the SAME brand easing curve; lockstep coupling with `easeBrand` JS array enforced manually + flagged in `motionVariants.ts` JSDoc COUPLING RULE block.
+- **Hardcoded `pageFade.exit.transition.duration = 0.35`** (rather than introducing `durations.exit = 0.35` named field) — single-use config per Specifics; SC#3 «350ms exit» is route-fade-specific, not generic primitive. Asymmetric to enter (`durations.base = 0.4`) on purpose.
+- **Doc-block self-consistency fix on motionVariants.ts (Rule 3 — blocking, 9th codebase occurrence):** plan's verbatim `<action>` JSDoc shipped «representations of the SAME brand cubic-bezier curve» but the plan's own done-criteria #3 asserts `grep -n 'cubic-bezier' src/lib/motionVariants.ts` returns 0. Rephrased to «the SAME brand easing curve (4-tuple here, CSS-string form there)» — preserves meaning, drops literal. Same precedent as Plans 02-04 ×2, 03-03, 03-04, 03-05 ×2, 03-06, 03-07 ×2. **9-plan streak of planner-template smell** (Plan 03-08 was the 1 zero-fix exception); Phase 5 planner reaffirmation needed: pre-screen `<action>` JSDoc text against `<verify>` AND `<done>` regexes at plan time.
+- **Plan's verify regex bug:** `^export const (NAMES) ` (trailing literal space) returned 3/7 because typed exports use ` :` not ` =`. Functional file is correct (all 7 exports present); workaround is `[ :]` character class. Recorded as Phase 5 planning guidance — future Phase 5 typed-export grep gates should use `[ :]` not literal space.
+- **Tree-shaking confirmed:** `dist/assets/index-*.js` does NOT contain `easeBrand`/`parallaxRange`/`fadeUp` strings (zero matches via `grep -c`) — motionVariants.ts is dead-code-eliminated until first consumer in 05-02 (CSS-only) / 05-03 (JS imports). `--ease-brand` is in `dist/assets/index-*.css` (1 match).
+- **Bundle pipeline green:** `npm run lint` exits 0; `npm run build` exits 0 (tsc → vite 5.64s → postbuild check-brand 4/4 PASS). Bundle 440.68 kB JS / **135.62 kB gzipped** (was 131.60 kB at end of Phase 3 close per STATE.md; Phase 4's net additions account for the ~4 kB delta — **motionVariants.ts itself contributes 0 bytes** to the gzipped JS bundle in this plan).
+- **SC#5 grep gate clean:** `grep -rn 'transition={{' src/` returns no matches (exit 1). Phase 5 anti-pattern surface preserved.
+
 ### Hard Rules (from brand-system + CONCEPT §10)
 
 - Closed palette: 6 hexes only (`#2F3640`, `#C1F33D`, `#F5F7FA`, `#A7AFBC`, `#3D3B43`, `#020A0A`)
@@ -257,6 +271,7 @@ Deferred to Phase 7 handoff doc:
 | Phase 04-portfolio-construction-log-contact P05 | 12min | 3 tasks | 6 files |
 | Phase 04 P06b | 13 | 2 tasks | 3 files |
 | Phase 04-portfolio-construction-log-contact P10 | 10min | 3 tasks | 3 files |
+| Phase 05-animations-polish P01 | 10m | 2 tasks | 2 files |
 
 ### Todos / Blockers
 

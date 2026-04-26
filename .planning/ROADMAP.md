@@ -106,7 +106,7 @@
   4. `useReducedMotion()` hook is honored: when `prefers-reduced-motion: reduce` is active, `RevealOnScroll` renders children without variants, hero parallax is static, route-transition becomes instant; site remains fully navigable and readable
   5. Session-scoped skip: a `sessionStorage.getItem('hero-seen')` check on second+ visit within a session fades the hero in 2× faster (or skips parallax entirely) — demo-URL reloads during client pitch don't force re-watching the cinematic intro
 **Plans**: 9 plans
-  - [ ] 05-01-foundation-sot-PLAN.md — motionVariants.ts (7 named exports) + --ease-brand @theme token (Wave 1, foundation)
+  - [x] 05-01-foundation-sot-PLAN.md — motionVariants.ts (7 named exports) + --ease-brand @theme token (Wave 1, foundation)
   - [ ] 05-02-hover-card-utility-PLAN.md — @utility hover-card block + replace 5-surface inline class with the utility (Wave 2, D-24 consolidation)
   - [ ] 05-03-reveal-on-scroll-component-PLAN.md — <RevealOnScroll> wrapper component with RM-aware unwrap branch (Wave 2, ANI-02 foundation)
   - [ ] 05-04-reveal-home-page-PLAN.md — wrap 6 home sections with <RevealOnScroll> + 80ms staggers (BrandEssence + PortfolioOverview + MethodologyTeaser + TrustBlock) (Wave 3, ANI-02 home coverage)
