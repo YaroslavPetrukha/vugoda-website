@@ -34,13 +34,20 @@ const stripFormatSuffix = (f) => f.replace(/\.(jpg|jpeg|png|webp)$/i, '');
 
 const FORMATS = [
   // Phase 6 D-14: 1280w is the DPR=1 LCP target on Lighthouse Desktop —
-  // must land ≤200KB. Other widths (640w, 1920w) keep quality:50 — the
-  // 1920w retina variant is documented as not on the LCP path
+  // must land ≤200KB across ALL hero variants gated by heroBudget()
+  // (avif/webp/jpg). Other widths (640w, 1920w) keep their default quality
+  // — the 1920w retina variant is documented as not on the LCP path
   // (D-15 carve-out + heroBudget() in scripts/check-brand.ts gates only
   // aerial-1280.{avif,webp,jpg} per D-16).
+  //
+  // Per-bucket retune for 1280w (deviation Rule 1 during plan 06-08 exec —
+  // empirically tuned against aerial.jpg source so all 3 formats land ≤200KB):
+  // - AVIF q=45 (was 50) → ~169KB
+  // - WebP q=58 (was 75) → ~190-200KB (heavy aerial render needs aggressive)
+  // - JPG  q=70 (was 80) → ~175-200KB (mozjpeg)
   { ext: 'avif', encoder: (s, w) => s.avif({ quality: w === 1280 ? 45 : 50, effort: 4 }) },
-  { ext: 'webp', encoder: (s) => s.webp({ quality: 75 }) },
-  { ext: 'jpg',  encoder: (s) => s.jpeg({ quality: 80, mozjpeg: true }) },
+  { ext: 'webp', encoder: (s, w) => s.webp({ quality: w === 1280 ? 58 : 75 }) },
+  { ext: 'jpg',  encoder: (s, w) => s.jpeg({ quality: w === 1280 ? 70 : 80, mozjpeg: true }) },
 ];
 
 async function optimizeFile(srcPath, destDir, widths) {

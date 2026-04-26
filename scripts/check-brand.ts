@@ -8,18 +8,22 @@
  * No npm deps — uses node:child_process.execSync shelling out to GNU/BSD
  * grep (the `|| true` suffix handles BSD vs GNU exit-code difference).
  *
- * 5 checks:
+ * 7 checks:
  *   1. denylistTerms()      — silent-displacement literals in dist/+src/
  *   2. paletteWhitelist()   — hex literals in src/ ⊆ 6-canonical brandbook palette
  *   3. placeholderTokens()  — {{...}}, TODO, FIXME in dist/ only (not src/)
  *   4. importBoundaries()   — D-32 + D-09 import/path-literal rules
  *   5. noInlineTransition() — Phase 5 SC#1 — no inline JSX-prop transition objects in src/
+ *   6. bundleBudget()       — Phase 6 D-11 — eager JS bundle (dist/assets/index-*.js) ≤200KB gzipped
+ *   7. heroBudget()         — Phase 6 D-12 + D-16 — public/renders/lakeview/_opt/aerial-1280.{avif,webp,jpg} each ≤200KB
  *
  * Scope: dist/+src/ for denylist (D-25), src/**\/*.{ts,tsx,css} for palette
  * (D-26), dist/ only for placeholders (D-27), src/ grep patterns for
- * boundaries (D-33), src/**\/*.{ts,tsx} for noInlineTransition (Phase 5 D-27).
+ * boundaries (D-33), src/**\/*.{ts,tsx} for noInlineTransition (Phase 5
+ * D-27), dist/assets/ for bundleBudget (Phase 6 D-11), public/renders/
+ * lakeview/_opt/ for heroBudget (Phase 6 D-12 + D-16).
  * This script itself lives in scripts/ — intentionally OUT of scope for all
- * five checks, so its regex constants can reference the disallowed literals
+ * seven checks, so its regex constants can reference the disallowed literals
  * without self-triggering.
  *
  * Regex note (placeholderTokens): we match the FULL token pair
@@ -35,7 +39,9 @@
  * Variants declarations — those are SOT-managed and correct.
  */
 import { execSync } from 'node:child_process';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { gzipSync } from 'node:zlib';
+import { join } from 'node:path';
 
 /** Run a grep command that MAY fail (no matches). `|| true` normalises exit. */
 function run(cmd: string): string {
@@ -227,6 +233,85 @@ function noInlineTransition(): boolean {
   return true;
 }
 
+// ---- 6. Bundle budget (Phase 6 D-11) -----------------------------------
+// Asserts the eager JS bundle (Vite default chunk: dist/assets/index-*.js)
+// is ≤200KB gzipped (PROJECT.md QA-02 hard constraint). Lazy chunks
+// produced by App.tsx React.lazy() (Phase 6 plan 06-05) are correctly
+// excluded from this gate — they're loaded on demand.
+//
+// gzip in-process via node:zlib gzipSync (no subprocess overhead, portable
+// across Linux/macOS GitHub Actions runners). 200 * 1024 = 204800 bytes.
+//
+// Doc-block assumption: Vite 6 default `entryFileNames: 'assets/[name]-[hash].js'`
+// produces an `index-{hash}.js` for the eager entry. If a future Phase
+// customises entryFileNames, update the .find() predicate here OR the
+// chunk renaming itself.
+const BUNDLE_BUDGET_BYTES = 200 * 1024;
+
+function bundleBudget(): boolean {
+  const assetsDir = 'dist/assets';
+  if (!existsSync(assetsDir)) {
+    console.log('[check-brand] PASS bundleBudget (no dist/ — skipping)');
+    return true;
+  }
+  const jsFiles = readdirSync(assetsDir).filter((f) => f.endsWith('.js'));
+  const eagerEntry = jsFiles.find((f) => f.startsWith('index-'));
+  if (!eagerEntry) {
+    console.error('[check-brand] FAIL bundleBudget — no entry chunk (index-*.js) found');
+    return false;
+  }
+  const buf = readFileSync(join(assetsDir, eagerEntry));
+  const gz = gzipSync(buf).length;
+  if (gz > BUNDLE_BUDGET_BYTES) {
+    console.error(
+      `[check-brand] FAIL bundleBudget — ${eagerEntry} = ${gz} bytes gzipped (limit ${BUNDLE_BUDGET_BYTES})`,
+    );
+    return false;
+  }
+  console.log(
+    `[check-brand] PASS bundleBudget — ${(gz / 1024).toFixed(1)} KB gzipped ` +
+      `(${((gz / BUNDLE_BUDGET_BYTES) * 100).toFixed(0)}% of 200 KB limit)`,
+  );
+  return true;
+}
+
+// ---- 7. Hero budget (Phase 6 D-12 + D-16) ------------------------------
+// Asserts public/renders/lakeview/_opt/aerial-1280.{avif,webp,jpg} each
+// ≤200KB. The 1280w bucket is the DPR=1 LCP target on Lighthouse Desktop
+// (per `<picture>` source `sizes="(min-width: 1280px) 768px, 100vw"` —
+// the 768 effective px maps to 1280w). 1920w retina-only variants are
+// NOT gated (D-15 carve-out — kept at q=50 for visual fidelity).
+//
+// After Phase 6 plan 06-08 Task 1 retunes optimize-images.mjs to q=45
+// for 1280w renders, aerial-1280.avif lands ~170-185KB; this gate goes
+// green and stays green going forward.
+const HERO_BUDGET_BYTES = 200 * 1024;
+const HERO_BUCKETS = [
+  'public/renders/lakeview/_opt/aerial-1280.avif',
+  'public/renders/lakeview/_opt/aerial-1280.webp',
+  'public/renders/lakeview/_opt/aerial-1280.jpg',
+];
+
+function heroBudget(): boolean {
+  let pass = true;
+  for (const path of HERO_BUCKETS) {
+    if (!existsSync(path)) {
+      console.error(`[check-brand] FAIL heroBudget — missing ${path}`);
+      pass = false;
+      continue;
+    }
+    const bytes = readFileSync(path).length;
+    if (bytes > HERO_BUDGET_BYTES) {
+      console.error(
+        `[check-brand] FAIL heroBudget — ${path} = ${bytes} bytes (limit ${HERO_BUDGET_BYTES})`,
+      );
+      pass = false;
+    }
+  }
+  if (pass) console.log('[check-brand] PASS heroBudget — all hero variants ≤200KB');
+  return pass;
+}
+
 // ---- Aggregate -----------------------------------------------------------
 const results = [
   denylistTerms(),
@@ -234,6 +319,8 @@ const results = [
   placeholderTokens(),
   importBoundaries(),
   noInlineTransition(),
+  bundleBudget(),
+  heroBudget(),
 ];
 const passed = results.filter(Boolean).length;
 console.log(`[check-brand] ${passed}/${results.length} checks passed`);
