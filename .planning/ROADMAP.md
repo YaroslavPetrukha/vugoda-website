@@ -108,7 +108,7 @@
 **Plans**: 9 plans
   - [x] 05-01-foundation-sot-PLAN.md — motionVariants.ts (7 named exports) + --ease-brand @theme token (Wave 1, foundation)
   - [ ] 05-02-hover-card-utility-PLAN.md — @utility hover-card block + replace 5-surface inline class with the utility (Wave 2, D-24 consolidation)
-  - [ ] 05-03-reveal-on-scroll-component-PLAN.md — <RevealOnScroll> wrapper component with RM-aware unwrap branch (Wave 2, ANI-02 foundation)
+  - [x] 05-03-reveal-on-scroll-component-PLAN.md — <RevealOnScroll> wrapper component with RM-aware unwrap branch (Wave 2, ANI-02 foundation)
   - [ ] 05-04-reveal-home-page-PLAN.md — wrap 6 home sections with <RevealOnScroll> + 80ms staggers (BrandEssence + PortfolioOverview + MethodologyTeaser + TrustBlock) (Wave 3, ANI-02 home coverage)
   - [ ] 05-05a-reveal-zhk-page-PLAN.md — wrap 5 /zhk/etno-dim sections (ZhkHero with fade variant per D-09; ZhkGallery as <ul>/<motion.li> 8-thumb stagger per D-05) (Wave 3, ANI-02 zhk coverage)
   - [ ] 05-05b-reveal-other-routes-PLAN.md — wrap /projects (header + StageFilter chip stagger + PipelineGrid card stagger), /construction-log (per-MonthGroup per D-04), /contact (3 separate reveals per D-08) (Wave 3, ANI-02 other-routes coverage)

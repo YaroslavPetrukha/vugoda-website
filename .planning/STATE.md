@@ -5,13 +5,13 @@ milestone_name: milestone
 current_phase: 05
 current_plan: 2
 status: executing
-stopped_at: Completed 05-01-foundation-sot-PLAN.md
-last_updated: "2026-04-26T06:03:51.726Z"
+stopped_at: Completed 05-03-reveal-on-scroll-component-PLAN.md (Wave 2 parallel)
+last_updated: "2026-04-26T06:10:27.021Z"
 progress:
   total_phases: 7
   completed_phases: 4
   total_plans: 38
-  completed_plans: 30
+  completed_plans: 31
   percent: 79
 ---
 
@@ -36,7 +36,7 @@ Plan: 2 of 9
 - **Current Plan:** 2
 - **Total Plans in Phase:** 9
 - **Status:** Ready to execute
-- **Stopped at:** Completed 05-01-foundation-sot-PLAN.md
+- **Stopped at:** Completed 05-03-reveal-on-scroll-component-PLAN.md (Wave 2 parallel)
 - **Progress:** [████████░░] 79%
 
 ## Roadmap Summary
@@ -223,6 +223,19 @@ Targets from PROJECT.md Constraints:
 - **Bundle pipeline green:** `npm run lint` exits 0; `npm run build` exits 0 (tsc → vite 5.64s → postbuild check-brand 4/4 PASS). Bundle 440.68 kB JS / **135.62 kB gzipped** (was 131.60 kB at end of Phase 3 close per STATE.md; Phase 4's net additions account for the ~4 kB delta — **motionVariants.ts itself contributes 0 bytes** to the gzipped JS bundle in this plan).
 - **SC#5 grep gate clean:** `grep -rn 'transition={{' src/` returns no matches (exit 1). Phase 5 anti-pattern surface preserved.
 
+### Plan 05-03 Decisions (2026-04-26)
+
+- **`<RevealOnScroll>` shipped at `src/components/ui/RevealOnScroll.tsx`** (~74 lines incl. JSDoc) — single named export, sole entry-on-scroll reveal API for Phase 5 per ANI-02 / CONTEXT D-01. Consumes `fadeUp` + `stagger` from `src/lib/motionVariants.ts` (Plan 05-01 SOT). Type-only import of `Variants` from `motion/react`. Component-level `useReducedMotion()` early-return: when RM=true, returns plain `<Tag className={className}>{children}</Tag>` with **NO motion wrapper, NO `whileInView`, NO IntersectionObserver registered** (D-25 + RESEARCH Risk 4 simpler-unwrap recommendation). When RM=false, renders `(motion[as] ?? motion.div)` with `variants={parentVariant}`, `initial="hidden"`, `whileInView="visible"`, `viewport={{ once: true, margin: '-50px' }}` per D-07.
+- **Hardcoded viewport options `{ once: true, margin: '-50px' }` (NOT a prop)** — Phase 5 reveal contract is fixed; allowing per-consumer override would fragment visual cadence. If a future plan needs different viewport options, the entire reveal contract should be revisited rather than patched per-call.
+- **Stagger ms→s conversion at variant-construction site:** `staggerChildren=true` → 0.08 (80ms canonical per D-02); `staggerChildren={n}` → `n / 1000`; `delayChildren={n}` → `n / 1000`. Public API is **milliseconds** (ergonomic consistency with brand-system); Motion's `transition.staggerChildren` is **seconds**. Conversion happens once.
+- **`(motion[as as keyof typeof motion] ?? motion.div) as ElementType` cast** — handles Motion 12.x's typed namespace where `motion.div`/`motion.section`/etc. are typed as their specific component shapes. Outer `as ElementType` lets React props spread through without TS conflict on per-element prop types. Confirmed working via `tsc --noEmit` exit 0 against motion 12.38.0 + React 19.2.
+- **Default `as='div'` (conservative)** per RESEARCH §Pattern 2; consumers pick `as='section'`/`'article'`/`'ul'` for semantic role. Default `'div'` always works as fallback even on edge HTML tags not in motion's typed namespace (the `?? motion.div` cushion).
+- **ZERO inline `transition={{...}}`** — variants from motionVariants.ts carry `duration` + `ease` only. Whole-tree gate `grep -rnE 'transition=\{\{' src/` exits 1 (no matches). Phase 5 SC#1 / SC#5 invariant preserved.
+- **ZERO Rule 3 doc-block-grep collisions on first write** — plan's `<action>` JSDoc was already pre-screened for the forbidden literals (`transition={{`, `Pictorial`, `Rubikon`, `/renders/`, `/construction/`). Continues the 03-08 + 05-01 pre-screened pattern (now 3 plans clean: 03-08, 05-01-doc-only, 05-03; vs 9-plan streak of fixes 02-04..05-01-jsdoc).
+- **Tree-shaking confirmed (zero consumers):** Bundle 440.68 kB JS / **135.62 kB gzipped — IDENTICAL** to Plan 05-01 close. RevealOnScroll has no consumers in this plan (per spec), so tree-shaker drops it from the production bundle. Plans 05-04 (HomePage sections) and 05-05a/b (ZhkPage hero with `variant={fade}`, gallery thumb stagger, `/projects` page, `/construction-log` MonthGroup, `/contact`) are the consumers that will land it into the reachable graph.
+- **Wave 2 parallel-build race** (NOT caused by this plan): sibling agents (05-02, 05-08) running concurrent `npm run build` invocations each invoke destructive `prebuild` chain (`copy-renders.ts` does `rmSync` then `optimize-images.mjs` re-encodes). The destructive copy of one agent wipes `_opt/` directories that another agent's parallel optimizer is trying to write into. Bypassed via `npx tsc --noEmit && npx vite build` directly — both exit 0. Logged for future Wave-coordination work (orchestrator or scripts/copy-renders.ts could add file-level locks or inter-agent build serialization).
+- **Verbatim plan execution:** TSX body matches Plan 05-03 `<action>` character-for-character; substantive code byte-identical. Commit `531d153` — feat(05-03): src/components/ui/RevealOnScroll.tsx (ANI-02 sole reveal API).
+
 ### Hard Rules (from brand-system + CONCEPT §10)
 
 - Closed palette: 6 hexes only (`#2F3640`, `#C1F33D`, `#F5F7FA`, `#A7AFBC`, `#3D3B43`, `#020A0A`)
@@ -272,6 +285,7 @@ Deferred to Phase 7 handoff doc:
 | Phase 04 P06b | 13 | 2 tasks | 3 files |
 | Phase 04-portfolio-construction-log-contact P10 | 10min | 3 tasks | 3 files |
 | Phase 05-animations-polish P01 | 10m | 2 tasks | 2 files |
+| Phase 05 P03 | 2min | 1 tasks | 1 files |
 
 ### Todos / Blockers
 
