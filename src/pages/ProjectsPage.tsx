@@ -33,6 +33,7 @@ import { PipelineGrid } from '../components/sections/projects/PipelineGrid';
 import { AggregateRow } from '../components/sections/projects/AggregateRow';
 import { EmptyStateZdano } from '../components/sections/projects/EmptyStateZdano';
 import { BuduetsyaPointer } from '../components/sections/projects/BuduetsyaPointer';
+import { RevealOnScroll } from '../components/ui/RevealOnScroll';
 
 /** Counts span the FULL projects array (D-03). Computed once at module load. */
 const counts: Record<Stage, number> = STAGES.reduce(
@@ -72,10 +73,10 @@ export default function ProjectsPage() {
   return (
     <section className="bg-bg py-24">
       <div className="mx-auto max-w-7xl px-6">
-        <header className="mb-8 flex flex-col gap-2">
+        <RevealOnScroll className="mb-8 flex flex-col gap-2">
           <h1 className="font-bold text-6xl text-text">{projectsHeading}</h1>
           <p className="text-base text-text-muted">{projectsSubtitle}</p>
-        </header>
+        </RevealOnScroll>
         <FlagshipCard project={flagship} />
         <StageFilter counts={counts} />
         {body}

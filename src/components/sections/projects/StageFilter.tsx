@@ -18,8 +18,11 @@
  */
 
 import { useSearchParams } from 'react-router-dom';
+import { motion } from 'motion/react';
 import type { Stage } from '../../../data/types';
 import { STAGES, stageLabel, isStage } from '../../../lib/stages';
+import { RevealOnScroll } from '../../ui/RevealOnScroll';
+import { fadeUp } from '../../../lib/motionVariants';
 
 interface Props {
   counts: Record<Stage, number>;
@@ -51,26 +54,34 @@ export function StageFilter({ counts }: Props) {
   };
 
   return (
-    <div role="group" aria-label="Фільтр за стадіями" className="my-12 flex flex-wrap gap-3">
-      <button
+    <RevealOnScroll
+      as="div"
+      staggerChildren
+      role="group"
+      aria-label="Фільтр за стадіями"
+      className="my-12 flex flex-wrap gap-3"
+    >
+      <motion.button
         type="button"
         onClick={() => setActive(null)}
         aria-pressed={active === null}
+        variants={fadeUp}
         className={chipClass(active === null)}
       >
         Усі
-      </button>
+      </motion.button>
       {STAGES.map((s) => (
-        <button
+        <motion.button
           key={s}
           type="button"
           onClick={() => setActive(s)}
           aria-pressed={active === s}
+          variants={fadeUp}
           className={chipClass(active === s)}
         >
           {stageLabel(s)} ({counts[s]})
-        </button>
+        </motion.button>
       ))}
-    </div>
+    </RevealOnScroll>
   );
 }

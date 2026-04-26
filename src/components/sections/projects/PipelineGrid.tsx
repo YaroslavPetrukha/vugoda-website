@@ -20,8 +20,11 @@
  * dispatches EmptyStateZdano / BuduetsyaPointer at the page level.
  */
 
+import { motion } from 'motion/react';
 import type { Project, Stage } from '../../../data/types';
 import { PipelineCard } from './PipelineCard';
+import { RevealOnScroll } from '../../ui/RevealOnScroll';
+import { fadeUp } from '../../../lib/motionVariants';
 
 interface Props {
   projects: Project[];
@@ -43,10 +46,16 @@ export function PipelineGrid({ projects, active }: Props) {
   if (filtered.length === 0) return null;
 
   return (
-    <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+    <RevealOnScroll
+      as="div"
+      staggerChildren
+      className="grid grid-cols-1 gap-6 lg:grid-cols-3"
+    >
       {filtered.map((p) => (
-        <PipelineCard key={p.slug} project={p} />
+        <motion.div key={p.slug} variants={fadeUp}>
+          <PipelineCard project={p} />
+        </motion.div>
       ))}
-    </div>
+    </RevealOnScroll>
   );
 }

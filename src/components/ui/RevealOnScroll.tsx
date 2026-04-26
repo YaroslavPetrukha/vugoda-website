@@ -29,11 +29,11 @@
  * NO inline Motion transition objects — Phase 5 SOT in motionVariants.ts
  * carries duration + ease via variants only (SC#1 grep gate).
  */
-import type { ElementType, ReactNode } from 'react';
+import type { ElementType, HTMLAttributes, ReactNode } from 'react';
 import { motion, useReducedMotion, type Variants } from 'motion/react';
 import { fadeUp, stagger } from '../../lib/motionVariants';
 
-interface Props {
+interface Props extends Omit<HTMLAttributes<HTMLElement>, 'children'> {
   as?: ElementType;
   variant?: Variants;
   staggerChildren?: boolean | number;
@@ -49,11 +49,16 @@ export function RevealOnScroll({
   delayChildren = 0,
   className,
   children,
+  ...rest
 }: Props) {
   const prefersReducedMotion = useReducedMotion();
   if (prefersReducedMotion) {
     const Tag = as;
-    return <Tag className={className}>{children}</Tag>;
+    return (
+      <Tag className={className} {...rest}>
+        {children}
+      </Tag>
+    );
   }
 
   const Component = (motion[as as keyof typeof motion] ?? motion.div) as ElementType;
@@ -78,6 +83,7 @@ export function RevealOnScroll({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '-50px' }}
+      {...rest}
     >
       {children}
     </Component>
