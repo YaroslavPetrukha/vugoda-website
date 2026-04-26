@@ -128,7 +128,7 @@
   4. GitHub Actions workflow `.github/workflows/deploy.yml` runs on push to main: `npm ci` → `npm run build` (triggers `prebuild` translit + image pipeline) → `actions/upload-pages-artifact@v3` → `actions/deploy-pages@v4` with `permissions: contents:write, pages:write, id-token:write`; not `gh-pages` npm package
   5. Public URL `https://yaroslavpetrukha.github.io/vugoda-website/` (or chosen account equivalent) is live and reachable; accessing `/#/projects`, `/#/zhk/etno-dim`, `/#/construction-log`, `/#/contact` directly (cold tab, no click-through) works — HashRouter eliminates 404-on-hard-refresh class
 **Plans**: 9 plans
-  - [ ] 06-01-hooks-foundation-PLAN.md — useMatchMedia + usePageTitle hooks (Wave 1, foundation for QA-01 + QA-03)
+  - [x] 06-01-hooks-foundation-PLAN.md — useMatchMedia + usePageTitle hooks (Wave 1, foundation for QA-01 + QA-03)
   - [ ] 06-02-content-and-og-svg-PLAN.md — src/content/mobile-fallback.ts + brand-assets/og/og.svg with pre-pathed Cyrillic wordmark (Wave 1, foundation for QA-01 + QA-03)
   - [ ] 06-03-devdep-and-utility-PLAN.md — install @lhci/cli + add @utility mark-pulse + .gitignore PNG artifacts (Wave 1, foundation chores for QA-02)
   - [ ] 06-04-mobile-fallback-PLAN.md — MobileFallback.tsx + Layout.tsx short-circuit at <1024px (Wave 2, QA-01 SC#1)

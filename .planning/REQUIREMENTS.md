@@ -69,9 +69,9 @@ Requirements for clickable demo URL handed to client. Each maps to a roadmap pha
 
 ### QA
 
-- [ ] **QA-01**: Desktop-first 1920×1080 виглядає бездоганно; 1280–1919px — graceful; <1024px — dedicated mobile-fallback сторінка («Сайт оптимізовано для ≥1280px» + 4 CTA-лінки), НЕ зламаний responsive. Mobile/tablet повний — явно v2.
+- [x] **QA-01**: Desktop-first 1920×1080 виглядає бездоганно; 1280–1919px — graceful; <1024px — dedicated mobile-fallback сторінка («Сайт оптимізовано для ≥1280px» + 4 CTA-лінки), НЕ зламаний responsive. Mobile/tablet повний — явно v2.
 - [ ] **QA-02**: Lighthouse desktop ≥ 90 усі 4 категорії (Performance / Accessibility / Best Practices / SEO). Hero render ≤ 200KB (AVIF/WebP), bundle ≤ 200KB gzipped JS.
-- [ ] **QA-03**: OG meta tags + Twitter Card + `theme-color="#2F3640"` + canonical URL у `index.html`. OG image — 1200×630 render з hero ізометричним кубом. Демо-URL має чисто анфурлитись у Viber/Telegram/Slack.
+- [x] **QA-03**: OG meta tags + Twitter Card + `theme-color="#2F3640"` + canonical URL у `index.html`. OG image — 1200×630 render з hero ізометричним кубом. Демо-URL має чисто анфурлитись у Viber/Telegram/Slack.
 - [x] **QA-04**: CI denylist — `grep -r "Pictorial\|Rubikon\|Пикторіал\|Рубікон" dist/` порожньо на кожен build; `grep -rE "#[0-9A-Fa-f]{6}" src/` — усі hex ⊆ 6 брендбукових кольорів; `grep -r "{{\|TODO" dist/` порожньо.
 
 ## v2 Requirements
@@ -177,9 +177,9 @@ Populated 2026-04-24 by roadmapper agent. Every v1 REQ-ID maps to exactly one ph
 | DEP-03 | Phase 1 (Foundation & Shell) | Complete |
 | CON-01 | Phase 2 (Data Layer & Content) | Complete |
 | CON-02 | Phase 2 (Data Layer & Content) | Complete |
-| QA-01 | Phase 6 (Performance, Mobile Fallback, Deploy) | Pending |
+| QA-01 | Phase 6 (Performance, Mobile Fallback, Deploy) | Complete |
 | QA-02 | Phase 6 (Performance, Mobile Fallback, Deploy) | Pending |
-| QA-03 | Phase 6 (Performance, Mobile Fallback, Deploy) | Pending |
+| QA-03 | Phase 6 (Performance, Mobile Fallback, Deploy) | Complete |
 | QA-04 | Phase 2 (Data Layer & Content) | Complete |
 
 **Coverage:**
