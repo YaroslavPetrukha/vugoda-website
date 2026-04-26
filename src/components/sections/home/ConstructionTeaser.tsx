@@ -22,6 +22,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { latestMonth } from '../../../data/construction';
 import { ResponsivePicture } from '../../ui/ResponsivePicture';
 import { constructionTeaserCta } from '../../../content/home';
+import { RevealOnScroll } from '../../ui/RevealOnScroll';
 
 /** Card width 320px + gap 16px = scroll step 336px. */
 const SCROLL_STEP = 336;
@@ -36,7 +37,7 @@ export function ConstructionTeaser() {
   };
 
   return (
-    <section className="bg-bg py-24">
+    <RevealOnScroll as="section" className="bg-bg py-24">
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-8 flex items-baseline justify-between">
           <h2 className="font-bold text-3xl text-text">Хід будівництва Lakeview</h2>
@@ -91,6 +92,6 @@ export function ConstructionTeaser() {
           {constructionTeaserCta}
         </Link>
       </div>
-    </section>
+    </RevealOnScroll>
   );
 }

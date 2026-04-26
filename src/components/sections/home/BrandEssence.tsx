@@ -13,17 +13,24 @@
  * threshold (brand-system.md §3).
  */
 
+import { motion } from 'motion/react';
 import { brandValues } from '../../../content/values';
+import { RevealOnScroll } from '../../ui/RevealOnScroll';
+import { fadeUp } from '../../../lib/motionVariants';
 
 export function BrandEssence() {
   return (
-    <section className="bg-bg py-24">
+    <RevealOnScroll as="section" className="bg-bg py-24">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="grid grid-cols-2 gap-x-12 gap-y-16">
+        <RevealOnScroll staggerChildren className="grid grid-cols-2 gap-x-12 gap-y-16">
           {brandValues.map((value, i) => {
             const num = String(i + 1).padStart(2, '0');
             return (
-              <article key={value.title} className="flex flex-col gap-4">
+              <motion.article
+                key={value.title}
+                variants={fadeUp}
+                className="flex flex-col gap-4"
+              >
                 <span className="font-medium text-sm text-text-muted">
                   {num}
                 </span>
@@ -33,11 +40,11 @@ export function BrandEssence() {
                 <p className="text-base leading-relaxed text-text-muted">
                   {value.body}
                 </p>
-              </article>
+              </motion.article>
             );
           })}
-        </div>
+        </RevealOnScroll>
       </div>
-    </section>
+    </RevealOnScroll>
   );
 }

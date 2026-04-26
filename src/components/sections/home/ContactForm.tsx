@@ -23,6 +23,7 @@ import {
   contactHeading,
   contactBody,
 } from '../../../content/home';
+import { RevealOnScroll } from '../../ui/RevealOnScroll';
 
 /** Pre-filled subject line — short, branded, not a marketing claim. */
 const MAIL_SUBJECT = 'Ініціювати діалог через сайт ВИГОДА';
@@ -31,7 +32,7 @@ export function ContactForm() {
   const href = `mailto:${email}?subject=${encodeURIComponent(MAIL_SUBJECT)}`;
 
   return (
-    <section className="bg-bg-black py-24">
+    <RevealOnScroll as="section" className="bg-bg-black py-24">
       <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 px-6 text-center">
         <h2 className="font-bold text-3xl text-text">{contactHeading}</h2>
         <p className="max-w-2xl text-base text-text-muted">{contactBody}</p>
@@ -42,6 +43,6 @@ export function ContactForm() {
           {contactCta}
         </a>
       </div>
-    </section>
+    </RevealOnScroll>
   );
 }
