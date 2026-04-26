@@ -9,6 +9,7 @@
  */
 
 import type { Project } from '../../../data/types';
+import { RevealOnScroll } from '../../ui/RevealOnScroll';
 
 interface Props {
   project: Project;
@@ -17,11 +18,11 @@ interface Props {
 export function ZhkWhatsHappening({ project }: Props) {
   if (!project.whatsHappening) return null;
   return (
-    <section className="bg-bg-surface py-16">
+    <RevealOnScroll as="section" className="bg-bg-surface py-16">
       <div className="mx-auto max-w-3xl px-6">
         <h2 className="mb-6 font-bold text-3xl text-text">Що відбувається зараз</h2>
         <p className="text-base text-text">{project.whatsHappening}</p>
       </div>
-    </section>
+    </RevealOnScroll>
   );
 }

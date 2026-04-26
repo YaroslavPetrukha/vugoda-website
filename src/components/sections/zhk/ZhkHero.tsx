@@ -15,6 +15,8 @@
 
 import type { Project } from '../../../data/types';
 import { ResponsivePicture } from '../../ui/ResponsivePicture';
+import { RevealOnScroll } from '../../ui/RevealOnScroll';
+import { fade } from '../../../lib/motionVariants';
 
 interface Props {
   project: Project;
@@ -22,7 +24,7 @@ interface Props {
 
 export function ZhkHero({ project }: Props) {
   return (
-    <section className="bg-bg">
+    <RevealOnScroll as="section" variant={fade} className="bg-bg">
       <ResponsivePicture
         src={`renders/${project.slug}/${project.renders[0]}`}
         alt={project.title}
@@ -34,6 +36,6 @@ export function ZhkHero({ project }: Props) {
         fetchPriority="high"
         className="w-full h-auto"
       />
-    </section>
+    </RevealOnScroll>
   );
 }

@@ -15,6 +15,7 @@
 
 import type { Project } from '../../../data/types';
 import { etnoDimAddress } from '../../../content/placeholders';
+import { RevealOnScroll } from '../../ui/RevealOnScroll';
 
 interface Props {
   project: Project;
@@ -22,7 +23,7 @@ interface Props {
 
 export function ZhkFactBlock({ project }: Props) {
   return (
-    <section className="bg-bg py-16">
+    <RevealOnScroll as="section" className="bg-bg py-16">
       <div className="mx-auto max-w-7xl px-6">
         <dl className="grid grid-cols-1 gap-y-6 lg:grid-cols-[120px_1fr] lg:gap-x-8">
           <dt className="text-sm font-medium uppercase tracking-wider text-text-muted lg:text-base">
@@ -39,6 +40,6 @@ export function ZhkFactBlock({ project }: Props) {
           <dd className="text-base text-text">{etnoDimAddress}</dd>
         </dl>
       </div>
-    </section>
+    </RevealOnScroll>
   );
 }

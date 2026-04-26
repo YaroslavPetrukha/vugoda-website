@@ -16,12 +16,13 @@
 
 import { email, socials } from '../../../content/company';
 import { mailtoSubject, mailtoLabel, instagramLabel } from '../../../content/zhk-etno-dim';
+import { RevealOnScroll } from '../../ui/RevealOnScroll';
 
 export function ZhkCtaPair() {
   const mailHref = `mailto:${email}?subject=${encodeURIComponent(mailtoSubject)}`;
 
   return (
-    <section className="bg-bg py-16">
+    <RevealOnScroll as="section" className="bg-bg py-16">
       <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 px-6 lg:flex-row lg:justify-center">
         <a
           href={mailHref}
@@ -37,6 +38,6 @@ export function ZhkCtaPair() {
           {instagramLabel}
         </a>
       </div>
-    </section>
+    </RevealOnScroll>
   );
 }

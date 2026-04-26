@@ -10,14 +10,25 @@
  *   - Gasло paragraph from src/content/home.ts (D-06, D-29)
  *   - CTA "Переглянути проекти" -> /projects via <Link> (D-05)
  *
- * Parallax recipe (D-04):
+ * Parallax recipe (D-04 + Phase 5 D-28):
  *   - useScroll scoped to hero section (target: heroRef) — stops once hero scrolls out
  *   - useTransform maps scrollYProgress 0->1 to translateY 0 -> -100px
  *     (Roadmap SC#1 says strictly «<120px»; -100 keeps a 20px headroom)
- *   - Reduced-motion: output range collapses to [0, 0] (Phase 5 owns full hook threading)
+ *   - The [0, -100] magnitude lives in `parallaxRange` named export in
+ *     src/lib/motionVariants.ts (Phase 5 D-22 SOT). Hero imports it; the
+ *     hook calls themselves stay component-local per React rule-of-hooks.
  *   - Linear (no spring, no bounce — D-04)
  *
- * NO inline Motion transition objects — Phase 5 owns easing config (Pitfall 14).
+ * Reduced-motion + session-skip (Phase 5 D-17..D-21):
+ *   - useReducedMotion() — when reduce, output range collapses to [0, 0]
+ *     (hard override per D-20)
+ *   - useSessionFlag('vugoda:hero-seen') — on 2nd+ visit in session, output
+ *     range collapses to [0, 0] (cinematic intro skipped per SC#5;
+ *     demo-pitch reload doesn't force re-watching)
+ *   - Combined boolean: skipParallax = prefersReducedMotion || heroSeen
+ *
+ * NO inline Motion transition objects — Phase 5 SOT in motionVariants.ts
+ * carries duration + ease via variants only (SC#1 grep gate).
  */
 
 import { useRef } from 'react';
@@ -30,10 +41,14 @@ import {
 import { Link } from 'react-router-dom';
 import { IsometricGridBG } from '../../brand/IsometricGridBG';
 import { heroSlogan, heroCta } from '../../../content/home';
+import { parallaxRange } from '../../../lib/motionVariants';
+import { useSessionFlag } from '../../../hooks/useSessionFlag';
 
 export function Hero() {
   const heroRef = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
+  const heroSeen = useSessionFlag('vugoda:hero-seen');
+  const skipParallax = prefersReducedMotion || heroSeen;
 
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -43,7 +58,7 @@ export function Hero() {
   const cubeY = useTransform(
     scrollYProgress,
     [0, 1],
-    prefersReducedMotion ? [0, 0] : [0, -100],
+    skipParallax ? [0, 0] : [...parallaxRange],
   );
 
   return (
