@@ -16,8 +16,11 @@
  * Ukrainian copy (Phase 2 D-20 / Phase 3 D-29) — including aria-labels.
  */
 
+import { motion } from 'motion/react';
 import { methodologyBlocks } from '../../../content/methodology';
 import { methodologyVerificationWarning } from '../../../content/home';
+import { RevealOnScroll } from '../../ui/RevealOnScroll';
+import { fadeUp } from '../../../lib/motionVariants';
 
 /** Block indexes to feature on home — all currently needsVerification: false. */
 const FEATURED_INDEXES = [1, 3, 7] as const;
@@ -28,13 +31,17 @@ export function MethodologyTeaser() {
   );
 
   return (
-    <section className="bg-bg py-24">
+    <RevealOnScroll as="section" className="bg-bg py-24">
       <div className="mx-auto max-w-7xl px-6">
         <h2 className="mb-12 font-bold text-3xl text-text">Як ми будуємо</h2>
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+        <RevealOnScroll staggerChildren className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {featured.map((block) => (
-            <article key={block.index} className="flex flex-col gap-4">
+            <motion.article
+              key={block.index}
+              variants={fadeUp}
+              className="flex flex-col gap-4"
+            >
               <span className="font-medium text-sm text-text-muted">
                 {String(block.index).padStart(2, '0')}
               </span>
@@ -52,10 +59,10 @@ export function MethodologyTeaser() {
               <p className="text-base leading-relaxed text-text-muted">
                 {block.body}
               </p>
-            </article>
+            </motion.article>
           ))}
-        </div>
+        </RevealOnScroll>
       </div>
-    </section>
+    </RevealOnScroll>
   );
 }

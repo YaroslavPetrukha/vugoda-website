@@ -20,6 +20,7 @@
  * Values use text-text (#F5F7FA, AAA 10.5:1).
  */
 
+import { motion } from 'motion/react';
 import {
   legalName,
   edrpou,
@@ -28,27 +29,32 @@ import {
   email,
 } from '../../../content/company';
 import { licenseScopeNote, contactNote } from '../../../content/home';
+import { RevealOnScroll } from '../../ui/RevealOnScroll';
+import { fadeUp } from '../../../lib/motionVariants';
 
 export function TrustBlock() {
   return (
-    <section className="bg-bg py-24">
+    <RevealOnScroll as="section" className="bg-bg py-24">
       <div className="mx-auto max-w-7xl px-6">
         <h2 className="mb-12 font-bold text-3xl text-text">
           Юридично та операційно
         </h2>
 
-        <div className="grid grid-cols-1 gap-12 border-t border-bg-surface pt-12 lg:grid-cols-3">
+        <RevealOnScroll
+          staggerChildren
+          className="grid grid-cols-1 gap-12 border-t border-bg-surface pt-12 lg:grid-cols-3"
+        >
           {/* Column 1 — legal entity + ЄДРПОУ */}
-          <div className="flex flex-col gap-3">
+          <motion.div variants={fadeUp} className="flex flex-col gap-3">
             <span className="font-medium text-xs uppercase tracking-wider text-text-muted">
               Юр. особа
             </span>
             <span className="font-bold text-base text-text">{legalName}</span>
             <span className="text-base text-text-muted">ЄДРПОУ {edrpou}</span>
-          </div>
+          </motion.div>
 
           {/* Column 2 — license */}
-          <div className="flex flex-col gap-3">
+          <motion.div variants={fadeUp} className="flex flex-col gap-3">
             <span className="font-medium text-xs uppercase tracking-wider text-text-muted">
               Ліцензія
             </span>
@@ -58,10 +64,10 @@ export function TrustBlock() {
             <span className="text-base text-text-muted">
               {licenseScopeNote}
             </span>
-          </div>
+          </motion.div>
 
           {/* Column 3 — contact email (clickable mailto) */}
-          <div className="flex flex-col gap-3">
+          <motion.div variants={fadeUp} className="flex flex-col gap-3">
             <span className="font-medium text-xs uppercase tracking-wider text-text-muted">
               Контакт
             </span>
@@ -72,9 +78,9 @@ export function TrustBlock() {
               {email}
             </a>
             <span className="text-base text-text-muted">{contactNote}</span>
-          </div>
-        </div>
+          </motion.div>
+        </RevealOnScroll>
       </div>
-    </section>
+    </RevealOnScroll>
   );
 }
