@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
+import { usePageTitle } from '../hooks/usePageTitle';
 import markUrl from '../../brand-assets/mark/mark.svg';
 
 export default function NotFoundPage() {
+  usePageTitle('404 — ВИГОДА');
   return (
     <section className="flex flex-1 flex-col items-center justify-center px-6 py-24">
       <div className="flex flex-col items-center gap-12">

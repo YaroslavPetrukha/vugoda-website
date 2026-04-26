@@ -27,6 +27,7 @@
  */
 
 import { useSearchParams } from 'react-router-dom';
+import { usePageTitle } from '../hooks/usePageTitle';
 import { fixtures } from '../data/projects.fixtures';
 import type { Stage } from '../data/types';
 import { STAGES, isStage } from '../lib/stages';
@@ -56,6 +57,7 @@ const syntheticAggregate = fixtures.find((p) => p.presentation === 'aggregate');
 const fixturesForGrid = fixtures;
 
 export default function DevGridPage() {
+  usePageTitle('Grid QA — ВИГОДА');
   const [params] = useSearchParams();
   const raw = params.get('stage');
   const active: Stage | null = isStage(raw) ? raw : null;

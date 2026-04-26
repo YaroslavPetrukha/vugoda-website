@@ -16,6 +16,7 @@
  * NO inline Motion transition objects — Phase 5 owns easing config (Pitfall 14).
  */
 
+import { usePageTitle } from '../hooks/usePageTitle';
 import { Logo } from '../components/brand/Logo';
 import { Mark } from '../components/brand/Mark';
 import { IsometricCube } from '../components/brand/IsometricCube';
@@ -45,6 +46,7 @@ const OPACITIES = [0.3, 0.6] as const;
 const VARIANTS = ['single', 'group', 'grid'] as const;
 
 export default function DevBrandPage() {
+  usePageTitle('Brand QA — ВИГОДА');
   return (
     <div className="mx-auto max-w-7xl px-6 py-24 text-text">
       <h1 className="mb-12 font-bold text-4xl">/dev/brand</h1>
