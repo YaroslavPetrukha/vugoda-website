@@ -14,15 +14,16 @@
 
 import { constructionLog } from '../data/construction';
 import { MonthGroup } from '../components/sections/construction-log/MonthGroup';
+import { RevealOnScroll } from '../components/ui/RevealOnScroll';
 
 export default function ConstructionLogPage() {
   return (
     <>
-      <section className="bg-bg pt-24 pb-8">
+      <RevealOnScroll as="section" className="bg-bg pt-24 pb-8">
         <div className="mx-auto max-w-7xl px-6">
           <h1 className="font-bold text-6xl text-text">Хід будівництва Lakeview</h1>
         </div>
-      </section>
+      </RevealOnScroll>
       {constructionLog.map((month) => (
         <MonthGroup key={month.key} month={month} />
       ))}

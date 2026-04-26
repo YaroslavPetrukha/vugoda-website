@@ -28,6 +28,7 @@ import { useState } from 'react';
 import type { ConstructionMonth } from '../../../data/types';
 import { ResponsivePicture } from '../../ui/ResponsivePicture';
 import { Lightbox, type LightboxPhoto } from '../../ui/Lightbox';
+import { RevealOnScroll } from '../../ui/RevealOnScroll';
 
 interface Props {
   month: ConstructionMonth;
@@ -44,7 +45,7 @@ export function MonthGroup({ month }: Props) {
   }));
 
   return (
-    <section className="bg-bg py-16">
+    <RevealOnScroll as="section" className="bg-bg py-16">
       <div className="mx-auto max-w-7xl px-6">
         <h2 className="mb-8 font-bold text-3xl text-text">
           {month.label} · {month.photos.length} фото
@@ -78,6 +79,6 @@ export function MonthGroup({ month }: Props) {
         onClose={() => setIndex(-1)}
         onIndexChange={setIndex}
       />
-    </section>
+    </RevealOnScroll>
   );
 }
