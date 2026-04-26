@@ -1,25 +1,68 @@
-import { Outlet } from 'react-router-dom';
+/**
+ * @module components/layout/Layout
+ *
+ * Site chrome — Nav (top) + main + Footer. Renders on every route via
+ * <Route element={<Layout/>}> in App.tsx.
+ *
+ * Phase 5 (D-10..D-14, D-25): wraps the Outlet in a presence wrapper +
+ * keyed motion layer for inter-route page transitions per ANI-04.
+ * Replaces the Phase 1 scroll-reset useEffect side-effect with the
+ * presence-wrapper's onExitComplete callback (resets window scroll to
+ * the top in the gap between exit-finished and enter-starting, never
+ * during the fade-out).
+ *
+ * Risk 1 enforcement: the motion layer carries the same flex-grow
+ * utility classes as the wrapping main element so the existing flex
+ * chain continues into the route content subtree. Without this on the
+ * inserted layer, every page's min-h-screen-style layouts visually
+ * shrink.
+ *
+ * D-12 key strategy: location.pathname ONLY (NOT pathname+search). Chip
+ * clicks on /projects (?stage=...) update searchParams without re-keying
+ * — useSearchParams state survives, no spurious page fade.
+ *
+ * D-25 RM threading: when the user prefers reduced motion, pageFade is
+ * swapped for a no-op variant. Routes still mount/unmount but without
+ * animation. Motion 12.38.0 fires onExitComplete synchronously on
+ * 0-duration exits, so scroll-to-top still works under reduced-motion
+ * (RESEARCH Pitfall 3).
+ *
+ * Phase 1's standalone scroll-reset component is DELETED in this same
+ * plan (D-14 Claude's-Discretion: deletion is cleaner than no-op file).
+ */
+import { Outlet, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { pageFade } from '../../lib/motionVariants';
 import { Nav } from './Nav';
 import { Footer } from './Footer';
-import { ScrollToTop } from './ScrollToTop';
 
-/**
- * Site chrome — Nav (sticky top) + main content + Footer.
- * Renders on every route via <Route element={<Layout/>}> in App.tsx.
- * Phase 5 will wrap <Outlet/> with the motion route-transition wrapper;
- * Phase 1 uses plain <main><Outlet/></main> so Phase 5 only needs
- * to wrap, not rearchitect (ARCHITECTURE.md §3 Q7).
- *
- * Flex-column layout with min-h-screen + mt-auto on Footer lets page
- * stubs fill the viewport cleanly even when content is minimal.
- */
 export function Layout() {
+  const location = useLocation();
+  const prefersReducedMotion = useReducedMotion();
+  const variants = prefersReducedMotion
+    ? { hidden: { opacity: 1 }, visible: { opacity: 1 }, exit: { opacity: 1 } }
+    : pageFade;
+
   return (
     <div className="flex min-h-screen flex-col bg-bg">
-      <ScrollToTop />
       <Nav />
       <main className="flex flex-1 flex-col">
-        <Outlet />
+        <AnimatePresence
+          mode="wait"
+          initial={false}
+          onExitComplete={() => window.scrollTo(0, 0)}
+        >
+          <motion.div
+            key={location.pathname}
+            variants={variants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="flex flex-1 flex-col"
+          >
+            <Outlet />
+          </motion.div>
+        </AnimatePresence>
       </main>
       <Footer />
     </div>
