@@ -56,7 +56,7 @@ export function PortfolioOverview() {
         {/* Pipeline grid — 3 cards in row at ≥lg (D-15). Static in Phase 3; hover in Phase 4. */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           {pipelineGridProjects.map((project) => (
-            <article key={project.slug} className="flex flex-col gap-4 bg-bg-surface transition-[transform,box-shadow,background-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[1.02] hover:shadow-[0_0_24px_rgba(193,243,61,0.15)] motion-reduce:hover:scale-100 motion-reduce:hover:shadow-none">
+            <article key={project.slug} className="flex flex-col gap-4 bg-bg-surface hover-card">
               <ResponsivePicture
                 src={`renders/${project.slug}/${project.renders[0]}`}
                 alt={project.title}

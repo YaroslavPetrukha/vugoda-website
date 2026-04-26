@@ -56,7 +56,7 @@ export function MonthGroup({ month }: Props) {
               type="button"
               onClick={() => setIndex(i)}
               aria-label={`Відкрити фото ${i + 1}`}
-              className="block overflow-hidden bg-bg-surface transition-[transform,box-shadow,background-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[1.02] hover:shadow-[0_0_24px_rgba(193,243,61,0.15)] motion-reduce:hover:scale-100 motion-reduce:hover:shadow-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              className="block overflow-hidden bg-bg-surface hover-card focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
               <ResponsivePicture
                 src={`construction/${month.key}/${p.file}`}
