@@ -29,12 +29,22 @@
  *
  * Phase 1's standalone scroll-reset component is DELETED in this same
  * plan (D-14 Claude's-Discretion: deletion is cleaner than no-op file).
+ *
+ * Phase 6 (D-02..D-07): mobile-fallback short-circuit. When
+ * useMatchMedia('(max-width: 1023px)') returns true AND the route is
+ * NOT a /dev/* QA surface, return <MobileFallback /> directly inside
+ * the bg-bg shell — bypassing Nav, AnimatePresence, Outlet, and Footer
+ * (saves Motion-runtime bytes mobile users never see). Desktop path
+ * (≥1024px) and /dev/brand + /dev/grid routes pass through to the
+ * existing Phase 5 chain unchanged.
  */
 import { Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { pageFade } from '../../lib/motionVariants';
+import { useMatchMedia } from '../../hooks/useMatchMedia';
 import { Nav } from './Nav';
 import { Footer } from './Footer';
+import { MobileFallback } from './MobileFallback';
 
 export function Layout() {
   const location = useLocation();
@@ -42,6 +52,25 @@ export function Layout() {
   const variants = prefersReducedMotion
     ? { hidden: { opacity: 1 }, visible: { opacity: 1 }, exit: { opacity: 1 } }
     : pageFade;
+
+  // Phase 6 D-02: JS viewport detection (not CSS-only — avoids shipping
+  // desktop DOM tree to mobile bytes; lets us replace <Outlet> semantically).
+  const isMobile = useMatchMedia('(max-width: 1023px)');
+
+  // Phase 6 D-07: /dev/* QA surfaces are exempt — developers may inspect
+  // /dev/brand or /dev/grid on tablet sizes; they need real content.
+  const isDevSurface = location.pathname.startsWith('/dev/');
+
+  // Phase 6 D-03: replace Outlet AND hide Nav + Footer; AnimatePresence
+  // is bypassed entirely on mobile (Motion-runtime path mobile users
+  // never see — saves runtime bytes on the mobile rendering branch).
+  if (isMobile && !isDevSurface) {
+    return (
+      <div className="flex min-h-screen flex-col bg-bg">
+        <MobileFallback />
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen flex-col bg-bg">
