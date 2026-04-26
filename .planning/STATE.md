@@ -4,20 +4,20 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 06
 current_plan: 9
-status: executing
-stopped_at: Completed 06-08-budget-gates-PLAN.md
-last_updated: "2026-04-26T20:38:54.424Z"
+status: verifying
+stopped_at: Completed 06-09-lhci-and-handoff-PLAN.md — Phase 6 ready for verification
+last_updated: "2026-04-26T20:46:48.147Z"
 progress:
   total_phases: 7
-  completed_phases: 5
+  completed_phases: 6
   total_plans: 47
-  completed_plans: 46
-  percent: 98
+  completed_plans: 47
+  percent: 100
 ---
 
 # Project State: Vugoda Website
 
-**Last updated:** 2026-04-26 — Plan 05-01 complete (foundation-sot: src/lib/motionVariants.ts with 7 named exports + --ease-brand CSS variable in @theme; foundation only, zero consumers in this plan, full build green)
+**Last updated:** 2026-04-26 — Plan 06-09 complete (lhci-and-handoff: .lighthouserc.cjs + .github/workflows/lighthouse.yml separate file per RESEARCH §5 deviation + docs/CLIENT-HANDOFF.md GitHub-account confirmation; deploy.yml UNCHANGED; Phase 6 closes — 9/9 plans done, 5/5 requirements wired, status: ready_for_verification)
 **Updated by:** /gsd:execute-phase orchestrator
 
 ## Project Reference
@@ -35,9 +35,9 @@ Plan: 9 of 9
 - **Current Phase:** 06
 - **Current Plan:** 9
 - **Total Plans in Phase:** 9
-- **Status:** Ready to execute
-- **Stopped at:** Completed 06-08-budget-gates-PLAN.md
-- **Progress:** [██████████] 98%
+- **Status:** Phase complete — ready for verification
+- **Stopped at:** Completed 06-09-lhci-and-handoff-PLAN.md — Phase 6 ready for verification
+- **Progress:** [██████████] 100%
 
 ## Roadmap Summary
 
@@ -282,6 +282,20 @@ Targets from PROJECT.md Constraints:
 - **Bundle pipeline green at vite layer:** vite build succeeds in 11.84s; 2215 modules transformed; **137.93 KB gzipped** JS (was 137.11 KB pre-plan; +0.82 KB for the new component + import; well under 200 KB Phase 6 budget — 69% headroom).
 - **Manual UAT deferred to Plan 06-09** per VALIDATION.md: SC#1 letter is satisfied at runtime by code inspection (early-return at `isMobile && !isDevSurface`; `useMatchMedia` is the React-canonical `useSyncExternalStore` form), and the planner accepted that the automated gate is UAT-only. Live-browser DevTools resize swap + `/dev/brand` exemption smoke + reduced-motion smoke run alongside Lighthouse in Plan 06-09.
 
+### Plan 06-09 Decisions (2026-04-26)
+
+- **DEVIATION FROM CONTEXT.md D-34 ratified at execution time:** CONTEXT D-34 said «.github/workflows/deploy.yml gets ONE new job: lighthouse depending on deploy». Phase 6 planner (this plan's frontmatter `must_haves.truths` line 6 + RESEARCH §5 + §Pitfall 5) chose separate-workflow-file path instead. Rationale: deploy.yml's `concurrency: { group: pages, cancel-in-progress: true }` would cancel mid-run lhci jobs during merge bursts, masking real regressions. Separate file gets its own concurrency group `lighthouse-pages` with `cancel-in-progress: false` so every score is auditable. Recorded in 3 places: (1) the workflow file's top comment block, (2) this STATE Decisions section, (3) the plan's frontmatter `must_haves.truths`.
+- **Hash-fragment URL fidelity smoke check (RESEARCH Open Q1) shipped INSIDE lighthouse.yml** — bash + jq + grep over `.lighthouseci/lhr-*.json` asserts ≥4 of 5 URLs preserve `#` in `requestedUrl`, fails workflow with descriptive error if lhci silently dropped fragments and audited home 5×. Catches the silent-normalization failure mode before scores are trusted.
+- **`workflow_run` + `cancel-in-progress: false` for `lighthouse-pages` concurrency group** — never cancels mid-run lhci jobs (every score must be auditable). Worst case: queued runs (auditable, never hidden). `workflow_dispatch` added as fallback for manual runs against arbitrary commits.
+- **`ref: github.event.workflow_run.head_sha || github.sha`** — checkout the SHA of the just-deployed commit when triggered by workflow_run; fallback to `github.sha` for workflow_dispatch (where head_sha is null). Ensures lhci always audits the same code that was deployed.
+- **`.lighthouseci/` artifact uploaded with `if: always()`** — even if lhci fails (score regression OR hash-fragment fidelity failure), the report is preserved for forensic review. 30-day retention matches GitHub's default for upload-artifact@v4.
+- **CommonJS (`.cjs`) for `.lighthouserc.cjs`** — package.json declares `"type": "module"`; lhci's loader expects CommonJS by default. `.cjs` extension is the simplest path; `.js` would require `--js-config=esm` flag plus other adjustments.
+- **CLIENT-HANDOFF.md uses sed-with-backup-suffix pattern** (`-i.bak`) — recoverable typo path. Backup files removed only after successful build. Forward-references Phase 7's planned extension with the 8 §11 open client items (already listed by name in this plan's CLIENT-HANDOFF.md).
+- **CLIENT-HANDOFF.md explicitly distinguishes the two URL types:** the 9 hardcoded URLs to be edited live in `index.html` + `.lighthouserc.cjs` (corporate site), while the EXTERNAL Lakeview product site URLs in `src/content/mobile-fallback.ts` and `src/data/projects.ts` do NOT change (those point to Yaroslav's separate Lakeview product, not the vugoda-website corporate hub).
+- **Doc-block pre-screen worked first try, ZERO Rule 3 self-consistency fixes needed** — extends the Phase 5 streak (05-01-doc-only, 05-03, 05-08) into Phase 6 close. Markdown body uses `<account>` placeholder (not `{{account}}`) and em-dash `—` (not `{{phone}}`); no Mustache-pattern matches (`grep -cE '\{\{[^}]*\}\}' docs/CLIENT-HANDOFF.md` returns 0).
+- **Verification proxy used (NOT full `npm run build`):** Wave 4 runs solo, but the pre-existing prebuild race (sibling-wave concurrency on `_opt/` writes — Plan 06-04) is documented in deferred-items. The 3 new files are out of `prebuild`/`postbuild` scope (`.cjs`, `.yml`, `.md`), so `npx tsc --noEmit` (PASS) + `npx tsx scripts/check-brand.ts` (7/7 PASS, bundle 133.7 KB gzipped — 67% of 200 KB budget) is sufficient verification surface for this plan's scope.
+- **Phase 6 closes here:** 9/9 plans done. All 5 phase requirements (QA-01, QA-02, QA-03, DEP-01, DEP-02) have either an automated gate (5 of 7 check-brand checks target QA-02 directly: bundleBudget, heroBudget, denylistTerms, paletteWhitelist, placeholderTokens — plus the new lhci CI workflow gates QA-02 + QA-03 against deployed URL) OR a documented UAT path (QA-01 mobile-fallback DevTools resize + parts of QA-03 social-unfurl in Telegram/Slack/Viber). Status: `ready_for_verification`.
+
 ### Hard Rules (from brand-system + CONCEPT §10)
 
 - Closed palette: 6 hexes only (`#2F3640`, `#C1F33D`, `#F5F7FA`, `#A7AFBC`, `#3D3B43`, `#020A0A`)
@@ -347,6 +361,7 @@ Deferred to Phase 7 handoff doc:
 | Phase 06 P05 | 12 min | 2 tasks | 2 files |
 | Phase 06-performance-mobile-fallback-deploy P06 | 40min | 3 tasks | 3 files |
 | Phase 06 P08 | 25min | 2 tasks | 2 files |
+| Phase 06 P09 | 6min | 3 tasks | 3 files |
 
 ### Todos / Blockers
 
@@ -367,6 +382,8 @@ Deferred to Phase 7 handoff doc:
 - **03-08 complete: src/pages/HomePage.tsx REPLACED (Phase 1 placeholder removed) — fragment composer of 7 sections in canonical D-17 order (Hero → BrandEssence → PortfolioOverview → ConstructionTeaser → MethodologyTeaser → TrustBlock → ContactForm); src/pages/DevBrandPage.tsx CREATED (184 lines — palette swatch grid + Montserrat 3×8 weight ladder + Logo at 2 sizes + Mark + Wordmark hero-scale + IsometricCube 3×3×2=18 matrix + IsometricGridBG @ 0.10/0.20); src/App.tsx adds DevBrandPage import + `<Route path="dev/brand">` above catch-all (inside Layout wrapper, NO NavLink per D-26); HOME-01..07 + VIS-03 + VIS-04 + ANI-01 all close end-to-end; ZERO Rule 3 doc-block self-consistency fixes (pre-screen pattern worked first try, breaking 8-plan streak); build pipeline 4/4 PASS, bundle 421.36 kB JS / 131.60 kB gzipped (sections finally reachable from entry — was 76.85 kB unreachable; 65% of 200 KB-gzipped Phase 6 budget)**
 - **Phase 3 complete — 8/8 plans done; all 10 phase requirements (HOME-01..07, VIS-03, VIS-04, ANI-01) closed end-to-end; ready for `/gsd:transition` to Phase 4 (Portfolio, ЖК, Log, Contact)**
 - **Phase 6 risk recorded:** `aerial-1920.avif` = 388.5 KB (above 200KB hero budget). Phase 6 must use `sizes` attribute on `<ResponsivePicture>` to deliver 1280-width AVIF (200.7 KB — at budget edge) or 640-width AVIF (58 KB) on typical desktop viewports. Encoder params pinned by D-19 — not tuned at Phase 3. Mitigation already wired in PortfolioOverview (`sizes="(min-width: 1280px) 768px, 100vw"`).
+- **06-09 complete: `.lighthouserc.cjs` (5 URLs + 4 categories @ minScore 0.9, --incognito, numberOfRuns: 1, temporary-public-storage upload) + `.github/workflows/lighthouse.yml` (separate workflow file per RESEARCH §5 deviation from CONTEXT D-34, workflow_run trigger after Deploy to Pages succeeds, own concurrency group `lighthouse-pages` with cancel-in-progress: false, hash-fragment URL fidelity smoke check via jq + grep, .lighthouseci/ artifact 30d retention) + `docs/CLIENT-HANDOFF.md` (GitHub-account confirmation: 9 hardcoded URL edits across 2 files with sed one-liner; forward-references Phase 7 §11 extension); deploy.yml UNCHANGED; QA-02, QA-03, DEP-01, DEP-02 marked complete (QA-02 + QA-03 already complete); ZERO Rule 3 doc-block self-consistency fixes; verification proxy: tsc --noEmit PASS + check-brand 7/7 PASS (133.7 KB gzipped, 67% of 200 KB budget)**
+- **Phase 6 complete — 9/9 plans done; all 5 phase requirements (QA-01, QA-02, QA-03, DEP-01, DEP-02) wired (5 of 7 check-brand checks + lhci CI workflow gate QA-02 + QA-03 against deployed URL; QA-01 mobile-fallback + parts of QA-03 social-unfurl as documented UAT path); status: ready_for_verification; ready for `/gsd:transition` to Phase 7 (post-deploy QA & client handoff)**
 - Two research spikes flagged for Phase 3 (Motion `useScroll` API, `vite-plugin-svgr` v4) and Phase 5 (AnimatePresence + Router v7, `useReducedMotion` export)
 
 ### Research Artifacts Available
@@ -382,10 +399,10 @@ Deferred to Phase 7 handoff doc:
 **Next action for user:**
 
 ```
-/gsd:transition
+/gsd:verify-phase
 ```
 
-Phase 3 complete — 8/8 plans done (03-01 brand-primitives, 03-02 home-microcopy, 03-03 image-pipeline, 03-04 hero-section, 03-05 essence-portfolio, 03-06 construction-methodology, 03-07 trust-contact, 03-08 compose-and-dev-route). All 10 phase requirements (HOME-01..07, VIS-03, VIS-04, ANI-01) close end-to-end on running build. `/` renders the 7-section composed home page; `/#/dev/brand` exposes the hidden QA surface (palette + typography + cube matrix + grid backdrop). Bundle 131.60 kB gzipped — 65% of Phase 6 200 KB budget. Phase 4 (Portfolio, ЖК, Log, Contact) next: HUB-01..04, ZHK-01, LOG-01, LOG-02, CTC-01, ANI-03 (9 requirements).
+Phase 6 complete — 9/9 plans done (06-01 hooks-foundation, 06-02 content-and-og-svg, 06-03 devdep-and-utility, 06-04 mobile-fallback, 06-05 lazy-routes-suspense, 06-06 meta-and-og-image, 06-07 page-titles, 06-08 budget-gates, 06-09 lhci-and-handoff). All 5 phase requirements (QA-01, QA-02, QA-03, DEP-01, DEP-02) have either an automated gate or a documented UAT path. `.lighthouserc.cjs` ships D-31 verbatim; separate `.github/workflows/lighthouse.yml` chains off `Deploy to Pages` via workflow_run with own concurrency group `lighthouse-pages` (cancel-in-progress: false); `docs/CLIENT-HANDOFF.md` documents the 9-line GitHub-account swap procedure for the user to confirm pre-deploy. Status: `ready_for_verification` — run /gsd:verify-phase 06 to spawn the verifier, then /gsd:transition to Phase 7 (post-deploy QA & client handoff: keyboard walkthrough, axe-core audit, Tier 1 Lighthouse archive, hard-refresh deep-link tests, 8 §11 client-handoff items extension).
 
 **If returning after context loss, read in order:**
 

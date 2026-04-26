@@ -58,8 +58,8 @@ Requirements for clickable demo URL handed to client. Each maps to a roadmap pha
 
 ### Deploy
 
-- [ ] **DEP-01**: GitHub Actions workflow `deploy.yml` — build → `actions/upload-pages-artifact@v3` → `actions/deploy-pages@v4`. Не використовуємо `gh-pages` npm-пакет.
-- [ ] **DEP-02**: Публічний URL `https://yaroslavpetrukha.github.io/vugoda-website/` (чи інший обліковий запис) доступний клієнту; demo-посилання разово перевіряється в incognito перед handoff
+- [x] **DEP-01**: GitHub Actions workflow `deploy.yml` — build → `actions/upload-pages-artifact@v3` → `actions/deploy-pages@v4`. Не використовуємо `gh-pages` npm-пакет.
+- [x] **DEP-02**: Публічний URL `https://yaroslavpetrukha.github.io/vugoda-website/` (чи інший обліковий запис) доступний клієнту; demo-посилання разово перевіряється в incognito перед handoff
 - [x] **DEP-03**: react-router-dom **HashRouter** (не BrowserRouter) + Vite `base: '/vugoda-website/'` + `public/.nojekyll` закомічено. HashRouter позбавляє від 404-on-hard-refresh на GH Pages без трюків з 404.html. Переходимо на BrowserRouter у v2 при custom domain.
 
 ### Content
@@ -172,8 +172,8 @@ Populated 2026-04-24 by roadmapper agent. Every v1 REQ-ID maps to exactly one ph
 | ANI-02 | Phase 5 (Animations & Polish) | Complete |
 | ANI-03 | Phase 4 (Portfolio, ЖК, Log, Contact) | Complete |
 | ANI-04 | Phase 5 (Animations & Polish) | Complete |
-| DEP-01 | Phase 6 (Performance, Mobile Fallback, Deploy) | Pending |
-| DEP-02 | Phase 6 (Performance, Mobile Fallback, Deploy) | Pending |
+| DEP-01 | Phase 6 (Performance, Mobile Fallback, Deploy) | Complete |
+| DEP-02 | Phase 6 (Performance, Mobile Fallback, Deploy) | Complete |
 | DEP-03 | Phase 1 (Foundation & Shell) | Complete |
 | CON-01 | Phase 2 (Data Layer & Content) | Complete |
 | CON-02 | Phase 2 (Data Layer & Content) | Complete |

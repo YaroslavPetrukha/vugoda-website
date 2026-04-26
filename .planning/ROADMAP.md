@@ -13,7 +13,7 @@
 - [ ] **Phase 3: Brand Primitives & Home Page** — Logo/Mark/IsometricCube/Wordmark + full `/` page (7 секцій), hero parallax, responsive picture pipeline
 - [x] **Phase 4: Portfolio, ЖК, Construction Log, Contact** — `/projects` hub, `/zhk/etno-dim` template, `/construction-log` timeline, `/contact` mailto, card hover (completed 2026-04-25)
 - [ ] **Phase 5: Animations & Polish** — shared motion variants, scroll-reveal, AnimatePresence route-transitions, `useReducedMotion`, session-skip
-- [ ] **Phase 6: Performance, Mobile Fallback, Deploy** — image preload, bundle audit, mobile-fallback page, OG meta, GitHub Actions deploy live
+- [x] **Phase 6: Performance, Mobile Fallback, Deploy** — image preload, bundle audit, mobile-fallback page, OG meta, GitHub Actions deploy live (completed 2026-04-26)
 - [ ] **Phase 7: Post-deploy QA & Client Handoff** — keyboard walkthrough, hard-refresh test, Lighthouse archive, denylist verification, handoff doc
 
 ## Phase Details
@@ -136,7 +136,7 @@
   - [x] 06-06-meta-and-og-image-PLAN.md — index.html OG/Twitter/canonical/description/apple-touch + scripts/build-og-image.mjs + prebuild chain (Wave 2, QA-03 SC#2 + QA-02 hero preload limit)
   - [x] 06-07-page-titles-PLAN.md — usePageTitle wiring across 8 pages + 5 content-module pageTitle exports (Wave 2, QA-03 SEO/tab discrimination)
   - [x] 06-08-budget-gates-PLAN.md — scripts/optimize-images.mjs AVIF q tune + scripts/check-brand.ts bundleBudget + heroBudget (Wave 3, QA-02 byte-budget enforcement)
-  - [ ] 06-09-lhci-and-handoff-PLAN.md — .lighthouserc.cjs + .github/workflows/lighthouse.yml (separate workflow per RESEARCH §5) + docs/CLIENT-HANDOFF.md (Wave 4, QA-02 lhci CI gate + DEP-01 + DEP-02 + handoff)
+  - [x] 06-09-lhci-and-handoff-PLAN.md — .lighthouserc.cjs + .github/workflows/lighthouse.yml (separate workflow per RESEARCH §5) + docs/CLIENT-HANDOFF.md (Wave 4, QA-02 lhci CI gate + DEP-01 + DEP-02 + handoff)
 **UI hint**: yes
 
 ### Phase 7: Post-deploy QA & Client Handoff
@@ -160,7 +160,7 @@
 | 3. Brand Primitives & Home Page | 8/8 | Complete   | 2026-04-25 |
 | 4. Portfolio, ЖК, Log, Contact | 11/11 | Complete   | 2026-04-25 |
 | 5. Animations & Polish | 0/8 | Not started | — |
-| 6. Performance, Mobile Fallback, Deploy | 0/9 | Not started | — |
+| 6. Performance, Mobile Fallback, Deploy | 9/9 | Complete   | 2026-04-26 |
 | 7. Post-deploy QA & Handoff | 0/0 | Not started | — |
 
 ## Requirement Coverage
