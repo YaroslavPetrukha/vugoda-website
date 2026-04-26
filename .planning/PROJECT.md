@@ -28,6 +28,8 @@
 - [x] **VIS-03**: Ізометричний куб-патерн *(Validated in Phase 3: IsometricCube typed-discriminated 3 variants × 3 strokes + IsometricGridBG svgr-imported with D-03 opacity 0.10–0.20 ceiling)*
 - [x] **VIS-04**: Офіційні SVG-логотипи *(Validated in Phase 3: Logo URL-import dark.svg + Mark URL-import mark.svg + favicon)*
 - [x] **ANI-01**: Hero slow-parallax *(Validated in Phase 3: useScroll target=heroRef + useTransform [0,1]→[0,-100] linear, no spring/bounce; useReducedMotion collapses to [0,0])*
+- [x] **ANI-02**: Scroll-triggered reveal секцій *(Validated in Phase 5: `<RevealOnScroll>` SOT API at `src/components/ui/RevealOnScroll.tsx` consumed across 26 sites; `motionVariants.ts` + `--ease-brand` lockstep SOT; `noInlineTransition` permanent CI gate)*
+- [x] **ANI-04**: Smooth route-transitions між 5 сторінками *(Validated in Phase 5: `<AnimatePresence mode="wait">` in `Layout.tsx` keyed by pathname + `pageFade` variant + `onExitComplete` scroll-restore; `ScrollToTop.tsx` removed)*
 
 ### Active
 
@@ -44,9 +46,7 @@
 - [ ] **NAV-01**: Фіксований навбар (dark, `#2F3640`) + футер на КОЖНІЙ сторінці містить мінімум: юр. назву ТОВ «БК ВИГОДА ГРУП», ЄДРПОУ `42016395`, ліцензію `27.12.2019`, email `vygoda.sales@gmail.com`. Persona-3 (банк DD) заходить з Google на глибокі сторінки, не лише home. Desktop-first.
 - [ ] **VIS-01**: Брендові токени — точно `#2F3640` / `#C1F33D` / `#F5F7FA` / `#A7AFBC` / `#3D3B43` / `#020A0A` (CSS-змінні, Tailwind v4 theme)
 - [ ] **VIS-02**: Montserrat через `@fontsource/montserrat` (Bold/Medium/Regular), повна кирилиця
-- [ ] **ANI-02**: Scroll-triggered reveal секцій (fade + slight translate, ~400ms, stagger для карток)
 - [ ] **ANI-03**: Hover-стани карток ЖК (subtle scale/overlay, brand-consistent)
-- [ ] **ANI-04**: Smooth route-transitions між 5 сторінками (fade або slide, Motion `AnimatePresence`)
 - [ ] **DEP-01**: Автоматичний деплой на GitHub Pages (GitHub Action `build → gh-pages` або `actions/deploy-pages`)
 - [ ] **DEP-02**: Публічний URL `https://yaroslavpetrukha.github.io/vugoda-website/` (або інший обліковий запис) доступний клієнту
 - [ ] **DEP-03**: react-router-dom **HashRouter** (не BrowserRouter) + Vite `base: '/vugoda-website/'` + `public/.nojekyll` закомічено. HashRouter позбавляє від 404-on-hard-refresh на GH Pages без трюків з 404.html. Переходимо на BrowserRouter у v2 при custom domain.
