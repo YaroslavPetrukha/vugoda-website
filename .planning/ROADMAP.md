@@ -135,7 +135,7 @@
   - [x] 06-05-lazy-routes-suspense-PLAN.md — MarkSpinner + App.tsx React.lazy 3 routes + Suspense fallback (Wave 2, QA-02 SC#3 lazy split)
   - [x] 06-06-meta-and-og-image-PLAN.md — index.html OG/Twitter/canonical/description/apple-touch + scripts/build-og-image.mjs + prebuild chain (Wave 2, QA-03 SC#2 + QA-02 hero preload limit)
   - [x] 06-07-page-titles-PLAN.md — usePageTitle wiring across 8 pages + 5 content-module pageTitle exports (Wave 2, QA-03 SEO/tab discrimination)
-  - [ ] 06-08-budget-gates-PLAN.md — scripts/optimize-images.mjs AVIF q tune + scripts/check-brand.ts bundleBudget + heroBudget (Wave 3, QA-02 byte-budget enforcement)
+  - [x] 06-08-budget-gates-PLAN.md — scripts/optimize-images.mjs AVIF q tune + scripts/check-brand.ts bundleBudget + heroBudget (Wave 3, QA-02 byte-budget enforcement)
   - [ ] 06-09-lhci-and-handoff-PLAN.md — .lighthouserc.cjs + .github/workflows/lighthouse.yml (separate workflow per RESEARCH §5) + docs/CLIENT-HANDOFF.md (Wave 4, QA-02 lhci CI gate + DEP-01 + DEP-02 + handoff)
 **UI hint**: yes
 
