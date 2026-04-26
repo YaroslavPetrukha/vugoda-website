@@ -107,14 +107,14 @@
   5. Session-scoped skip: a `sessionStorage.getItem('hero-seen')` check on second+ visit within a session fades the hero in 2× faster (or skips parallax entirely) — demo-URL reloads during client pitch don't force re-watching the cinematic intro
 **Plans**: 9 plans
   - [x] 05-01-foundation-sot-PLAN.md — motionVariants.ts (7 named exports) + --ease-brand @theme token (Wave 1, foundation)
-  - [ ] 05-02-hover-card-utility-PLAN.md — @utility hover-card block + replace 5-surface inline class with the utility (Wave 2, D-24 consolidation)
+  - [x] 05-02-hover-card-utility-PLAN.md — @utility hover-card block + replace 5-surface inline class with the utility (Wave 2, D-24 consolidation)
   - [x] 05-03-reveal-on-scroll-component-PLAN.md — <RevealOnScroll> wrapper component with RM-aware unwrap branch (Wave 2, ANI-02 foundation)
   - [ ] 05-04-reveal-home-page-PLAN.md — wrap 6 home sections with <RevealOnScroll> + 80ms staggers (BrandEssence + PortfolioOverview + MethodologyTeaser + TrustBlock) (Wave 3, ANI-02 home coverage)
   - [ ] 05-05a-reveal-zhk-page-PLAN.md — wrap 5 /zhk/etno-dim sections (ZhkHero with fade variant per D-09; ZhkGallery as <ul>/<motion.li> 8-thumb stagger per D-05) (Wave 3, ANI-02 zhk coverage)
   - [ ] 05-05b-reveal-other-routes-PLAN.md — wrap /projects (header + StageFilter chip stagger + PipelineGrid card stagger), /construction-log (per-MonthGroup per D-04), /contact (3 separate reveals per D-08) (Wave 3, ANI-02 other-routes coverage)
   - [ ] 05-06-animate-presence-layout-PLAN.md — Layout.tsx AnimatePresence + onExitComplete; ScrollToTop.tsx deleted (Wave 3, ANI-04)
   - [ ] 05-07-hero-session-skip-PLAN.md — useSessionFlag hook + Hero.tsx parallaxRange import + skipParallax (Wave 3, SC#5 + D-28)
-  - [ ] 05-08-no-inline-transition-check-PLAN.md — 5th check noInlineTransition() in scripts/check-brand.ts (Wave 2, SC#1 permanent CI gate)
+  - [x] 05-08-no-inline-transition-check-PLAN.md — 5th check noInlineTransition() in scripts/check-brand.ts (Wave 2, SC#1 permanent CI gate)
 **UI hint**: yes
 
 ### Phase 6: Performance, Mobile Fallback, Deploy

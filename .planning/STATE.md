@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 05
-current_plan: 2
+current_plan: 3
 status: executing
-stopped_at: Completed 05-03-reveal-on-scroll-component-PLAN.md (Wave 2 parallel)
-last_updated: "2026-04-26T06:10:27.021Z"
+stopped_at: Completed 05-02-hover-card-utility-PLAN.md
+last_updated: "2026-04-26T06:21:17.123Z"
 progress:
   total_phases: 7
   completed_phases: 4
   total_plans: 38
-  completed_plans: 31
-  percent: 79
+  completed_plans: 33
+  percent: 87
 ---
 
 # Project State: Vugoda Website
@@ -30,14 +30,14 @@ progress:
 ## Current Position
 
 Phase: 05 (animations-polish) — EXECUTING
-Plan: 2 of 9
+Plan: 3 of 9
 
 - **Current Phase:** 05
-- **Current Plan:** 2
+- **Current Plan:** 3
 - **Total Plans in Phase:** 9
 - **Status:** Ready to execute
-- **Stopped at:** Completed 05-03-reveal-on-scroll-component-PLAN.md (Wave 2 parallel)
-- **Progress:** [████████░░] 79%
+- **Stopped at:** Completed 05-02-hover-card-utility-PLAN.md
+- **Progress:** [█████████░] 87%
 
 ## Roadmap Summary
 
@@ -236,6 +236,17 @@ Targets from PROJECT.md Constraints:
 - **Wave 2 parallel-build race** (NOT caused by this plan): sibling agents (05-02, 05-08) running concurrent `npm run build` invocations each invoke destructive `prebuild` chain (`copy-renders.ts` does `rmSync` then `optimize-images.mjs` re-encodes). The destructive copy of one agent wipes `_opt/` directories that another agent's parallel optimizer is trying to write into. Bypassed via `npx tsc --noEmit && npx vite build` directly — both exit 0. Logged for future Wave-coordination work (orchestrator or scripts/copy-renders.ts could add file-level locks or inter-agent build serialization).
 - **Verbatim plan execution:** TSX body matches Plan 05-03 `<action>` character-for-character; substantive code byte-identical. Commit `531d153` — feat(05-03): src/components/ui/RevealOnScroll.tsx (ANI-02 sole reveal API).
 
+### Plan 05-08 Decisions (2026-04-26)
+
+- **5th check `noInlineTransition()` shipped at `scripts/check-brand.ts`** (~18 net source lines + 1 line in `results` aggregate + top doc-block 4→5 update). Greps `transition=\{\{` (`=` directly followed by double-open-brace) in `src/**/*.{ts,tsx}` — matches JSX prop form `transition={{ duration: ... }}`, does NOT match TypeScript object syntax `transition: {` inside Variants declarations. Encodes Phase 5 SC#1 (no inline Motion transition objects) as a permanent CI invariant via postbuild + GH Actions deploy.yml double-coverage (Plan 02-05 D-28).
+- **Scope = `src/` everywhere (incl. `src/lib/`)** per CONTEXT D-27 + VALIDATION SC#1 verbatim. Regex's double-brace anchor immune to motionVariants.ts Variants declarations using single-brace TypeScript syntax. No exclusions needed — clean grep contract.
+- **Output format matches existing 4-check semantic:** `[check-brand] PASS noInlineTransition` for clean, `[check-brand] FAIL noInlineTransition — inline Motion transition objects (use variants from src/lib/motionVariants.ts):\n{violations}` for dirty (with file:line:match locations).
+- **5/5 PASS on first run as predicted** — zero `transition={{` matches in current src/ (Phase 5 anti-pattern surface preserved by Plans 03-04, 03-06, 05-01 doc-block hygiene). No retroactive fixes needed.
+- **scripts/-quarantine D-precedent (Plan 02-05) preserved on 5th check:** noInlineTransition()'s inline JSDoc references the literal `transition: {` (TS form) and the regex shape `transition=\{\{` — both safe in `scripts/` because all 5 checks intentionally exclude `scripts/` from scope. Pattern now applied across 5/5 checks consistently.
+- **ZERO Rule 3 doc-block-grep collisions on first write** — second consecutive Phase 5 plan (after 05-03) running pre-screen workflow with zero collisions. 9-plan template-smell streak (02-04..05-01-jsdoc) ended at Plan 03-08; Phase 5 currently 3-of-3 clean (05-01-doc-only, 05-03, 05-08).
+- **Wave 2 parallel-build race** (NOT caused by this plan): same sibling-wave race observed by Plan 05-03 — concurrent `prebuild` chain (`copy-renders.ts` rmSync + `optimize-images.mjs` re-encode) from sibling agents (05-02, 05-03) wipes `_opt/` directories mid-write. First `npm run build` failed with `ENOENT: public/renders/etno-dim/_opt/43615.jpg-640.avif`. Retry succeeded once siblings settled. Logged for Wave-coordination work; not introduced by 05-08's check-brand change.
+- **Verbatim plan execution:** Both Change A (top doc-block 4→5) and Change B (function + aggregate wiring) byte-identical to plan `<action>`. Commit `61fc55f` — feat(05-08): add noInlineTransition CI gate to check-brand. Bundle 439.60 kB JS / **135.53 kB gzipped** (≈unchanged from 05-01; build-time-only file ships zero bytes to runtime).
+
 ### Hard Rules (from brand-system + CONCEPT §10)
 
 - Closed palette: 6 hexes only (`#2F3640`, `#C1F33D`, `#F5F7FA`, `#A7AFBC`, `#3D3B43`, `#020A0A`)
@@ -286,6 +297,8 @@ Deferred to Phase 7 handoff doc:
 | Phase 04-portfolio-construction-log-contact P10 | 10min | 3 tasks | 3 files |
 | Phase 05-animations-polish P01 | 10m | 2 tasks | 2 files |
 | Phase 05 P03 | 2min | 1 tasks | 1 files |
+| Phase 05 P08 | 12min | 1 tasks | 1 files |
+| Phase 05-animations-polish P02 | 12m | 2 tasks | 6 files |
 
 ### Todos / Blockers
 
