@@ -111,3 +111,32 @@
     }
   }
 }
+
+/* QA-02 Suspense fallback opacity-pulse for <MarkSpinner> (Phase 6 D-10).
+ *
+ * CSS-only — Suspense fallback gates lazy chunks; the fallback itself
+ * MUST NOT import Motion (defeats the lazy-split purpose). @keyframes
+ * with var(--ease-brand) keeps brand timing consistent with Phase 5
+ * SOT (motionVariants.ts uses the same easing curve in JS form).
+ *
+ * Pulse: 0.4 → 0.8 opacity, 1.2s, ease-brand (Phase 5 D-23), infinite
+ * alternating. Brand «стримано» — no bouncy spring (brand-system §6).
+ *
+ * Reduced-motion override: animation: none + static 0.6 opacity (mid-
+ * point of the pulse range). Phase 5 D-25 RM-threading pattern.
+ */
+@utility mark-pulse {
+  animation: mark-pulse 1.2s var(--ease-brand) infinite alternate;
+}
+
+@keyframes mark-pulse {
+  from { opacity: 0.4; }
+  to   { opacity: 0.8; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mark-pulse {
+    animation: none;
+    opacity: 0.6;
+  }
+}
