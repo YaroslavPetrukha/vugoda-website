@@ -13,6 +13,8 @@
  * file leaves the sections wrapper-free per Phase 3 deferred scope.
  */
 
+import { usePageTitle } from '../hooks/usePageTitle';
+import { pageTitle } from '../content/home';
 import { Hero } from '../components/sections/home/Hero';
 import { BrandEssence } from '../components/sections/home/BrandEssence';
 import { PortfolioOverview } from '../components/sections/home/PortfolioOverview';
@@ -22,6 +24,7 @@ import { TrustBlock } from '../components/sections/home/TrustBlock';
 import { ContactForm } from '../components/sections/home/ContactForm';
 
 export default function HomePage() {
+  usePageTitle(pageTitle);
   return (
     <>
       <Hero />

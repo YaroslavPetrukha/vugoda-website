@@ -23,10 +23,11 @@
  */
 
 import { useSearchParams } from 'react-router-dom';
+import { usePageTitle } from '../hooks/usePageTitle';
 import { projects, flagship, pipelineGridProjects, aggregateProjects } from '../data/projects';
 import type { Stage } from '../data/types';
 import { STAGES, isStage } from '../lib/stages';
-import { projectsHeading, projectsSubtitle } from '../content/projects';
+import { projectsHeading, projectsSubtitle, pageTitle } from '../content/projects';
 import { FlagshipCard } from '../components/sections/projects/FlagshipCard';
 import { StageFilter } from '../components/sections/projects/StageFilter';
 import { PipelineGrid } from '../components/sections/projects/PipelineGrid';
@@ -45,6 +46,7 @@ const counts: Record<Stage, number> = STAGES.reduce(
 );
 
 export default function ProjectsPage() {
+  usePageTitle(pageTitle);
   const [params] = useSearchParams();
   const raw = params.get('stage');
   const active: Stage | null = isStage(raw) ? raw : null;

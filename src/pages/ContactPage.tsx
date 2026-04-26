@@ -17,17 +17,20 @@
  * route per Phase 1 D-06 (NAV-01 footer requirements).
  */
 
+import { usePageTitle } from '../hooks/usePageTitle';
 import { email } from '../content/company';
 import {
   contactPageHeading,
   contactPageSubtitle,
   contactPageCta,
   contactMailSubject,
+  pageTitle,
 } from '../content/contact';
 import { ContactDetails } from '../components/sections/contact/ContactDetails';
 import { RevealOnScroll } from '../components/ui/RevealOnScroll';
 
 export default function ContactPage() {
+  usePageTitle(pageTitle);
   const href = `mailto:${email}?subject=${encodeURIComponent(contactMailSubject)}`;
 
   return (

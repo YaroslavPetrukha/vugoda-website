@@ -16,6 +16,7 @@
  */
 
 import { useParams, Navigate } from 'react-router-dom';
+import { usePageTitle } from '../hooks/usePageTitle';
 import { findBySlug, projects } from '../data/projects';
 import { ZhkHero } from '../components/sections/zhk/ZhkHero';
 import { ZhkFactBlock } from '../components/sections/zhk/ZhkFactBlock';
@@ -34,6 +35,14 @@ export default function ZhkPage() {
 
   // Full-internal template (etno-dim only in v1).
   const project = findBySlug(slug);
+
+  // Phase 6 D-18: «{project.title} — ВИГОДА» — interpolated from project.title
+  // so v2 ЖК pages (FEAT2-05) inherit the correct title without code change.
+  // Fallback covers the brief redirect-intermediate frame where project is
+  // undefined; <Navigate> fires before paint so the fallback is rarely seen.
+  // Em-dash is U+2014.
+  usePageTitle(project ? `${project.title} — ВИГОДА` : 'ЖК — ВИГОДА');
+
   if (project) {
     return (
       <>

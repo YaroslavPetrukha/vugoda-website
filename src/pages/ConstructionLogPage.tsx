@@ -12,11 +12,13 @@
  * Default export preserved (App.tsx import unchanged).
  */
 
-import { constructionLog } from '../data/construction';
+import { usePageTitle } from '../hooks/usePageTitle';
+import { constructionLog, pageTitle } from '../data/construction';
 import { MonthGroup } from '../components/sections/construction-log/MonthGroup';
 import { RevealOnScroll } from '../components/ui/RevealOnScroll';
 
 export default function ConstructionLogPage() {
+  usePageTitle(pageTitle);
   return (
     <>
       <RevealOnScroll as="section" className="bg-bg pt-24 pb-8">
