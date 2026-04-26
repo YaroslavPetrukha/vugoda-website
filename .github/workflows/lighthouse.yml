@@ -1,0 +1,94 @@
+# Phase 6 plan 06-09 — Lighthouse Audit workflow.
+#
+# DEVIATION FROM CONTEXT.md D-34: CONTEXT D-34 said «.github/workflows/
+# deploy.yml gets ONE new job: lighthouse depending on deploy». Phase 6
+# planner CHOSE RESEARCH §5 + §Pitfall 5 instead — separate workflow file
+# with its own concurrency group. Rationale:
+#
+#   - deploy.yml uses `concurrency: { group: pages, cancel-in-progress:
+#     true }` (Phase 1 D-15, locked). Adding lhci as a sibling job means a
+#     merge burst (3 commits in rapid succession) cancels lhci jobs 1+2
+#     mid-run; only commit 3's score is recorded, masking regressions.
+#
+#   - This file uses concurrency group `lighthouse-pages` with
+#     cancel-in-progress: false — lhci runs complete even when a new
+#     deploy starts. Worst case: queued lhci runs (auditable, never
+#     hidden).
+#
+#   - workflow_run trigger is the GitHub-Actions native chain mechanism;
+#     fires after `Deploy to Pages` completes successfully on the same
+#     SHA, ensuring the audit always targets the just-deployed code.
+#
+#   - Failure of this workflow does NOT roll back the deploy (artifact
+#     is already published; rollback would require manual redeploy of
+#     prior commit) — but the workflow run shows red on the merge
+#     commit's status, surfacing the regression in PR ergonomics.
+
+name: Lighthouse Audit
+
+on:
+  workflow_run:
+    workflows: ['Deploy to Pages']
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lighthouse-pages
+  cancel-in-progress: false
+
+jobs:
+  lighthouse:
+    # Skip if the upstream Deploy to Pages workflow did not succeed
+    # (e.g. build failed, check-brand failed, deploy failed). Manual
+    # workflow_dispatch invocations bypass this guard.
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # When triggered by workflow_run, GitHub checks out the SHA of
+          # the workflow_run event (the just-deployed commit) — the same
+          # code lhci is auditing.
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Run Lighthouse CI
+        run: npx lhci autorun --config=.lighthouserc.cjs
+
+      - name: Verify hash-fragment URL fidelity (RESEARCH Open Q1 mitigation)
+        run: |
+          set -e
+          # CONTEXT D-31's 5 URLs include 4 with hash fragments. lhci passes
+          # URLs to Chromium as-is; Chromium handles the fragment client-side.
+          # This smoke check asserts at least 4 of the 5 lhr-*.json results
+          # carry a fragment in their requestedUrl — catches a silent fallback
+          # where lhci normalised fragments and audited home 5 times.
+          if ! ls .lighthouseci/lhr-*.json > /dev/null 2>&1; then
+            echo "FAIL: no .lighthouseci/lhr-*.json files found — lhci output missing"
+            exit 1
+          fi
+          HASHED=$(for f in .lighthouseci/lhr-*.json; do jq -r '.requestedUrl' "$f"; done | grep -c '#' || true)
+          echo "Hash-fragment URLs in lhr-*.json: $HASHED of 5 expected ≥ 4"
+          if [ "$HASHED" -lt 4 ]; then
+            echo "FAIL: lhci silently dropped fragments — audited home 5x instead of 5 different routes"
+            for f in .lighthouseci/lhr-*.json; do jq -r '.requestedUrl' "$f"; done
+            exit 1
+          fi
+          echo "PASS: hash-fragment URL fidelity verified."
+
+      - name: Upload Lighthouse results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouseci-results
+          path: .lighthouseci/
+          retention-days: 30
