@@ -29,3 +29,7 @@ export const zdanoEmptyMessage = 'Наразі жоден ЖК не здано';
 /** Pointer line — directs reader to the flagship above (D-08).
  *  Trailing arrow is U+2191 UPWARDS ARROW. */
 export const buduetsyaPointerMessage = 'Див. ЖК Lakeview вище ↑';
+
+/** Browser-tab title for `/projects` route. Phase 6 D-18 format
+ *  «{Page} — ВИГОДА». */
+export const pageTitle = 'Проєкти — ВИГОДА';

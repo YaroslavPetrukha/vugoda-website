@@ -33,3 +33,7 @@ export const contactPageCta = 'Ініціювати діалог';
  *  sees the same thread continued. Plan 04-08 imports this and uses it
  *  in the mailto href instead of inlining its own const. */
 export const contactMailSubject = 'Ініціювати діалог через сайт ВИГОДА';
+
+/** Browser-tab title for `/contact` route. Phase 6 D-18 format
+ *  «{Page} — ВИГОДА». */
+export const pageTitle = 'Контакт — ВИГОДА';

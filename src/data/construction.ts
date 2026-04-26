@@ -109,3 +109,8 @@ export const constructionLog: ConstructionMonth[] = [
 
 /** HomePage ConstructionTeaser entry point. Reads constructionLog[0].teaserPhotos. */
 export const latestMonth = (): ConstructionMonth => constructionLog[0];
+
+/** Browser-tab title for `/construction-log` route. Phase 6 D-18 format
+ *  «{Page} — ВИГОДА» — page label includes «Lakeview» since the timeline
+ *  is Lakeview-specific in v1 (other ЖК construction logs = v2 FEAT2-01). */
+export const pageTitle = 'Хід будівництва Lakeview — ВИГОДА';

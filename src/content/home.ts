@@ -65,3 +65,7 @@ export const contactHeading = 'Поговоримо про ваш об’єкт'
 /** ContactForm body — short invitational paragraph above the mailto button
  *  (Phase 3 D-29 / checker Warning 8). Apostrophe is U+2019; em-dash is U+2014. */
 export const contactBody = 'Напишіть нам — обговоримо запит, опції, графік. Без зобов’язань.';
+
+/** Browser-tab title for `/` route. Phase 6 D-18: root keeps verbatim
+ *  no-`«{Page} —» ВИГОДА` prefix form (matches og:title at root). */
+export const pageTitle = 'ВИГОДА — Системний девелопмент';

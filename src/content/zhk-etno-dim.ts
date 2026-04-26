@@ -29,3 +29,9 @@ export const instagramLabel = 'Підписатись на оновлення (I
 /** 1-frame redirect placeholder for /zhk/lakeview before window.location.assign.
  *  Ellipsis is U+2026 HORIZONTAL ELLIPSIS (single glyph). */
 export const lakeviewRedirectMessage = 'Переходимо до ЖК Lakeview…';
+
+/** Browser-tab title for `/zhk/etno-dim` route. Phase 6 D-18 format
+ *  «{Page} — ВИГОДА». For dynamically-resolved slugs other than etno-dim,
+ *  ZhkPage uses interpolation `${project.title} — ВИГОДА`; for the
+ *  hard-coded etno-dim path the value is locked here for traceability. */
+export const pageTitle = 'ЖК Етно Дім — ВИГОДА';
