@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 06
-current_plan: 3
+current_plan: 4
 status: executing
-stopped_at: Completed 06-03-devdep-and-utility-PLAN.md
-last_updated: "2026-04-26T19:18:50.724Z"
+stopped_at: Completed 06-02-content-and-og-svg-PLAN.md
+last_updated: "2026-04-26T19:25:10.237Z"
 progress:
   total_phases: 7
   completed_phases: 5
   total_plans: 47
-  completed_plans: 40
-  percent: 85
+  completed_plans: 41
+  percent: 87
 ---
 
 # Project State: Vugoda Website
@@ -30,14 +30,14 @@ progress:
 ## Current Position
 
 Phase: 06 (performance-mobile-fallback-deploy) — EXECUTING
-Plan: 3 of 9
+Plan: 4 of 9
 
 - **Current Phase:** 06
-- **Current Plan:** 3
+- **Current Plan:** 4
 - **Total Plans in Phase:** 9
 - **Status:** Ready to execute
-- **Stopped at:** Completed 06-03-devdep-and-utility-PLAN.md
-- **Progress:** [█████████░] 85%
+- **Stopped at:** Completed 06-02-content-and-og-svg-PLAN.md
+- **Progress:** [█████████░] 87%
 
 ## Roadmap Summary
 
@@ -260,6 +260,17 @@ Targets from PROJECT.md Constraints:
 - **Wave 2 parallel-build race** (NOT caused by this plan): same sibling-wave race observed by Plan 05-03 — concurrent `prebuild` chain (`copy-renders.ts` rmSync + `optimize-images.mjs` re-encode) from sibling agents (05-02, 05-03) wipes `_opt/` directories mid-write. First `npm run build` failed with `ENOENT: public/renders/etno-dim/_opt/43615.jpg-640.avif`. Retry succeeded once siblings settled. Logged for Wave-coordination work; not introduced by 05-08's check-brand change.
 - **Verbatim plan execution:** Both Change A (top doc-block 4→5) and Change B (function + aggregate wiring) byte-identical to plan `<action>`. Commit `61fc55f` — feat(05-08): add noInlineTransition CI gate to check-brand. Bundle 439.60 kB JS / **135.53 kB gzipped** (≈unchanged from 05-01; build-time-only file ships zero bytes to runtime).
 
+### Plan 06-02 Decisions (2026-04-26)
+
+- **`src/content/mobile-fallback.ts` shipped as zero-import leaf module** (54 lines) with 3 named exports — `fallbackBody` (D-04 verbatim «Сайт оптимізовано для екранів ≥1280px. Перегляньте на десктопі або напишіть нам»), `fallbackEmail` (`vygoda.sales@gmail.com`), `fallbackCtas` (4-item readonly array: Проєкти / Хід будівництва / Контакт / Lakeview-external). JSDoc IMPORT BOUNDARY rule extended to allow `src/components/layout/` consumers (alongside pages/ and components/sections/) — Phase 6 D-04 mobile-fallback component lives in layout/, not sections/.
+- **fallbackEmail intentionally duplicates company.email literal** — JSDoc records the rationale: full self-containment of the mobile-fallback module (zero cross-imports for one string); Phase 7 manual review catches drift if email ever changes. Acceptable risk for a 1-string duplication.
+- **`brand-assets/og/og.svg` (270 lines) authored as 5-layer composition** matching D-27 verbatim: dark `#2F3640` background → IsometricGridBG cube-tile overlay at opacity 0.15 (~95 hand-tiled top-rhombus polygons, stroke `#A7AFBC`) → 6-letter «ВИГОДА» wordmark via `<path>` elements (Montserrat-700-inspired heavy sans-serif geometry, fill `#F5F7FA`, fill-rule evenodd for О/Д/А internal counters) → 32px sub-line via `<text>` (D-30 carve-out, fill `#A7AFBC`) → single accent cube top-right (3 polygons verbatim from Phase 3 IsometricCube variant='single', stroke `#C1F33D`, opacity 0.4). All 4 hex colors ⊆ 6-canonical brandbook palette.
+- **Wordmark pre-pathing locked at author time (RESEARCH Pitfall 3 mitigated):** wordmark group contains zero `<text>` nodes — 6 hand-authored `<path>` elements render «ВИГОДА» deterministically. Sharp on Ubuntu GH runner (no Cyrillic Montserrat available) produces identical PNG to local macOS. Top-of-file doc-block documents `WORDMARK IS PRE-PATHED` policy + Inkscape re-export procedure for future brand-font swaps (RESEARCH Risk 2). Without Inkscape access in this autonomous session, wordmark paths were authored manually using geometric Montserrat-700-inspired letterforms — visually approximates Montserrat 700 cap-height 140 with ~22 stroke weight; if Phase 7 client review finds it visually off-brand, the doc-comment lists the swap procedure.
+- **IsometricGridBG overlay simplified to single-rhombus tiles** (instead of inline-copying source pattern's complex multi-shape lozenge stack) — at opacity 0.15 + OG card display sizes (typically 600×315 in Telegram/Viber/Slack), simplified geometry is visually indistinguishable from source. Pragmatic simplification for the OG-export use case; not a precedent for in-browser pattern usage.
+- **Sub-line «Системний девелопмент» appears EXACTLY ONCE in og.svg** per acceptance criterion 8. Initial draft had the literal in 3 places (2 doc-comments + 1 rendered `<text>`); rephrased the comments to "32px tagline sub-line" to bring literal count to 1. Same self-consistency hygiene as Plans 02-04 / 03-03..07 (forbidden-lexicon-in-docs pattern).
+- **Pre-existing prebuild race (NOT introduced by 06-02):** First `npm run build` failed with `ENOENT: terrace.jpg` — concurrent prebuild scripts from sibling parallel-wave executors raced with `copy-renders.ts`. Same symptom Plans 05-03 and 05-08 documented. Re-run after manual `npx tsx scripts/copy-renders.ts` succeeded. Logged for Wave-coordination follow-up.
+- **Build pipeline green:** `npm run build` exits 0 (prebuild copy-renders → optimize-images → tsc --noEmit → vite build → postbuild check-brand 5/5 PASS). Bundle 445.31 kB JS / **137.11 kB gzipped** (slight uptick from prior 135.53 kB — within Wave 1 expected variance from sibling concurrent commits; no new runtime imports from this plan since both files are out-of-bundle assets).
+
 ### Hard Rules (from brand-system + CONCEPT §10)
 
 - Closed palette: 6 hexes only (`#2F3640`, `#C1F33D`, `#F5F7FA`, `#A7AFBC`, `#3D3B43`, `#020A0A`)
@@ -319,6 +330,7 @@ Deferred to Phase 7 handoff doc:
 | Phase 05-animations-polish P05b | 4m | 3 tasks | 7 files |
 | Phase 06 P01 | 5min | 2 tasks | 2 files |
 | Phase 06-performance-mobile-fallback-deploy P03 | 334s | 3 tasks | 4 files |
+| Phase 06 P02 | 11min | 2 tasks | 2 files |
 
 ### Todos / Blockers
 
