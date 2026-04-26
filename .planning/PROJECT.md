@@ -30,6 +30,11 @@
 - [x] **ANI-01**: Hero slow-parallax *(Validated in Phase 3: useScroll target=heroRef + useTransform [0,1]→[0,-100] linear, no spring/bounce; useReducedMotion collapses to [0,0])*
 - [x] **ANI-02**: Scroll-triggered reveal секцій *(Validated in Phase 5: `<RevealOnScroll>` SOT API at `src/components/ui/RevealOnScroll.tsx` consumed across 26 sites; `motionVariants.ts` + `--ease-brand` lockstep SOT; `noInlineTransition` permanent CI gate)*
 - [x] **ANI-04**: Smooth route-transitions між 5 сторінками *(Validated in Phase 5: `<AnimatePresence mode="wait">` in `Layout.tsx` keyed by pathname + `pageFade` variant + `onExitComplete` scroll-restore; `ScrollToTop.tsx` removed)*
+- [x] **QA-01**: Desktop-first 1920×1080 — виглядає бездоганно; мінімальний graceful fallback для ≥1280px; mobile/tablet — **явно out-of-scope в v1** *(Validated in Phase 6: `useMatchMedia('(max-width: 1023px)')` + `Layout.tsx` short-circuit + `MobileFallback.tsx` single-screen page (Logo + wordmark + locked microcopy + mailto + 4 CTAs + juridical block); /dev/* exempt; AnimatePresence bypassed in mobile branch. Real-device visual = HUMAN-UAT #2)*
+- [x] **QA-02**: Lighthouse desktop ≥ 90 (Performance, Accessibility, Best Practices, SEO) *(Validated in Phase 6: `bundleBudget()` PASS at 133.7 KB gz / 67% of 200 KB; `heroBudget()` PASS for aerial-1280.{avif,webp,jpg} all ≤200 KB; React.lazy splits 3 routes; preload restricted to [640w, 1280w] (DPR=1 fix); CSS-only `<MarkSpinner>` Suspense fallback; `.lighthouserc.cjs` 4-category 0.9 assertions + `.github/workflows/lighthouse.yml` workflow_run chain. Live LH score = HUMAN-UAT #1)*
+- [x] **QA-03**: OG meta tags + Twitter Card + `theme-color="#2F3640"` + canonical URL в `index.html`. OG image — 1200×630 render з hero ізометричним кубом. Демо-URL має чисто анфурлитись у Viber/Telegram/Slack. *(Validated in Phase 6: 10 OG + 5 Twitter Card + canonical + apple-touch-icon + favicon-32 PNG link in `index.html`; `brand-assets/og/og.svg` (pre-pathed Cyrillic wordmark) → `scripts/build-og-image.mjs` → `public/og-image.png` 1200×630 (idempotent prebuild); 8 pages call `usePageTitle(...)` with em-dash U+2014 «ВИГОДА» titles. Live unfurl = HUMAN-UAT #3)*
+- [x] **DEP-01**: Автоматичний деплой на GitHub Pages (GitHub Action `build → gh-pages` або `actions/deploy-pages`) *(Validated in Phase 1 for the workflow scaffold + Phase 6 for the CI hardening: `.github/workflows/deploy.yml` uses `actions/checkout@v4` + `actions/setup-node@v4` + `npm ci` + `npm run build` + `actions/upload-pages-artifact@v3` + `actions/deploy-pages@v4`; permissions `contents:read pages:write id-token:write`; `concurrency: pages cancel-in-progress: true`; postbuild `check-brand` 7/7 gate. No `gh-pages` npm. Phase 6 added `.github/workflows/lighthouse.yml` (workflow_run chain) + `docs/CLIENT-HANDOFF.md`)*
+- [x] **DEP-02**: Публічний URL `https://yaroslavpetrukha.github.io/vugoda-website/` (або інший обліковий запис) доступний клієнту *(Validated in Phase 6: HashRouter (`App.tsx`) eliminates 404-on-hard-refresh; `docs/CLIENT-HANDOFF.md` documents 9 hardcoded-URL line edits across `index.html` + `.lighthouserc.cjs` for account swap. Live URL hard-refresh test = HUMAN-UAT #4)*
 
 ### Active
 
@@ -47,12 +52,7 @@
 - [ ] **VIS-01**: Брендові токени — точно `#2F3640` / `#C1F33D` / `#F5F7FA` / `#A7AFBC` / `#3D3B43` / `#020A0A` (CSS-змінні, Tailwind v4 theme)
 - [ ] **VIS-02**: Montserrat через `@fontsource/montserrat` (Bold/Medium/Regular), повна кирилиця
 - [ ] **ANI-03**: Hover-стани карток ЖК (subtle scale/overlay, brand-consistent)
-- [ ] **DEP-01**: Автоматичний деплой на GitHub Pages (GitHub Action `build → gh-pages` або `actions/deploy-pages`)
-- [ ] **DEP-02**: Публічний URL `https://yaroslavpetrukha.github.io/vugoda-website/` (або інший обліковий запис) доступний клієнту
 - [ ] **DEP-03**: react-router-dom **HashRouter** (не BrowserRouter) + Vite `base: '/vugoda-website/'` + `public/.nojekyll` закомічено. HashRouter позбавляє від 404-on-hard-refresh на GH Pages без трюків з 404.html. Переходимо на BrowserRouter у v2 при custom domain.
-- [ ] **QA-01**: Desktop-first 1920×1080 — виглядає бездоганно; мінімальний graceful fallback для ≥1280px; mobile/tablet — **явно out-of-scope в v1**
-- [ ] **QA-02**: Lighthouse desktop ≥ 90 (Performance, Accessibility, Best Practices, SEO)
-- [ ] **QA-03**: OG meta tags + Twitter Card + `theme-color="#2F3640"` + canonical URL в `index.html`. OG image — 1200×630 render з hero ізометричним кубом. Демо-URL має чисто анфурлитись у Viber/Telegram/Slack.
 
 ### Out of Scope
 
@@ -159,4 +159,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-25 — Phase 3 (Brand Primitives & Home Page) complete; HOME-01..07, VIS-03, VIS-04, ANI-01 validated. Audit findings CF-1, QC-1, QC-3 closed by fix commit 3ae662d before transition to Phase 4.*
+*Last updated: 2026-04-26 — Phase 6 (Performance, Mobile Fallback, Deploy) complete; QA-01, QA-02, QA-03, DEP-01, DEP-02 validated at code level (5/5 must-haves; brand-checks 7/7; eager bundle 133.7 KB gz; hero variants ≤200 KB). 5 deploy-only items persist in `06-HUMAN-UAT.md` (Lighthouse score, mobile visual, social unfurl, hard-refresh deep-link, lhci workflow_run chain) — to be cleared via `/gsd:verify-work` after the next push to main triggers `.github/workflows/lighthouse.yml`.*
