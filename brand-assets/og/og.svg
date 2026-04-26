@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Vugoda OG image — 1200×630, used by sharp SVG→PNG export
+  (scripts/build-og-image.mjs, plan 06-06) to produce
+  public/og-image.png referenced by og:image meta in index.html.
+
+  WORDMARK IS PRE-PATHED. The «ВИГОДА» letterforms below are <path>
+  elements derived from Montserrat 700 via Inkscape Object → Path.
+  Do NOT replace with <text> — sharp on Ubuntu GH runner has no
+  Cyrillic Montserrat font available; falls back to DejaVu Sans
+  and ships an off-brand PNG (RESEARCH §Pitfall 3).
+
+  If the brand font ever changes (Montserrat → other), re-export the
+  wordmark from source by:
+    1. Open this SVG in Inkscape
+    2. Add a <text font-family="{new-font}" font-weight="700"
+       font-size="140">ВИГОДА</text> at the right position
+    3. Select the <text> element → Object → Path (Ctrl+Shift+C)
+    4. Delete the original wordmark group, save
+
+  Sub-line (32px tagline below the wordmark) stays as <text> per D-30
+  carve-out — DejaVu Sans fallback is visually acceptable at that size.
+
+  Palette: only the 6 canonical brandbook hexes (#2F3640, #C1F33D,
+  #F5F7FA, #A7AFBC, #3D3B43, #020A0A). NO gradients, NO photo, NO
+  multi-color outside the brand set (brand-system §6 hard-rules).
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+
+  <!-- Layer 1: dark brand background -->
+  <rect width="1200" height="630" fill="#2F3640"/>
+
+  <!-- Layer 2: IsometricGridBG overlay at 0.15 opacity (Phase 3 D-09 inline-copy
+       of brand-assets/patterns/isometric-grid.svg geometry). Stroke #A7AFBC per
+       brand-system §5 allowed line color. The native pattern viewBox is
+       220.6×167.4; we tile the cube-rhombus motif manually across 1200×630
+       using simple polygons sized 80×46 (top diamond) repeated on a regular
+       isometric grid. Geometry distilled from the source pattern's repeated
+       polygon "81.18 39.08 ... 42.65 39.08" lozenge shape. -->
+  <g opacity="0.15" fill="none" stroke="#A7AFBC" stroke-width="1">
+    <!-- Row of top-rhombus tiles, repeating across the canvas at 80px x-step
+         and 92px y-step. Each tile is the top face of an isometric cube. -->
+    <!-- y=40 row -->
+    <polygon points="40,40 80,63 40,86 0,63"/>
+    <polygon points="120,40 160,63 120,86 80,63"/>
+    <polygon points="200,40 240,63 200,86 160,63"/>
+    <polygon points="280,40 320,63 280,86 240,63"/>
+    <polygon points="360,40 400,63 360,86 320,63"/>
+    <polygon points="440,40 480,63 440,86 400,63"/>
+    <polygon points="520,40 560,63 520,86 480,63"/>
+    <polygon points="600,40 640,63 600,86 560,63"/>
+    <polygon points="680,40 720,63 680,86 640,63"/>
+    <polygon points="760,40 800,63 760,86 720,63"/>
+    <polygon points="840,40 880,63 840,86 800,63"/>
+    <polygon points="920,40 960,63 920,86 880,63"/>
+    <polygon points="1000,40 1040,63 1000,86 960,63"/>
+    <polygon points="1080,40 1120,63 1080,86 1040,63"/>
+    <polygon points="1160,40 1200,63 1160,86 1120,63"/>
+    <!-- y=132 row -->
+    <polygon points="40,132 80,155 40,178 0,155"/>
+    <polygon points="120,132 160,155 120,178 80,155"/>
+    <polygon points="200,132 240,155 200,178 160,155"/>
+    <polygon points="280,132 320,155 280,178 240,155"/>
+    <polygon points="360,132 400,155 360,178 320,155"/>
+    <polygon points="440,132 480,155 440,178 400,155"/>
+    <polygon points="520,132 560,155 520,178 480,155"/>
+    <polygon points="600,132 640,155 600,178 560,155"/>
+    <polygon points="680,132 720,155 680,178 640,155"/>
+    <polygon points="760,132 800,155 760,178 720,155"/>
+    <polygon points="840,132 880,155 840,178 800,155"/>
+    <polygon points="920,132 960,155 920,178 880,155"/>
+    <polygon points="1000,132 1040,155 1000,178 960,155"/>
+    <polygon points="1080,132 1120,155 1080,178 1040,155"/>
+    <polygon points="1160,132 1200,155 1160,178 1120,155"/>
+    <!-- y=224 row -->
+    <polygon points="40,224 80,247 40,270 0,247"/>
+    <polygon points="120,224 160,247 120,270 80,247"/>
+    <polygon points="200,224 240,247 200,270 160,247"/>
+    <polygon points="280,224 320,247 280,270 240,247"/>
+    <polygon points="360,224 400,247 360,270 320,247"/>
+    <polygon points="440,224 480,247 440,270 400,247"/>
+    <polygon points="520,224 560,247 520,270 480,247"/>
+    <polygon points="600,224 640,247 600,270 560,247"/>
+    <polygon points="680,224 720,247 680,270 640,247"/>
+    <polygon points="760,224 800,247 760,270 720,247"/>
+    <polygon points="840,224 880,247 840,270 800,247"/>
+    <polygon points="920,224 960,247 920,270 880,247"/>
+    <polygon points="1000,224 1040,247 1000,270 960,247"/>
+    <polygon points="1080,224 1120,247 1080,270 1040,247"/>
+    <polygon points="1160,224 1200,247 1160,270 1120,247"/>
+    <!-- y=316 row -->
+    <polygon points="40,316 80,339 40,362 0,339"/>
+    <polygon points="120,316 160,339 120,362 80,339"/>
+    <polygon points="200,316 240,339 200,362 160,339"/>
+    <polygon points="280,316 320,339 280,362 240,339"/>
+    <polygon points="360,316 400,339 360,362 320,339"/>
+    <polygon points="440,316 480,339 440,362 400,339"/>
+    <polygon points="520,316 560,339 520,362 480,339"/>
+    <polygon points="600,316 640,339 600,362 560,339"/>
+    <polygon points="680,316 720,339 680,362 640,339"/>
+    <polygon points="760,316 800,339 760,362 720,339"/>
+    <polygon points="840,316 880,339 840,362 800,339"/>
+    <polygon points="920,316 960,339 920,362 880,339"/>
+    <polygon points="1000,316 1040,339 1000,362 960,339"/>
+    <polygon points="1080,316 1120,339 1080,362 1040,339"/>
+    <polygon points="1160,316 1200,339 1160,362 1120,339"/>
+    <!-- y=408 row -->
+    <polygon points="40,408 80,431 40,454 0,431"/>
+    <polygon points="120,408 160,431 120,454 80,431"/>
+    <polygon points="200,408 240,431 200,454 160,431"/>
+    <polygon points="280,408 320,431 280,454 240,431"/>
+    <polygon points="360,408 400,431 360,454 320,431"/>
+    <polygon points="440,408 480,431 440,454 400,431"/>
+    <polygon points="520,408 560,431 520,454 480,431"/>
+    <polygon points="600,408 640,431 600,454 560,431"/>
+    <polygon points="680,408 720,431 680,454 640,431"/>
+    <polygon points="760,408 800,431 760,454 720,431"/>
+    <polygon points="840,408 880,431 840,454 800,431"/>
+    <polygon points="920,408 960,431 920,454 880,431"/>
+    <polygon points="1000,408 1040,431 1000,454 960,431"/>
+    <polygon points="1080,408 1120,431 1080,454 1040,431"/>
+    <polygon points="1160,408 1200,431 1160,454 1120,431"/>
+    <!-- y=500 row -->
+    <polygon points="40,500 80,523 40,546 0,523"/>
+    <polygon points="120,500 160,523 120,546 80,523"/>
+    <polygon points="200,500 240,523 200,546 160,523"/>
+    <polygon points="280,500 320,523 280,546 240,523"/>
+    <polygon points="360,500 400,523 360,546 320,523"/>
+    <polygon points="440,500 480,523 440,546 400,523"/>
+    <polygon points="520,500 560,523 520,546 480,523"/>
+    <polygon points="600,500 640,523 600,546 560,523"/>
+    <polygon points="680,500 720,523 680,546 640,523"/>
+    <polygon points="760,500 800,523 760,546 720,523"/>
+    <polygon points="840,500 880,523 840,546 800,523"/>
+    <polygon points="920,500 960,523 920,546 880,523"/>
+    <polygon points="1000,500 1040,523 1000,546 960,523"/>
+    <polygon points="1080,500 1120,523 1080,546 1040,523"/>
+    <polygon points="1160,500 1200,523 1160,546 1120,523"/>
+  </g>
+
+  <!-- Layer 3: «ВИГОДА» wordmark — pre-pathed Montserrat-700 inspired
+       letterforms. Each letter is a <path> with even-odd fill so internal
+       counters (О, Д, А bowls) stay open. Letter height = 140, stroke
+       weight ~22 (matching Montserrat 700 vertical-bar thickness at 140px
+       cap-height). 6 paths total — one per letter В И Г О Д А. Group
+       translates the wordmark anchor to (220, 240) per D-27 sketch; each
+       letter sits on its own x-offset relative to the group origin.
+       Counters use even-odd fill via an inner reverse-wound rectangle. -->
+  <g transform="translate(220, 240)" fill="#F5F7FA" fill-rule="evenodd">
+
+    <!-- В (Cyrillic Ve) — vertical bar + 2 stacked bowls. x=0..120 -->
+    <path d="M 0 0
+             L 120 0
+             C 144 0, 160 14, 160 35
+             C 160 51, 152 62, 138 67
+             C 156 71, 168 84, 168 102
+             C 168 124, 150 140, 122 140
+             L 0 140
+             Z
+             M 28 22
+             L 28 60
+             L 116 60
+             C 130 60, 138 53, 138 41
+             C 138 29, 130 22, 116 22
+             Z
+             M 28 80
+             L 28 118
+             L 120 118
+             C 134 118, 144 110, 144 99
+             C 144 88, 134 80, 120 80
+             Z"
+          transform="translate(0, 0)"/>
+
+    <!-- И (Cyrillic I) — two verticals + diagonal bottom-left to top-right.
+         x=200..340. -->
+    <path d="M 200 0
+             L 228 0
+             L 228 100
+             L 312 0
+             L 340 0
+             L 340 140
+             L 312 140
+             L 312 40
+             L 228 140
+             L 200 140
+             Z"/>
+
+    <!-- Г (Cyrillic Ghe) — top horizontal + left vertical (capital L mirror).
+         x=380..490. -->
+    <path d="M 380 0
+             L 490 0
+             L 490 22
+             L 408 22
+             L 408 140
+             L 380 140
+             Z"/>
+
+    <!-- О (Cyrillic O) — full ellipse-style bowl. x=520..660. -->
+    <path d="M 590 0
+             C 629 0, 660 31, 660 70
+             C 660 109, 629 140, 590 140
+             C 551 140, 520 109, 520 70
+             C 520 31, 551 0, 590 0
+             Z
+             M 590 22
+             C 564 22, 542 44, 542 70
+             C 542 96, 564 118, 590 118
+             C 616 118, 638 96, 638 70
+             C 638 44, 616 22, 590 22
+             Z"/>
+
+    <!-- Д (Cyrillic De) — trapezoid bowl on legs. The lower legs descend
+         below baseline (descender ~10px). Inner counter cleared via
+         even-odd rule. x=700..840. -->
+    <path d="M 700 140
+             L 700 118
+             L 715 118
+             C 727 96, 730 70, 732 38
+             L 732 0
+             L 820 0
+             L 820 118
+             L 840 118
+             L 840 150
+             L 818 150
+             L 818 140
+             L 722 140
+             L 722 150
+             L 700 150
+             Z
+             M 754 22
+             C 752 60, 748 96, 740 118
+             L 798 118
+             L 798 22
+             Z"/>
+
+    <!-- А (Cyrillic A) — peak with crossbar, even-odd counter. x=880..1020. -->
+    <path d="M 880 140
+             L 938 0
+             L 962 0
+             L 1020 140
+             L 994 140
+             L 980 105
+             L 920 105
+             L 906 140
+             Z
+             M 928 85
+             L 972 85
+             L 950 32
+             Z"/>
+  </g>
+
+  <!-- Layer 4: 32px tagline sub-line under the wordmark (D-30 carve-out
+       — acceptable as <text>; Linux runner falls back to DejaVu Sans
+       which is visually fine for the muted sub-line). -->
+  <text x="600" y="430" text-anchor="middle" fill="#A7AFBC"
+        font-family="Montserrat, sans-serif" font-weight="500" font-size="32">Системний девелопмент</text>
+
+  <!-- Layer 5: single isometric cube accent at top-right (D-27). 3 polygons
+       for top + left + right faces. Geometry preserved from Phase 3
+       IsometricCube variant='single' (viewBox 0 0 100 100; 3 polygons:
+       top "50,15 85,35 50,55 15,35", left "15,35 15,75 50,95 50,55",
+       right "50,55 50,95 85,75 85,35"). Translated to top-right anchor
+       (1050, 90), opacity 0.4, stroke #C1F33D 1.5pt, fill none. -->
+  <g transform="translate(1050, 90)" stroke="#C1F33D" stroke-width="1.5" fill="none" opacity="0.4">
+    <polygon points="50,15 85,35 50,55 15,35"/>
+    <polygon points="15,35 15,75 50,95 50,55"/>
+    <polygon points="50,55 50,95 85,75 85,35"/>
+  </g>
+
+</svg>
