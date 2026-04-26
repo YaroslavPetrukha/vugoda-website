@@ -8,23 +8,31 @@
  * No npm deps — uses node:child_process.execSync shelling out to GNU/BSD
  * grep (the `|| true` suffix handles BSD vs GNU exit-code difference).
  *
- * 4 checks:
- *   1. denylistTerms()    — silent-displacement literals in dist/+src/
- *   2. paletteWhitelist() — hex literals in src/ ⊆ 6-canonical brandbook palette
- *   3. placeholderTokens()— {{...}}, TODO, FIXME in dist/ only (not src/)
- *   4. importBoundaries() — D-32 + D-09 import/path-literal rules
+ * 5 checks:
+ *   1. denylistTerms()      — silent-displacement literals in dist/+src/
+ *   2. paletteWhitelist()   — hex literals in src/ ⊆ 6-canonical brandbook palette
+ *   3. placeholderTokens()  — {{...}}, TODO, FIXME in dist/ only (not src/)
+ *   4. importBoundaries()   — D-32 + D-09 import/path-literal rules
+ *   5. noInlineTransition() — Phase 5 SC#1 — no inline JSX-prop transition objects in src/
  *
  * Scope: dist/+src/ for denylist (D-25), src/**\/*.{ts,tsx,css} for palette
  * (D-26), dist/ only for placeholders (D-27), src/ grep patterns for
- * boundaries (D-33). This script itself lives in scripts/ — intentionally
- * OUT of scope for all four checks, so its regex constants can reference
- * the disallowed literals without self-triggering.
+ * boundaries (D-33), src/**\/*.{ts,tsx} for noInlineTransition (Phase 5 D-27).
+ * This script itself lives in scripts/ — intentionally OUT of scope for all
+ * five checks, so its regex constants can reference the disallowed literals
+ * without self-triggering.
  *
  * Regex note (placeholderTokens): we match the FULL token pair
  * `\{\{[^}]*\}\}`, not bare `\{\{` or `\}\}`. Minified JS/CSS contains
  * unpaired `}}` from nested object-literal closings (hundreds of occurrences
  * per build). Matching only full pairs catches real Mustache-style
  * `{{token}}` leaks without false positives.
+ *
+ * Regex note (noInlineTransition): pattern is `transition=\{\{` — `=`
+ * immediately followed by double-open-brace. Matches the JSX prop form
+ * `transition={{ duration: ... }}`. Does NOT match `transition: {` (colon +
+ * single brace) which is TypeScript object syntax in motionVariants.ts
+ * Variants declarations — those are SOT-managed and correct.
  */
 import { execSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
@@ -189,12 +197,43 @@ function importBoundaries(): boolean {
   return pass;
 }
 
+// ---- 5. No inline JSX-prop transition objects (Phase 5 D-27, SC#1) ------
+// Phase 5 owns easing config: all motion timing comes from src/lib/
+// motionVariants.ts SOT (variants carry transition; consumers use
+// variants={...} or whileInView/initial/animate/exit prop names — never
+// an inline `transition={{ duration: ... }}` JSX prop).
+//
+// Pattern `transition=\{\{` requires `=` directly followed by double
+// open-brace — matches JSX prop form, NOT TypeScript object syntax
+// `transition: {` inside Variants declarations. Scope: src/ everywhere
+// including src/lib/ — Variants type literals use `transition: {` (colon)
+// which the regex does not match.
+function noInlineTransition(): boolean {
+  if (!existsSync('src')) {
+    console.log('[check-brand] PASS noInlineTransition (no src/)');
+    return true;
+  }
+  const out = run(
+    `grep -rnE "transition=\\{\\{" src/ ` +
+      `--include='*.ts' --include='*.tsx'`,
+  );
+  if (out.trim()) {
+    console.error(
+      `[check-brand] FAIL noInlineTransition — inline Motion transition objects (use variants from src/lib/motionVariants.ts):\n${out}`,
+    );
+    return false;
+  }
+  console.log('[check-brand] PASS noInlineTransition');
+  return true;
+}
+
 // ---- Aggregate -----------------------------------------------------------
 const results = [
   denylistTerms(),
   paletteWhitelist(),
   placeholderTokens(),
   importBoundaries(),
+  noInlineTransition(),
 ];
 const passed = results.filter(Boolean).length;
 console.log(`[check-brand] ${passed}/${results.length} checks passed`);
