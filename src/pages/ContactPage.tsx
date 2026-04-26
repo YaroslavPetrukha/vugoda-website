@@ -25,6 +25,7 @@ import {
   contactMailSubject,
 } from '../content/contact';
 import { ContactDetails } from '../components/sections/contact/ContactDetails';
+import { RevealOnScroll } from '../components/ui/RevealOnScroll';
 
 export default function ContactPage() {
   const href = `mailto:${email}?subject=${encodeURIComponent(contactMailSubject)}`;
@@ -32,21 +33,23 @@ export default function ContactPage() {
   return (
     <section className="bg-bg py-24">
       <div className="mx-auto flex max-w-3xl flex-col gap-12 px-6">
-        <header className="flex flex-col gap-4">
+        <RevealOnScroll as="header" className="flex flex-col gap-4">
           <h1 className="font-bold text-6xl text-text">{contactPageHeading}</h1>
           <p className="text-base text-text-muted">{contactPageSubtitle}</p>
-        </header>
+        </RevealOnScroll>
 
-        <ContactDetails />
+        <RevealOnScroll>
+          <ContactDetails />
+        </RevealOnScroll>
 
-        <div className="pt-4">
+        <RevealOnScroll className="pt-4">
           <a
             href={href}
             className="inline-flex items-center bg-accent px-8 py-4 text-base font-medium text-bg-black hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           >
             {contactPageCta}
           </a>
-        </div>
+        </RevealOnScroll>
       </div>
     </section>
   );
