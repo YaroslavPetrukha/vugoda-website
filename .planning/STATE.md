@@ -3,10 +3,10 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 05
-current_plan: 5
+current_plan: 6
 status: executing
-stopped_at: Completed 05-animations-polish 05-07-hero-session-skip-PLAN.md (Wave 3 parallel executor)
-last_updated: "2026-04-26T06:35:38.129Z"
+stopped_at: Completed 05-05b-reveal-other-routes-PLAN.md
+last_updated: "2026-04-26T06:36:01.622Z"
 progress:
   total_phases: 7
   completed_phases: 5
@@ -30,13 +30,13 @@ progress:
 ## Current Position
 
 Phase: 05 (animations-polish) — EXECUTING
-Plan: 5 of 9
+Plan: 6 of 9
 
 - **Current Phase:** 05
-- **Current Plan:** 5
+- **Current Plan:** 6
 - **Total Plans in Phase:** 9
 - **Status:** Ready to execute
-- **Stopped at:** Completed 05-animations-polish 05-07-hero-session-skip-PLAN.md (Wave 3 parallel executor)
+- **Stopped at:** Completed 05-05b-reveal-other-routes-PLAN.md
 - **Progress:** [██████████] 100%
 
 ## Roadmap Summary
@@ -316,6 +316,7 @@ Deferred to Phase 7 handoff doc:
 | Phase 05 P04 | 229 | 3 tasks | 6 files |
 | Phase 05 P05a | 3min | 2 tasks | 5 files |
 | Phase 05-animations-polish P07-hero-session-skip | 4min | 2 tasks | 2 files |
+| Phase 05-animations-polish P05b | 4m | 3 tasks | 7 files |
 
 ### Todos / Blockers
 
