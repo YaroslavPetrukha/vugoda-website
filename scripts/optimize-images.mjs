@@ -33,7 +33,12 @@ const isImage = (f) => /\.(jpg|jpeg|png|webp)$/i.test(f);
 const stripFormatSuffix = (f) => f.replace(/\.(jpg|jpeg|png|webp)$/i, '');
 
 const FORMATS = [
-  { ext: 'avif', encoder: (s) => s.avif({ quality: 50, effort: 4 }) },
+  // Phase 6 D-14: 1280w is the DPR=1 LCP target on Lighthouse Desktop —
+  // must land ≤200KB. Other widths (640w, 1920w) keep quality:50 — the
+  // 1920w retina variant is documented as not on the LCP path
+  // (D-15 carve-out + heroBudget() in scripts/check-brand.ts gates only
+  // aerial-1280.{avif,webp,jpg} per D-16).
+  { ext: 'avif', encoder: (s, w) => s.avif({ quality: w === 1280 ? 45 : 50, effort: 4 }) },
   { ext: 'webp', encoder: (s) => s.webp({ quality: 75 }) },
   { ext: 'jpg',  encoder: (s) => s.jpeg({ quality: 80, mozjpeg: true }) },
 ];
@@ -51,7 +56,7 @@ async function optimizeFile(srcPath, destDir, widths) {
       // Idempotency: skip if existing output is newer than source.
       if (existsSync(outPath) && statSync(outPath).mtimeMs >= srcMtime) continue;
       const pipeline = sharp(srcPath).resize({ width: w, withoutEnlargement: true });
-      await encoder(pipeline).toFile(outPath);
+      await encoder(pipeline, w).toFile(outPath);
     }
   }
 }
