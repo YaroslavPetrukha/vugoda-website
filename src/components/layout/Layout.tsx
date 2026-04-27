@@ -74,8 +74,13 @@ export function Layout() {
 
   return (
     <div className="flex min-h-screen flex-col bg-bg">
+      {/* Skip-link — WCAG 2.4.1 (P0-11 / AUDIT-UX §3.2). Hidden off-screen
+          until :focus-visible (first tab-press from page load). */}
+      <a href="#main-content" className="skip-link">
+        Перейти до основного контенту
+      </a>
       <Nav />
-      <main className="flex flex-1 flex-col">
+      <main id="main-content" className="flex flex-1 flex-col">
         <AnimatePresence
           mode="wait"
           initial={false}

@@ -112,6 +112,40 @@
   }
 }
 
+/* Skip-link — WCAG 2.4.1 «Bypass Blocks» (P0-11 / AUDIT-UX §3.2).
+ *
+ * Hidden off-screen by default; reveals on :focus-visible (keyboard tab
+ * from page load). Click/Enter scrolls to <main id="main-content"> so
+ * screen-reader and keyboard-only users can skip the Nav (4 tab-stops)
+ * and start reading content directly.
+ *
+ * Position fixed so the reveal sits above sticky Nav (z-50). Uses
+ * --ease-brand token (lockstep with motionVariants.ts) so visible/hidden
+ * transition matches the brand motion DNA. No motion-reduce variant
+ * needed — translateY transition is short (180ms) and not decorative;
+ * keyboard users still benefit from seeing the link slide into view
+ * (CSSWG @media (prefers-reduced-motion) excepts essential motion).
+ *
+ * Контраст: text-bg-black (#020A0A) on bg-accent (#C1F33D) = 13.5:1 (AAA).
+ */
+@utility skip-link {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 100;
+  background-color: var(--color-accent);
+  color: var(--color-bg-black);
+  padding: 0.75rem 1rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transform: translateY(calc(-100% - 1rem));
+  transition: transform 180ms var(--ease-brand);
+
+  &:focus-visible {
+    transform: translateY(0);
+  }
+}
+
 /* QA-02 Suspense fallback opacity-pulse for <MarkSpinner> (Phase 6 D-10).
  *
  * CSS-only — Suspense fallback gates lazy chunks; the fallback itself
