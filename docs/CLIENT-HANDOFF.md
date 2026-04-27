@@ -59,3 +59,23 @@ Phase 7 (post-deploy QA & client handoff) ships the 8 open KOНЦЕПЦІЯ-СА
 - Етно Дім вул. Судова — confirm or correct address
 
 These are NOT Phase 6 scope — Phase 6 ships the GitHub-account confirmation only.
+
+---
+
+## §11 — Open Client Items
+
+> **Status:** Phase 7 — single-pass form for client to answer all 8 outstanding КОНЦЕПЦІЯ-САЙТУ.md §11 items.
+> Answer these in one email/chat reply. Each item shows the current placeholder value + what visibly changes after your answer + suggested priority.
+> Priority labels (P0/P1/P2) are advisory — they do NOT block the demo URL handoff. The demo intentionally ships WITH em-dashes and ⚠ flags visible (системний девелопмент: не вдавати визначеності, якої немає).
+
+| # | Питання клієнту | Поточне значення | Що зміниться після відповіді | Пріоритет |
+|---|-----------------|------------------|------------------------------|-----------|
+| 1 | Корпоративний телефон | — | Відобразиться у футері + на `/contact` | P1 |
+| 2 | Юридична / поштова адреса | — | Відобразиться у футері + на `/contact` + у блоці довіри на головній | P1 |
+| 3 | Назва Pipeline-4 (без назви на сьогодні) | «Без назви» | Відобразиться як назва картки в агрегативному рядку на `/projects` + на головній | P2 |
+| 4 | Підтвердження Моделі-Б для стадій («У розрахунку» / «У погодженні» / «Будується» / «Здано») — формулювання правильне? | Модель-Б 4 бакети | Якщо зміна — оновлюється фільтр на `/projects` + бейджі на картках | P2 |
+| 5 | Верифікація методології §8, блоки 2 / 5 / 6 (зараз позначені знаком ⚠) — текст коректний? | ⚠-flag на 3 блоках | Зніметься ⚠-маркер у Methodology teaser на головній (blocks 2/5/6 будуть виглядати як інші) | P1 |
+| 6 | Транслітерація slug Маєтку: `maietok-vynnykivskyi` чи `maetok-vynnykivskyi`? | `maietok-vynnykivskyi` | URL картки на `/projects` (не активний у v1, готується до v2 повної сторінки) | P2 |
+| 7 | Написання «NTEREST» — без літери «I» свідоме? | NTEREST | Назва картки на `/projects`; підтвердження або заміна на «INTEREST» | P1 |
+| 8 | Адреса ЖК Етно Дім (зараз вул. Судова, Львів) — підтверджено? | вул. Судова, Львів | Відобразиться у факт-блоці на `/zhk/etno-dim` | P1 |
+
