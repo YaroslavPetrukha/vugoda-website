@@ -61,6 +61,10 @@ export const projects: Project[] = [
     ],
     whatsHappening:
       'Підписано меморандум про відновлення будівництва. Проводимо аудит наявних конструкцій та юридичне переоформлення прав забудовника.',
+    cta: {
+      label: 'Запит на передбронь →',
+      mailtoSubject: 'Запит на передбронь — ЖК Етно Дім',
+    },
     order: 2,
   },
   {
@@ -72,6 +76,10 @@ export const projects: Project[] = [
     presentation: 'grid-only',
     location: 'Винники',
     renders: ['44463.jpg.webp', '62343.png.webp'],
+    cta: {
+      label: 'Старт продажів →',
+      mailtoSubject: 'Підписка на старт продажів — ЖК Маєток Винниківський',
+    },
     order: 3,
   },
   {
@@ -84,6 +92,10 @@ export const projects: Project[] = [
     presentation: 'grid-only',
     location: 'Львів',
     renders: ['2213.jpg.webp', '2214.jpg.webp', '60217.png.webp'],
+    cta: {
+      label: 'Інвест-кейс →',
+      mailtoSubject: 'Запит інвест-кейсу — Дохідний дім NTEREST',
+    },
     order: 4,
   },
   {

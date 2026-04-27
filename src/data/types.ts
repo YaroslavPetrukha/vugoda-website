@@ -53,6 +53,18 @@ export interface Project {
   whatsHappening?: string;
   /** Short caption for AggregateRow — used only when presentation='aggregate'. */
   aggregateText?: string;
+  /**
+   * Stage-matched primary CTA on the pipeline card (P1-S4).
+   * Optional — only the 3 visible pipeline projects (memorandum / calculation /
+   * permit) have a `cta`. flagship-external uses externalUrl; aggregate has
+   * aggregateText. mailto:-only until P1-S1 ships a real form (Formspree).
+   * Brand-tone short labels per audit-shortened recommendation; mailtoSubject
+   * is the more descriptive form pre-filled into the user's mail client.
+   */
+  cta?: {
+    label: string;
+    mailtoSubject: string;
+  };
   /** Ordering on hub page; ascending. Append ЖК #6 with order: 6. */
   order: number;
 }

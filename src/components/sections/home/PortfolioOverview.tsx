@@ -29,13 +29,13 @@
 
 import { motion } from 'motion/react';
 import { flagship, pipelineGridProjects, aggregateProjects } from '../../../data/projects';
-import { ResponsivePicture } from '../../ui/ResponsivePicture';
 import {
   portfolioOverline,
   portfolioHeading,
   portfolioSubtitle,
 } from '../../../content/home';
 import { FlagshipCard } from '../projects/FlagshipCard';
+import { PipelineCard } from '../projects/PipelineCard';
 import { AggregateRow } from '../projects/AggregateRow';
 import { RevealOnScroll } from '../../ui/RevealOnScroll';
 import { SectionOverline } from '../../ui/typography';
@@ -61,38 +61,21 @@ export function PortfolioOverview() {
         {/* Flagship — extracted to <FlagshipCard> (D-02 cross-surface). */}
         <FlagshipCard project={flagship} />
 
-        {/* Pipeline 3 — mason offset on middle card breaks the flat-row
-            rhythm without breaking grid alignment below lg. */}
+        {/* Pipeline 3 — uses shared <PipelineCard> for cross-surface CTA
+            consistency (P1-S4). motion.div wrapper carries fadeUp stagger
+            + the mason offset on the middle card (lg:translate-y-12). */}
         <RevealOnScroll
           staggerChildren
           className="mb-16 grid grid-cols-1 gap-6 lg:grid-cols-3"
         >
           {pipelineGridProjects.map((project, i) => (
-            <motion.article
+            <motion.div
               key={project.slug}
               variants={fadeUp}
-              className={`hover-card flex flex-col gap-4 bg-bg-surface ${
-                i === 1 ? 'lg:translate-y-12' : ''
-              }`}
+              className={i === 1 ? 'lg:translate-y-12' : ''}
             >
-              <ResponsivePicture
-                src={`renders/${project.slug}/${project.renders[0]}`}
-                alt={project.title}
-                widths={[640, 1280]}
-                sizes="(min-width: 1280px) 400px, 100vw"
-                loading="lazy"
-                className="aspect-[4/3] w-full object-cover"
-              />
-              <div className="flex flex-col gap-2 p-6">
-                <span className="text-xs font-medium uppercase tracking-wider text-text-muted">
-                  {project.stageLabel}
-                </span>
-                <h3 className="text-xl font-bold text-text">{project.title}</h3>
-                {project.location && (
-                  <span className="text-sm text-text-muted">{project.location}</span>
-                )}
-              </div>
-            </motion.article>
+              <PipelineCard project={project} />
+            </motion.div>
           ))}
         </RevealOnScroll>
 
