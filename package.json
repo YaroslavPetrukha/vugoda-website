@@ -11,7 +11,8 @@
     "postbuild": "tsx scripts/check-brand.ts",
     "preview": "vite preview",
     "lint": "tsc --noEmit",
-    "list:construction": "tsx scripts/list-construction.ts"
+    "list:construction": "tsx scripts/list-construction.ts",
+    "audit:a11y": "node scripts/axe-audit.mjs"
   },
   "dependencies": {
     "@fontsource/montserrat": "^5.2.8",
@@ -22,6 +23,7 @@
     "react-router-dom": "^7.14.0"
   },
   "devDependencies": {
+    "@axe-core/cli": "^4.11.2",
     "@lhci/cli": "^0.15.1",
     "@tailwindcss/vite": "^4.2.4",
     "@types/node": "^22.14.0",
