@@ -38,6 +38,7 @@
  * (≥1024px) and /dev/brand + /dev/grid routes pass through to the
  * existing Phase 5 chain unchanged.
  */
+import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { pageCurtain } from '../../lib/motionVariants';
@@ -57,6 +58,16 @@ export function Layout() {
   const variants = prefersReducedMotion
     ? { hidden: { opacity: 1 }, visible: { opacity: 1 }, exit: { opacity: 1 } }
     : pageCurtain;
+
+  // P1-UX2: focus #main-content on route change so SR users hear the
+  // new page contents instead of staying parked on the nav link they
+  // clicked. tabIndex={-1} on <main> below makes it programmatically
+  // focusable without entering the tab order. Skip-link still routes
+  // here on first tab.
+  useEffect(() => {
+    const main = document.getElementById('main-content');
+    main?.focus({ preventScroll: true });
+  }, [location.pathname]);
 
   // Phase 6 D-02: JS viewport detection (not CSS-only — avoids shipping
   // desktop DOM tree to mobile bytes; lets us replace <Outlet> semantically).
@@ -85,7 +96,11 @@ export function Layout() {
         Перейти до основного контенту
       </a>
       <Nav />
-      <main id="main-content" className="flex flex-1 flex-col">
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="flex flex-1 flex-col focus:outline-none"
+      >
         <AnimatePresence
           mode="wait"
           initial={false}
