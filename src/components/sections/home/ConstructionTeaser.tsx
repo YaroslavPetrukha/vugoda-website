@@ -58,17 +58,21 @@ export function ConstructionTeaser() {
             ref={scroller}
             className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-4"
           >
-            {photos.map((file) => (
+            {photos.map((file, idx) => (
               <div
                 key={file}
                 className="relative h-[200px] w-[320px] flex-shrink-0 snap-start overflow-hidden bg-bg-surface"
               >
+                {/* P0-8: first 4 thumbs are above-fold on 1920×1080 home —
+                    eager-load avoids the empty-box first-impression flagged
+                    in AUDIT-BRAND P0-2. Beyond 4, lazy-load is correct
+                    (the brand skeleton in ResponsivePicture covers it). */}
                 <ResponsivePicture
                   src={`construction/${month.key}/${file}`}
                   alt={`Будівельний майданчик, ${month.label.toLowerCase()}`}
                   widths={[640, 960]}
                   sizes="320px"
-                  loading="lazy"
+                  loading={idx < 4 ? 'eager' : 'lazy'}
                   className="h-full w-full object-cover"
                 />
               </div>
