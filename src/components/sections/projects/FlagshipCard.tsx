@@ -37,16 +37,19 @@
  * delimited tree-prefix patterns that scripts/check-brand.ts greps for.
  */
 
+import { motion } from 'motion/react';
 import type { Project } from '../../../data/types';
 import { ResponsivePicture } from '../../ui/ResponsivePicture';
 import { overlineClasses } from '../../ui/typography';
 import { flagshipExternalCta } from '../../../content/home';
+import { useMagnet } from '../../../hooks/useMagnet';
 
 interface Props {
   project: Project;
 }
 
 export function FlagshipCard({ project }: Props) {
+  const ctaMagnet = useMagnet();
   const captionParts = [
     project.title.toUpperCase(),
     project.stageLabel.toUpperCase(),
@@ -104,14 +107,20 @@ export function FlagshipCard({ project }: Props) {
         )}
 
         {project.externalUrl && (
-          <a
-            href={project.externalUrl}
-            target="_blank"
-            rel="noopener"
-            className="mt-2 inline-flex w-fit items-center bg-accent px-6 py-3 text-base font-medium text-bg-black hover:brightness-110"
+          <motion.div
+            ref={ctaMagnet.ref as React.RefObject<HTMLDivElement>}
+            style={ctaMagnet.style}
+            className="mt-2 inline-block w-fit"
           >
-            {flagshipExternalCta}
-          </a>
+            <a
+              href={project.externalUrl}
+              target="_blank"
+              rel="noopener"
+              className="inline-flex items-center bg-accent px-6 py-3 text-base font-medium text-bg-black hover:brightness-110"
+            >
+              {flagshipExternalCta}
+            </a>
+          </motion.div>
         )}
       </div>
     </article>

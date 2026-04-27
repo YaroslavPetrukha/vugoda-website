@@ -65,6 +65,7 @@ import {
   heroPhotoReveal,
 } from '../../../lib/motionVariants';
 import { useSessionFlag } from '../../../hooks/useSessionFlag';
+import { useMagnet } from '../../../hooks/useMagnet';
 import { overlineClasses } from '../../ui/typography';
 
 export function Hero() {
@@ -72,6 +73,8 @@ export function Hero() {
   const prefersReducedMotion = useReducedMotion();
   const heroSeen = useSessionFlag('vugoda:hero-seen');
   const skipParallax = prefersReducedMotion || heroSeen;
+  const primaryMagnet = useMagnet();
+  const secondaryMagnet = useMagnet();
 
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -177,20 +180,33 @@ export function Hero() {
         </p>
 
         {/* CTA pair — primary bg-accent, secondary underline-on-hover.
-            gap-8 = 32px per spacing rhythm-lg. */}
+            gap-8 = 32px per spacing rhythm-lg. Each CTA wrapped in
+            motion.div with useMagnet (P1-M1) — RM-gated inside the hook. */}
         <div className="flex flex-wrap items-center justify-center gap-8">
-          <Link
-            to="/projects"
-            className="inline-flex items-center bg-accent px-8 py-4 text-base font-medium text-bg-black hover:brightness-110"
+          <motion.div
+            ref={primaryMagnet.ref as React.RefObject<HTMLDivElement>}
+            style={primaryMagnet.style}
+            className="inline-block"
           >
-            {heroCta}
-          </Link>
-          <Link
-            to="/contact"
-            className="inline-flex items-center text-base font-medium text-text underline-offset-4 hover:underline"
+            <Link
+              to="/projects"
+              className="inline-flex items-center bg-accent px-8 py-4 text-base font-medium text-bg-black hover:brightness-110"
+            >
+              {heroCta}
+            </Link>
+          </motion.div>
+          <motion.div
+            ref={secondaryMagnet.ref as React.RefObject<HTMLDivElement>}
+            style={secondaryMagnet.style}
+            className="inline-block"
           >
-            {heroSecondaryCta}
-          </Link>
+            <Link
+              to="/contact"
+              className="inline-flex items-center text-base font-medium text-text underline-offset-4 hover:underline"
+            >
+              {heroSecondaryCta}
+            </Link>
+          </motion.div>
         </div>
       </div>
     </section>
