@@ -1,0 +1,1 @@
+manual D-20 fallback — CI run 24979603885 (success but `.lighthouseci/` was cleaned by upload.target: 'temporary-public-storage' before artifact upload). Local lhci collect used same .lighthouserc.cjs against deployed URL post-de3b2b3 push.
