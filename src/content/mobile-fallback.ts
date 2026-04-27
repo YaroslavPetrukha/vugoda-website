@@ -32,23 +32,29 @@
  *       in a new tab (Lakeview handles its own mobile responsive)
  */
 
-/** Body copy — single paragraph, max-w-[20ch] in component (Phase 6 D-04). */
+/** Body copy — single paragraph, max-w-[20ch] in component (Phase 6 D-04).
+ *  Per AUDIT-COPY §4.19: shift from «йди звідси» bouncer-tone to
+ *  bridge-tone «у нас є план, ви в ньому є». Не виключаємо mobile-юзера —
+ *  пояснюємо маршрут. */
 export const fallbackBody =
-  'Сайт оптимізовано для екранів ≥1280px. Перегляньте на десктопі або напишіть нам';
+  'Десктоп-версія готова. Мобільна — у розробці. Зайдіть з ноутбука або напишіть — обговоримо все звідти.';
 
 /** Email — accent-fill mailto link in component. Same email as company.email
  *  but exported here as a literal so the mobile-fallback module is fully
  *  self-contained (no cross-import, simpler audit). */
 export const fallbackEmail = 'vygoda.sales@gmail.com';
 
-/** 4 CTA links in display order (D-04 ASCII layout + D-06 hrefs). */
+/** 4 CTA links in display order (D-04 ASCII layout + D-06 hrefs).
+ *  Per AUDIT-COPY §4.20: each CTA carries one extra info-bit beyond the
+ *  section name (count, scope, function, status). Mobile user learns
+ *  something, doesn't just see a navigation list. */
 export const fallbackCtas: ReadonlyArray<{
   readonly label: string;
   readonly href: string;
   readonly external: boolean;
 }> = [
-  { label: 'Проєкти →',          href: '/#/projects',         external: false },
-  { label: 'Хід будівництва →',  href: '/#/construction-log', external: false },
-  { label: 'Контакт →',          href: '/#/contact',          external: false },
-  { label: 'Перейти до Lakeview ↗', href: 'https://yaroslavpetrukha.github.io/Lakeview/', external: true },
+  { label: 'Проєкти (5 штук) →',           href: '/#/projects',         external: false },
+  { label: 'Хід будівництва (Lakeview) →', href: '/#/construction-log', external: false },
+  { label: 'Написати нам →',                href: '/#/contact',          external: false },
+  { label: 'Lakeview — окремий сайт ↗',     href: 'https://yaroslavpetrukha.github.io/Lakeview/', external: true },
 ] as const;
