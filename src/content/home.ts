@@ -142,6 +142,12 @@ export const licenseScopeNote = 'Будівельна ліцензія, безс
  *  honest about other channels. Em-dash is U+2014. */
 export const contactNote = 'Усі запити — сюди. Інші канали в розробці.';
 
+/** ContactForm overline + heading on bg-bg-black closer (P1-cleanup).
+ *  Audit found the home ContactForm was the only home section NOT bumped
+ *  to text-h2 typography in W3 — visual hierarchy gap. Overline added
+ *  to match the editorial frame pattern of the other 6 sections. */
+export const contactOverline = 'КОНТАКТ · 3 ПРИВОДИ';
+
 /** ContactForm h2 — section heading on bg-bg-black closer
  *  (Phase 3 D-29 / checker Warning 8). Per AUDIT-COPY §4.6: drop fake-friendly
  *  «поговоримо» for three concrete reasons — predметно, brand-faithful. */

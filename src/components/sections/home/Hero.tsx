@@ -52,7 +52,6 @@ import { ResponsivePicture } from '../../ui/ResponsivePicture';
 import {
   heroWordmark,
   heroCounter,
-  heroSlogan,
   heroSloganLead,
   heroSloganTail,
   heroCta,
@@ -160,18 +159,14 @@ export function Hero() {
           </span>
         </motion.h1>
 
-        {/* Mixed-weight slogan — Bold lead + Medium tail. aria-label
-            concatenates them so SR reads one sentence, not two pieces. */}
-        <p
-          aria-label={heroSlogan}
-          className="max-w-3xl text-[length:var(--text-lead)] leading-snug text-text"
-        >
-          <span aria-hidden="true" className="font-bold">
-            {heroSloganLead}
-          </span>{' '}
-          <span aria-hidden="true" className="font-medium text-text-muted">
-            {heroSloganTail}
-          </span>
+        {/* Mixed-weight slogan — Bold lead + Medium tail. Spans carry
+            visible text content for SR (no aria-label / no aria-hidden);
+            audit fix vs prior aria-label-on-p-with-aria-hidden-children
+            redundant pattern. The space between spans concatenates as
+            normal whitespace at SR level. */}
+        <p className="max-w-3xl text-[length:var(--text-lead)] leading-snug text-text">
+          <span className="font-bold">{heroSloganLead}</span>{' '}
+          <span className="font-medium text-text-muted">{heroSloganTail}</span>
         </p>
 
         {/* CTA pair — primary bg-accent, secondary underline-on-hover.

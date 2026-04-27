@@ -1,7 +1,7 @@
 /**
  * @module components/sections/home/ContactForm
  *
- * HOME-07 — Single CTA «Ініціювати діалог» that opens the user's mail
+ * HOME-07 — Single CTA «Написати команді» that opens the user's mail
  * client to a pre-filled mailto: message addressed to the corporate sales
  * inbox. The actual address comes from src/content/company.ts (`email`)
  * so a single edit propagates to Footer + TrustBlock + here.
@@ -11,6 +11,12 @@
  *    Server endpoint — v2 INFR2-04.»
  * A fake form that only concatenates inputs into a mailto query string
  * adds UI surface without real utility — D-29 rejects it.
+ *
+ * P1-cleanup typography bump (audit finding): the only home section
+ * NOT updated to W3-typography in the original sweep — fixed here:
+ *   - overline frame «КОНТАКТ · 3 ПРИВОДИ» (matches W3 pattern)
+ *   - h2 → text-h2 (was text-3xl)
+ *   - body → text-lead text-text (was text-base muted)
  *
  * Heading + body + CTA label come from src/content/home.ts (contactHeading,
  * contactBody, contactCta) — Phase 3 D-29 / checker Warning 8 closes the
@@ -22,6 +28,7 @@ import {
   contactCta,
   contactHeading,
   contactBody,
+  contactOverline,
 } from '../../../content/home';
 import { RevealOnScroll } from '../../ui/RevealOnScroll';
 
@@ -32,10 +39,17 @@ export function ContactForm() {
   const href = `mailto:${email}?subject=${encodeURIComponent(MAIL_SUBJECT)}`;
 
   return (
-    <RevealOnScroll as="section" className="bg-bg-black py-24">
-      <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 px-6 text-center">
-        <h2 className="font-bold text-3xl text-text">{contactHeading}</h2>
-        <p className="max-w-2xl text-base text-text-muted">{contactBody}</p>
+    <RevealOnScroll as="section" className="bg-bg-black py-32">
+      <div className="mx-auto flex max-w-4xl flex-col items-center gap-8 px-6 text-center">
+        <p className="text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
+          {contactOverline}
+        </p>
+        <h2 className="text-[length:var(--text-h2)] font-bold leading-[1.05] text-text">
+          {contactHeading}
+        </h2>
+        <p className="max-w-2xl text-[length:var(--text-lead)] text-text">
+          {contactBody}
+        </p>
         <a
           href={href}
           className="inline-flex items-center bg-accent px-8 py-4 text-base font-medium text-bg-black hover:brightness-110"

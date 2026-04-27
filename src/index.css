@@ -192,4 +192,16 @@
     animation: none;
     opacity: 0.6;
   }
+
+  /* Tailwind's animate-pulse utility is NOT auto-disabled under
+   * prefers-reduced-motion (its default keyframe is just opacity-pulsing
+   * but the framework leaves the runtime to honour user preference).
+   * Disable globally — pulsing «live» indicators (FlagshipCard active
+   * stage, ConstructionTeaser LIVE caption) become static at half-fade
+   * which still reads as «present, not flashing». No JSX-level changes
+   * needed at consumer sites. */
+  .animate-pulse {
+    animation: none;
+    opacity: 0.6;
+  }
 }

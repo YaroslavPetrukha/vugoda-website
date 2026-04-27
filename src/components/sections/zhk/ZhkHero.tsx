@@ -76,7 +76,7 @@ export function ZhkHero({ project }: Props) {
           </h1>
           <div className="flex flex-wrap items-center gap-4">
             {/* Stage chip — accent border, accent text on bg-black/60. */}
-            <span className="pointer-events-auto inline-flex items-center border border-accent bg-bg-black/60 px-4 py-2 text-[13px] font-medium uppercase tracking-[0.18em] text-accent">
+            <span className="inline-flex items-center border border-accent bg-bg-black/60 px-4 py-2 text-[13px] font-medium uppercase tracking-[0.18em] text-accent">
               {project.stageLabel}
             </span>
             {project.location && (

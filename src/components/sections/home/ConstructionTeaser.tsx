@@ -38,6 +38,7 @@
  */
 
 import { useRef } from 'react';
+import { useReducedMotion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { latestMonth } from '../../../data/construction';
@@ -54,13 +55,20 @@ const SCROLL_STEP = 376;
 
 export function ConstructionTeaser() {
   const scroller = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
   const month = latestMonth();
   const photos = month.teaserPhotos ?? [];
   const photoCount = month.photos.length;
   const photoCountLine = `${month.label} · ${photoCount} фото`;
 
   const scrollByDir = (dir: 1 | -1) => {
-    scroller.current?.scrollBy({ left: SCROLL_STEP * dir, behavior: 'smooth' });
+    // Audit fix: behavior 'smooth' is hardcoded JS smooth-scroll which
+    // bypasses prefers-reduced-motion (CSS scroll-behavior:smooth respects
+    // it, but scrollBy() options do not). Switch to 'auto' under RM.
+    scroller.current?.scrollBy({
+      left: SCROLL_STEP * dir,
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    });
   };
 
   return (
