@@ -40,7 +40,7 @@
  */
 import { Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import { pageFade } from '../../lib/motionVariants';
+import { pageCurtain } from '../../lib/motionVariants';
 import { useMatchMedia } from '../../hooks/useMatchMedia';
 import { Nav } from './Nav';
 import { Footer } from './Footer';
@@ -49,9 +49,14 @@ import { MobileFallback } from './MobileFallback';
 export function Layout() {
   const location = useLocation();
   const prefersReducedMotion = useReducedMotion();
+  // P1-M0a: pageCurtain replaces pageFade for cinematic «curtain rolling
+  // away» transitions on non-RM path. RM path stays a 1-frame no-op so
+  // motion-sensitive users see instant route swap (scroll-to-top still
+  // fires via onExitComplete on synchronous 0-duration exit per Motion
+  // 12.38 behaviour, RESEARCH Pitfall 3).
   const variants = prefersReducedMotion
     ? { hidden: { opacity: 1 }, visible: { opacity: 1 }, exit: { opacity: 1 } }
-    : pageFade;
+    : pageCurtain;
 
   // Phase 6 D-02: JS viewport detection (not CSS-only — avoids shipping
   // desktop DOM tree to mobile bytes; lets us replace <Outlet> semantically).

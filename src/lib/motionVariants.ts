@@ -65,6 +65,34 @@ export const pageFade: Variants = {
   },
 };
 
+/**
+ * Cinematic page-curtain — P1-M0a route transitions (AUDIT-MOTION).
+ *
+ * Continuous downward sweep:
+ *   - hidden:  inset(0 0 100% 0)  — bottom-clipped, content invisible at start
+ *   - visible: inset(0 0 0 0)     — fully revealed
+ *   - exit:    inset(0 0 100% 0)  — same bottom-clip, content sweeps off
+ *
+ * Both enter and exit clip from BOTTOM upward, producing a continuous
+ * «curtain rolling away» feel. AnimatePresence mode="wait" guarantees the
+ * old page exits BEFORE the new page enters — no visual overlap.
+ *
+ * Coupling: easeBrand. Layout.tsx swaps to a 1-frame no-op opacity pair
+ * under prefersReducedMotion (D-25 RM-threading lockstep) — clip-path
+ * animation can read aggressive for motion-sensitive users.
+ */
+export const pageCurtain: Variants = {
+  hidden: { clipPath: 'inset(0 0 100% 0)' },
+  visible: {
+    clipPath: 'inset(0 0 0% 0)',
+    transition: { duration: 0.6, ease: easeBrand },
+  },
+  exit: {
+    clipPath: 'inset(0 0 100% 0)',
+    transition: { duration: 0.5, ease: easeBrand },
+  },
+};
+
 export const parallaxRange = [0, -100] as const;
 
 /** Photo-backdrop parallax — slower than IsometricGrid (counter-direction).
