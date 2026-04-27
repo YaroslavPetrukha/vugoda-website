@@ -78,6 +78,24 @@ export const portfolioSubtitle = '1 будується · 4 у розробці 
  *  Trailing arrow is U+2197 NORTH EAST ARROW. */
 export const flagshipExternalCta = 'Сайт ЖК Lakeview ↗';
 
+/** MethodologyTeaser overline + heading — editorial frame (P1-D5).
+ *  Shows the curated «3 / 8» count so the visitor reads «we picked the
+ *  three blocks worth featuring on home», not «we listed everything».
+ *  H2 stays «Як ми будуємо» (existing) — declarative, brand-faithful. */
+export const methodologyOverline = 'Методологія · 3 / 8';
+export const methodologyHeading = 'Як ми будуємо';
+
+/** TrustBlock heading — bumped from inline string to content token for
+ *  Phase 3 D-29 boundary (P1-D6). Existing copy preserved. */
+export const trustHeading = 'Юридично та операційно';
+
+/** TrustBlock column labels — moved from inline JSX literals to tokens
+ *  for Phase 3 D-29 boundary discipline (P1-D6). Each column gets a
+ *  pictograph icon now; the label below stays as-is. */
+export const trustLabelLegal = 'Юр. особа';
+export const trustLabelLicense = 'Ліцензія';
+export const trustLabelContact = 'Контакт';
+
 /** ConstructionTeaser CTA — navigates to /construction-log (HOME-04).
  *  Per AUDIT-COPY §4.5: drop English «таймлайн» for «місяці зйомок» (a hint
  *  at monthly cadence — brand signal for «we shoot regularly»).
