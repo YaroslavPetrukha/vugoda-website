@@ -14,8 +14,27 @@
   --color-text:        #F5F7FA;  /* primary text on dark (10.5:1 AAA) */
   --color-text-muted:  #A7AFBC;  /* muted text — only ≥14pt (5.3:1 AA) */
 
-  /* Typography */
+  /* Typography — family + 2026-grade scale (P1-D10, AUDIT-DESIGN §4).
+   * Tailwind v4 maps `--text-{name}` → `text-{name}` utility. Display tier
+   * (display/display-l/figure) is reserved for max-1-per-page moments per
+   * brand-system §4 «3-4 display-моменти на сайт». H2/H3 bumped from current
+   * 30-36/20-30 to 48-72/28-40 — current sizes read 2018-grade on 1920. */
   --font-sans: "Montserrat", system-ui, -apple-system, sans-serif;
+
+  /* Display tier — wordmark «вигода», manifesto-block, page-head H1 */
+  --text-display:    clamp(120px, 14vw, 240px);  /* hero wordmark only */
+  --text-display-l:  clamp(72px,  7vw,  128px);  /* H1 page heads, manifesto */
+
+  /* Heading tier */
+  --text-h2:         clamp(48px,  4vw,  72px);   /* section H2 */
+  --text-h3:         clamp(28px,  2.2vw, 40px);  /* card / sub-section H3 */
+
+  /* Lead + body + caption */
+  --text-lead:       clamp(20px,  1.4vw, 24px);  /* slogan, intros */
+  --text-overline:   13px;                       /* uppercase tracking-[0.18em] */
+
+  /* Number block — tabular-nums Bold, ЄДРПОУ + counters */
+  --text-figure:     clamp(60px,  5vw,  96px);
 
   /* Spacing rhythm — brand-system.md §7 (brandbook gap; proposed scale) */
   --spacing-rhythm-xs: 4px;
