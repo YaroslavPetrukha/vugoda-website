@@ -1,19 +1,22 @@
 /**
  * @module components/sections/contact/ContactDetails
  *
- * CTC-01 — Реквізити-block (D-37). 4 rows in dl/dt/dd: Email,
- * Телефон, Адреса, Соцмережі. Email is the only active link (mailto);
- * phone/address render the em-dash placeholder per Phase 2 D-19;
- * social icons are href="#" with cursor-default and aria-label per
- * Phase 1 D-08 disabled-state convention.
+ * Реквізити-block — P1-D9 typography bump (AUDIT-DESIGN §9.8).
+ *
+ * 4 rows in dl/dt/dd: Email, Телефон, Адреса, Соцмережі. Email is the
+ * only active link (mailto); phone/address render the «У розробці»
+ * placeholder per Phase 2 D-19 + P0-3; social icons are <button disabled>
+ * per P0-5.
+ *
+ * Typography (P1-D9):
+ *   - dt: text-[13px] uppercase tracked muted (overline tone) — was
+ *     text-sm/text-base mixed. Stays consistent with home overline pattern.
+ *   - dd: text-[length:var(--text-lead)] — bumped from text-base for
+ *     editorial weight on the contact page. Email link gets hover:text-accent.
+ *   - Label column lg:180px (was 120px) — wider gutter for editorial feel.
  *
  * D-38: No legal-registry / license duplication here — Footer renders
- * those on every route per Phase 1 D-06 (NAV-01 footer requirements).
- * This component stays focused on contact channels only.
- *
- * WCAG note (Pitfall 6): dt labels at text-base (16px) on bg-bg pass
- * the 5.3:1 AA floor for text-text-muted (#A7AFBC on #2F3640) at ≥14pt.
- * text-sm + font-medium boosts perceived contrast at smaller sizes.
+ * those on every route per Phase 1 D-06.
  *
  * Lucide icon choice: lucide-react v1.11 does not export Instagram or
  * Facebook by name. Fallback per Phase 3 RESEARCH §I: Send (Telegram),
@@ -26,11 +29,11 @@ import { phone, address } from '../../../content/placeholders';
 
 export function ContactDetails() {
   return (
-    <dl className="grid grid-cols-1 gap-y-6 lg:grid-cols-[120px_1fr] lg:gap-x-8">
-      <dt className="text-sm font-medium uppercase tracking-wider text-text-muted lg:text-base">
+    <dl className="grid grid-cols-1 gap-y-6 lg:grid-cols-[180px_1fr] lg:gap-x-8">
+      <dt className="text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
         Email
       </dt>
-      <dd className="text-base text-text">
+      <dd className="text-[length:var(--text-lead)] text-text">
         <a
           href={`mailto:${email}`}
           className="hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
@@ -39,17 +42,17 @@ export function ContactDetails() {
         </a>
       </dd>
 
-      <dt className="text-sm font-medium uppercase tracking-wider text-text-muted lg:text-base">
+      <dt className="text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
         Телефон
       </dt>
-      <dd className="text-base text-text">{phone}</dd>
+      <dd className="text-[length:var(--text-lead)] text-text">{phone}</dd>
 
-      <dt className="text-sm font-medium uppercase tracking-wider text-text-muted lg:text-base">
+      <dt className="text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
         Адреса
       </dt>
-      <dd className="text-base text-text">{address}</dd>
+      <dd className="text-[length:var(--text-lead)] text-text">{address}</dd>
 
-      <dt className="text-sm font-medium uppercase tracking-wider text-text-muted lg:text-base">
+      <dt className="text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
         Соцмережі
       </dt>
       {/* P0-5 / AUDIT-UX §1.4.C + 1.5.B: <a href="#"> dropped users to /
@@ -61,7 +64,7 @@ export function ContactDetails() {
           type="button"
           disabled
           aria-label="Telegram (скоро)"
-          className="text-text-muted opacity-50 cursor-not-allowed"
+          className="cursor-not-allowed text-text-muted opacity-50"
         >
           <Send size={20} aria-hidden="true" />
         </button>
@@ -69,7 +72,7 @@ export function ContactDetails() {
           type="button"
           disabled
           aria-label="Instagram (скоро)"
-          className="text-text-muted opacity-50 cursor-not-allowed"
+          className="cursor-not-allowed text-text-muted opacity-50"
         >
           <MessageCircle size={20} aria-hidden="true" />
         </button>
@@ -77,7 +80,7 @@ export function ContactDetails() {
           type="button"
           disabled
           aria-label="Facebook (скоро)"
-          className="text-text-muted opacity-50 cursor-not-allowed"
+          className="cursor-not-allowed text-text-muted opacity-50"
         >
           <Globe size={20} aria-hidden="true" />
         </button>

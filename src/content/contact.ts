@@ -16,8 +16,22 @@
  *   Tone: стримано (CONCEPT §2). No marketing superlatives.
  */
 
-/** /contact page H1 (D-36). */
-export const contactPageHeading = 'Контакт';
+/** /contact page overline — «КОНТАКТ · ЛЬВІВ» frame (P1-D9). Names the
+ *  city so the visitor reads «Lviv-based, in person possible». */
+export const contactPageOverline = 'КОНТАКТ · ЛЬВІВ';
+
+/** /contact page H1 (P1-D9, AUDIT-DESIGN §9.8).
+ *  Was «Контакт» (neutral noun). Bumped to invitational «Поговоримо» —
+ *  conversational without overpromising, brand-disciplined within
+ *  «стримано» tone (this is a conversation invitation, not a marketing
+ *  superlative). Rendered at text-display-l size to match audit spec. */
+export const contactPageHeading = 'Поговоримо';
+
+/** /contact right-pane label — names the «pin-stack» 3-project preview
+ *  on the dark half of the split. Each pin is a brand IsometricCube
+ *  next to project name + city. (P1-D9 simplified vs §9.8 spec — the
+ *  full Lviv map SVG is deferred to P2 / dedicated LvivMapSvg.) */
+export const contactPinsLabel = 'Об’єкти у Львові';
 
 /** /contact page subtitle — short stripped-tone invitation (D-36).
  *  Per AUDIT-COPY §4.9 (adapted): the audit recommended «Чотири канали для
