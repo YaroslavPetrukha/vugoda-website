@@ -97,8 +97,11 @@ export const projects: Project[] = [
     stage: 'u-rozrakhunku',
     presentation: 'aggregate',
     renders: [],
+    // Per AUDIT-COPY §4.14: turn dry admin notice into a brand moment by
+    // back-referencing methodology №1 — «we don't publish until we've
+    // calculated» is the системний-девелопмент position, not an apology.
     aggregateText:
-      '+1 об’єкт у роботі — стадія прорахунку кошторисної вартості. Назва та локація будуть опубліковані після завершення розрахунків.',
+      '+1 проєкт на стадії розрахунку. Назва і локація з’являться, коли кошторис буде готовий — це наша норма (див. методологію №1).',
     order: 5,
   },
 ];

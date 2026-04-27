@@ -19,53 +19,68 @@
  *   (Phase 2 D-20 / Phase 3 D-29).
  */
 
-/** Hero gasло — verbatim from КОНЦЕПЦІЯ-САЙТУ.md §2 + brand-system.md §1.
- *  Keep typographic apostrophe (U+2019) and end punctuation. */
-export const heroSlogan = 'Системний девелопмент, у якому цінність є результатом точних рішень.';
+/** Hero gasло — per AUDIT-COPY §4.1 variant C, replaces the abstract «точних
+ *  рішень» loop with a 0/1/4 stinger that loads the brand argument in one
+ *  sentence. Keep typographic em-dash (U+2014) and end punctuation. */
+export const heroSlogan = '1 ЖК у будівництві. 4 — на стадії розрахунків і дозволів. 0 — для вітрини.';
 
-/** Hero CTA label — navigates to /projects (Phase 3 D-05). */
-export const heroCta = 'Переглянути проекти';
+/** Hero CTA label — navigates to /projects (Phase 3 D-05).
+ *  Per AUDIT-COPY §4.2: scoped count carries more weight than generic verb. */
+export const heroCta = 'Усі 5 проєктів';
 
 /** PortfolioOverview section heading — matches Nav label «Проєкти» (D-13). */
 export const portfolioHeading = 'Проєкти';
 
 /** PortfolioOverview muted subtitle — honest 0/1/4 count (D-13).
+ *  Per AUDIT-COPY §4.3: drop English «pipeline» for «у розробці»; tighter.
  *  Middle-dot is U+00B7. */
-export const portfolioSubtitle = '1 в активній фазі будівництва · 4 у pipeline · 0 здано';
+export const portfolioSubtitle = '1 будується · 4 у розробці · 0 здано';
 
 /** Flagship card external CTA — opens Lakeview site in new tab (D-14).
+ *  Per AUDIT-COPY §4.4: name the project rather than say «перейти».
  *  Trailing arrow is U+2197 NORTH EAST ARROW. */
-export const flagshipExternalCta = 'Перейти на сайт проекту ↗';
+export const flagshipExternalCta = 'Сайт ЖК Lakeview ↗';
 
 /** ConstructionTeaser CTA — navigates to /construction-log (HOME-04).
+ *  Per AUDIT-COPY §4.5: drop English «таймлайн» for «місяці зйомок» (a hint
+ *  at monthly cadence — brand signal for «we shoot regularly»).
  *  Trailing arrow is U+2192 RIGHTWARDS ARROW (typographic glyph, not ASCII >),
  *  baked into the constant so the JSX call site renders the literal verbatim
  *  (parity with flagshipExternalCta U+2197 ↗ pattern; Phase 3 D-29 / QC-3). */
-export const constructionTeaserCta = 'Дивитись повний таймлайн →';
+export const constructionTeaserCta = 'Усі місяці зйомок →';
 
-/** ContactForm primary CTA — opens mailto: (HOME-07 / D-29). */
-export const contactCta = 'Ініціювати діалог';
+/** ContactForm primary CTA — opens mailto: (HOME-07 / D-29).
+ *  Per AUDIT-COPY §4.8: drop canceloriately-juridical «Ініціювати діалог»
+ *  for human «Написати команді». */
+export const contactCta = 'Написати команді';
 
 /** MethodologyTeaser defensive ⚠-marker aria-label — used when a featured
  *  block has needsVerification: true (Phase 3 D-29 / checker Warning 6). */
 export const methodologyVerificationWarning = 'Потребує верифікації';
 
 /** TrustBlock col 2 — license-scope caption under «від {date} (безстрокова)»
- *  (Phase 3 D-29 / checker Warning 7). */
-export const licenseScopeNote = 'на провадження господарської діяльності з будівництва';
+ *  (Phase 3 D-29 / checker Warning 7). Per AUDIT-COPY §4.11: trim verbose
+ *  literal-license-clause to a punchy stripped-tone sentence. */
+export const licenseScopeNote = 'Будівельна ліцензія, безстроково.';
 
 /** TrustBlock col 3 — contact-channel caption under email anchor
- *  (Phase 3 D-29 / checker Warning 7). Em-dash is U+2014. */
-export const contactNote = 'Звернення з усіх питань — на цю адресу';
+ *  (Phase 3 D-29 / checker Warning 7). Per AUDIT-COPY §4.10: directional +
+ *  honest about other channels. Em-dash is U+2014. */
+export const contactNote = 'Усі запити — сюди. Інші канали в розробці.';
 
 /** ContactForm h2 — section heading on bg-bg-black closer
- *  (Phase 3 D-29 / checker Warning 8). Apostrophe is U+2019 right single quote. */
-export const contactHeading = 'Поговоримо про ваш об’єкт';
+ *  (Phase 3 D-29 / checker Warning 8). Per AUDIT-COPY §4.6: drop fake-friendly
+ *  «поговоримо» for three concrete reasons — predметно, brand-faithful. */
+export const contactHeading = 'Розрахунок, термін, або співпраця';
 
 /** ContactForm body — short invitational paragraph above the mailto button
- *  (Phase 3 D-29 / checker Warning 8). Apostrophe is U+2019; em-dash is U+2014. */
-export const contactBody = 'Напишіть нам — обговоримо запит, опції, графік. Без зобов’язань.';
+ *  (Phase 3 D-29 / checker Warning 8). Per AUDIT-COPY §4.7: drop «без
+ *  зобов’язань» (страхово-захисний tone), use confident promise of action.
+ *  Apostrophe is U+2019; em-dash is U+2014. */
+export const contactBody = 'Розкажіть про задачу — повернемось із розрахунком, термінами, варіантами участі.';
 
 /** Browser-tab title for `/` route. Phase 6 D-18: root keeps verbatim
- *  no-`«{Page} —» ВИГОДА` prefix form (matches og:title at root). */
-export const pageTitle = 'ВИГОДА — Системний девелопмент';
+ *  no-`«{Page} —» ВИГОДА` prefix form (matches og:title at root).
+ *  Per AUDIT-COPY §4.24: localize tab-title with «Львівський забудовник»
+ *  for SEO + brand-tab signal. */
+export const pageTitle = 'ВИГОДА — Львівський забудовник';

@@ -20,13 +20,17 @@
 export const contactPageHeading = 'Контакт';
 
 /** /contact page subtitle — short stripped-tone invitation (D-36).
- *  Bare invitation per M-2 (stripped tone wins). */
-export const contactPageSubtitle = 'Напишіть нам, щоб обговорити проект.';
+ *  Per AUDIT-COPY §4.9 (adapted): the audit recommended «Чотири канали для
+ *  звернення» but only email is currently active (phone/address are «У розробці»,
+ *  socials are disabled). Honest version: name the active channel, flag the
+ *  rest as in-progress. Brand-faithful: системно, no overpromise. */
+export const contactPageSubtitle = 'Email — основний канал. Інші — у розробці.';
 
 /** Primary mailto CTA button label (D-36). Mirrors home contactCta
  *  but kept as separate const for /contact-page editorial freedom
- *  (home label and contact-page label may diverge in v2). */
-export const contactPageCta = 'Ініціювати діалог';
+ *  (home label and contact-page label may diverge in v2).
+ *  Per AUDIT-COPY §4.8: human «Написати команді» over юридичне «Ініціювати діалог». */
+export const contactPageCta = 'Написати команді';
 
 /** Pre-filled mailto subject for /contact CTA (M-3 single-source).
  *  Identical literal to home ContactForm MAIL_SUBJECT so a returning user

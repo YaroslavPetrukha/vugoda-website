@@ -19,16 +19,23 @@
 /** Pre-filled mailto subject for the primary CTA on the etno-dim page. */
 export const mailtoSubject = 'Запит про ЖК Етно Дім';
 
-/** Primary CTA button label — accent-fill, opens mailto: */
-export const mailtoLabel = 'Написати про ЖК Етно Дім';
+/** Primary CTA button label — accent-fill, opens mailto:
+ *  Per AUDIT-COPY §4.17: «Запит» more active than «Написати про». */
+export const mailtoLabel = 'Запит по ЖК Етно Дім';
 
-/** Secondary CTA label — disabled-styled (socials.instagram === '#').
- *  Communicates «coming soon» without lying about working interactivity. */
-export const instagramLabel = 'Підписатись на оновлення (Instagram)';
+/** Secondary CTA label — per AUDIT-COPY §4.18, when Instagram channel is
+ *  not yet live, communicate status honestly rather than imply working
+ *  «Підписатись» action. NOTE: the secondary CTA is now removed entirely
+ *  in P0-4 (ZhkCtaPair.tsx) per AUDIT-MASTER §3 SIN 3 («краще нічого, ніж
+ *  disabled»). This constant is retained for v2 reuse if Instagram launches. */
+export const instagramLabel = 'Instagram — у запуску';
 
 /** 1-frame redirect placeholder for /zhk/lakeview before window.location.assign.
- *  Ellipsis is U+2026 HORIZONTAL ELLIPSIS (single glyph). */
-export const lakeviewRedirectMessage = 'Переходимо до ЖК Lakeview…';
+ *  Per AUDIT-COPY §4.16: explain WHY the redirect happens (own site exists)
+ *  rather than just announce the redirect. Ellipsis is U+2026.
+ *  NOTE: superseded in P0-6 by react-router <Navigate> — this string is no
+ *  longer rendered in production after that fix; retained for v2. */
+export const lakeviewRedirectMessage = 'Lakeview має власний сайт. Переходимо…';
 
 /** Browser-tab title for `/zhk/etno-dim` route. Phase 6 D-18 format
  *  «{Page} — ВИГОДА». For dynamically-resolved slugs other than etno-dim,
