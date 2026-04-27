@@ -42,3 +42,30 @@ export const lakeviewRedirectMessage = 'Lakeview має власний сайт.
  *  ZhkPage uses interpolation `${project.title} — ВИГОДА`; for the
  *  hard-coded etno-dim path the value is locked here for traceability. */
 export const pageTitle = 'ЖК Етно Дім — ВИГОДА';
+
+/** ZhkHero overline — appears above the hero caption stack (P1-D7).
+ *  Brand-faithful: signals «we picked this project for the full
+ *  editorial» without forbidden lexicon. Middle-dot is U+00B7. */
+export const zhkHeroOverline = 'ЖК · ПОВНИЙ КЕЙС';
+
+/** ZhkWhatsHappening narrative arrow — overline above the H2 (P1-D7).
+ *  Three-stage timeline of the project's restoration arc, brand-faithful.
+ *  «→» is U+2192 RIGHTWARDS ARROW (typographic, not ASCII >). */
+export const whatsHappeningTimeline =
+  'Об’єкт законсервовано → меморандум 2026 → старт відновлення';
+
+/** ZhkWhatsHappening section heading — bumped to text-h2 token (P1-D7). */
+export const whatsHappeningHeading = 'Що відбувається зараз';
+
+/** ZhkFactBlock section overline — minimal frame (P1-D7).
+ *  «Об’єкт» is U+2019 RIGHT SINGLE QUOTATION MARK (apostrophe form). */
+export const factBlockOverline = 'Параметри об’єкта';
+
+/** ZhkFactBlock dl labels — moved from inline JSX literals to tokens
+ *  for D-29 boundary discipline (P1-D7). */
+export const factBlockLabelStage = 'Стадія';
+export const factBlockLabelLocation = 'Локація';
+export const factBlockLabelAddress = 'Адреса';
+
+/** ZhkGallery section overline — frames the render set (P1-D7). */
+export const galleryOverline = 'Архітектура · 8 рендерів';
