@@ -150,7 +150,7 @@
   4. Lighthouse desktop results archived per route (≥90 all 4 categories documented); tested at 1280 / 1366 / 1440 / 1920 widths for layout verification; mobile fallback rendered correctly at <1024px (verified on real iPhone viewport or DevTools device emulation, not just CSS media query)
   5. `docs/CLIENT-HANDOFF.md` exists listing all 8 open CONCEPT §11 items (phone, юр. адреса, Pipeline-4 назва, Model-Б підтвердження, методологія блоки 2/5/6 верифікація, slug транслітерація `maietok` vs `maetok`, «NTEREST» без «I» підтвердження, Етно Дім вул. Судова підтвердження) with the current placeholder value and the field the client should fill — one-pass client answer captures them all
 **Plans**: 9 plans
-  - [ ] 07-01-axe-script-and-devdep-PLAN.md — install @axe-core/cli + scripts/axe-audit.mjs + 5 route JSONs + axe-summary.md (Wave 1, SC#3 a11y)
+  - [x] 07-01-axe-script-and-devdep-PLAN.md — install @axe-core/cli + scripts/axe-audit.mjs + 5 route JSONs + axe-summary.md (Wave 1, SC#3 a11y)
   - [x] 07-02-clienthandoff-section-11-PLAN.md — append §11 8-row table + dev appendix to docs/CLIENT-HANDOFF.md (Wave 1, SC#5)
   - [ ] 07-03-keyboard-walkthrough-PLAN.md — manual Tab+Enter walk per route + lightbox focus-trap subsection (Wave 2, SC#1)
   - [ ] 07-04-hard-refresh-test-PLAN.md — 6-row cold-incognito-per-window deep-link table (Wave 2, SC#2 + UAT-4)
