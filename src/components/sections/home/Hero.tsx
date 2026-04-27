@@ -62,6 +62,7 @@ import {
   photoParallaxRange,
   heroIntroParent,
   heroLetter,
+  heroPhotoReveal,
 } from '../../../lib/motionVariants';
 import { useSessionFlag } from '../../../hooks/useSessionFlag';
 import { overlineClasses } from '../../ui/typography';
@@ -99,11 +100,16 @@ export function Hero() {
       className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-bg"
     >
       {/* Layer 1 — photo backdrop (Lakeview aerial), slow parallax DOWN.
+          First-paint image-reveal: L→R clip-path wipe (M0b), gated by
+          skipParallax so RM/heroSeen revisits get a static visible photo.
           aria-hidden because alt context lives in PortfolioOverview below. */}
       <motion.div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 opacity-[0.18]"
         style={{ y: photoY }}
+        variants={skipParallax ? undefined : heroPhotoReveal}
+        initial={skipParallax ? false : 'hidden'}
+        animate={skipParallax ? undefined : 'visible'}
       >
         <ResponsivePicture
           src="renders/lakeview/aerial.jpg"

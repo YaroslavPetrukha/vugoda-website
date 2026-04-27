@@ -100,6 +100,39 @@ export const parallaxRange = [0, -100] as const;
 export const photoParallaxRange = [0, 60] as const;
 
 /**
+ * Hero photo backdrop — first-paint image-reveal mask (P1-M0b, AUDIT-MOTION).
+ *
+ * Left-to-right clip-path wipe that emerges the Lakeview aerial backdrop
+ * AFTER the page-curtain finishes. Reads as a deliberate camera-pan
+ * establishing shot — distinct from the curtain's top-down sweep so the
+ * two motions don't double up visually.
+ *
+ *   - hidden:  clipPath inset(0 100% 0 0)  — clipped from right, photo invisible
+ *   - visible: clipPath inset(0 0 0 0)     — fully revealed
+ *
+ * Sequencing:
+ *   - pageCurtain duration = 0.6s (route shell sweep)
+ *   - heroPhotoReveal delay = 0.5s (slight overlap, photo emerges as
+ *     curtain settles — passes the visual baton, no dead frame)
+ *   - heroPhotoReveal duration = 1.0s (cinematic, slower than curtain)
+ *
+ * Coupling: easeBrand. Hero.tsx threads `skipParallax` (prefersReducedMotion
+ * || heroSeen sessionFlag) — both states render the photo statically visible
+ * with no clip animation. RM-threading lockstep per D-25.
+ *
+ * Composition note: Hero's photo motion.div ALSO carries `style={{ y: photoY }}`
+ * (parallax motion value). Motion combines variants + style motion values
+ * cleanly — clipPath animates while y stays driven by useScroll.
+ */
+export const heroPhotoReveal: Variants = {
+  hidden: { clipPath: 'inset(0 100% 0 0)' },
+  visible: {
+    clipPath: 'inset(0 0 0 0)',
+    transition: { duration: 1.0, ease: easeBrand, delay: 0.5 },
+  },
+};
+
+/**
  * Hero wordmark — letter-by-letter mask reveal (P1-D1, AUDIT-DESIGN §10 Pattern 3).
  *
  * Parent stages children with 60ms cadence and 200ms delay so the cinematic
