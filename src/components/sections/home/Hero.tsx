@@ -1,34 +1,42 @@
 /**
  * @module components/sections/home/Hero
  *
- * HOME-01 + ANI-01 + VIS-03 + VIS-04 — the desktop-opening hero.
+ * Cinematic Hero — P1-D1 rebuild (AUDIT-DESIGN §9.1, §4.3, §10 Pattern 3).
  *
- * Anatomy (Phase 3 D-01..D-06):
- *   - 100vh section, max-w-7xl inner content (D-01, D-24)
- *   - <h1> ВИГОДА Montserrat 700 uppercase, clamp(120px, 12vw, 200px) (D-02)
- *   - <IsometricGridBG opacity 0.15> overlay, parallax-translates UP on scroll (D-03 + D-04)
- *   - Gasло paragraph from src/content/home.ts (D-06, D-29)
- *   - CTA "Переглянути проекти" -> /projects via <Link> (D-05)
+ * Layered composition (z-order, bottom → top):
+ *   z-0  bg-bg base color
+ *   z-1  Photo backdrop (Lakeview aerial render @ opacity 0.18) — slow
+ *        parallax DOWN (counter-direction to grid). LCP-eager.
+ *   z-2  IsometricGridBG @ opacity 0.15 — slow parallax UP. Existing.
+ *   z-10 Counter strip top-left — 1·4·0 honest data tile (text-overline).
+ *   z-10 Wordmark «вигода» (lowercase, text-display Bold) — letter-by-letter
+ *        mask-reveal on first visit (Pattern 3, easeBrand 0.5s/letter,
+ *        stagger 60ms). RM-gated and session-gated.
+ *   z-10 Mixed-weight slogan — Bold lead + Medium tail (AUDIT-DESIGN §4.2).
+ *   z-10 CTA pair — primary bg-accent + secondary underline-on-hover.
  *
- * Parallax recipe (D-04 + Phase 5 D-28):
- *   - useScroll scoped to hero section (target: heroRef) — stops once hero scrolls out
- *   - useTransform maps scrollYProgress 0->1 to translateY 0 -> -100px
- *     (Roadmap SC#1 says strictly «<120px»; -100 keeps a 20px headroom)
- *   - The [0, -100] magnitude lives in `parallaxRange` named export in
- *     src/lib/motionVariants.ts (Phase 5 D-22 SOT). Hero imports it; the
- *     hook calls themselves stay component-local per React rule-of-hooks.
- *   - Linear (no spring, no bounce — D-04)
+ * Parallax recipe (Phase 5 D-04 + D-22):
+ *   - useScroll scoped to hero section (target: heroRef)
+ *   - Grid translates UP    [0, -100] (parallaxRange,        SOT)
+ *   - Photo translates DOWN [0, +60]  (photoParallaxRange,   SOT)
+ *   - Linear (no spring/bounce per brand discipline §6).
  *
  * Reduced-motion + session-skip (Phase 5 D-17..D-21):
- *   - useReducedMotion() — when reduce, output range collapses to [0, 0]
- *     (hard override per D-20)
- *   - useSessionFlag('vugoda:hero-seen') — on 2nd+ visit in session, output
- *     range collapses to [0, 0] (cinematic intro skipped per SC#5;
- *     demo-pitch reload doesn't force re-watching)
- *   - Combined boolean: skipParallax = prefersReducedMotion || heroSeen
+ *   - prefersReducedMotion (Motion's hook) → output ranges collapse to [0, 0]
+ *   - heroSeen (sessionStorage) → revisit also collapses ranges (cinematic
+ *     intro skipped per SC#5 — demo-pitch reload doesn't re-watch).
+ *   - skipParallax = prefersReducedMotion || heroSeen
+ *   - Letter-reveal also gated by skipParallax: when true, wordmark renders
+ *     with no variants and is statically visible (no flash-of-hidden).
  *
- * NO inline Motion transition objects — Phase 5 SOT in motionVariants.ts
- * carries duration + ease via variants only (SC#1 grep gate).
+ * Brand discipline:
+ *   - Wordmark lowercase resolves duo-brand pairing (logo is lowercase).
+ *   - 6-color palette: bg/text/accent/text-muted only. No glow/shadow/spring.
+ *   - mix-blend-mode: difference deferred to W2+ when photo strip + video
+ *     layer richen the backdrop tonally — at W1 photo @ 0.18 opacity is too
+ *     thin for difference to read brand-faithfully.
+ *
+ * NO inline Motion transition objects — Phase 5 SOT in motionVariants.ts.
  */
 
 import { useRef } from 'react';
@@ -40,8 +48,22 @@ import {
 } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { IsometricGridBG } from '../../brand/IsometricGridBG';
-import { heroSlogan, heroCta } from '../../../content/home';
-import { parallaxRange } from '../../../lib/motionVariants';
+import { ResponsivePicture } from '../../ui/ResponsivePicture';
+import {
+  heroWordmark,
+  heroCounter,
+  heroSlogan,
+  heroSloganLead,
+  heroSloganTail,
+  heroCta,
+  heroSecondaryCta,
+} from '../../../content/home';
+import {
+  parallaxRange,
+  photoParallaxRange,
+  heroIntroParent,
+  heroLetter,
+} from '../../../lib/motionVariants';
 import { useSessionFlag } from '../../../hooks/useSessionFlag';
 
 export function Hero() {
@@ -55,38 +77,119 @@ export function Hero() {
     offset: ['start start', 'end start'],
   });
 
-  const cubeY = useTransform(
+  const gridY = useTransform(
     scrollYProgress,
     [0, 1],
     skipParallax ? [0, 0] : [...parallaxRange],
   );
+
+  const photoY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    skipParallax ? [0, 0] : [...photoParallaxRange],
+  );
+
+  // Split wordmark to characters for letter-by-letter reveal. aria-label on
+  // <h1> carries the full word so screen-readers read it once, not 6 times.
+  const wordmarkChars = [...heroWordmark];
 
   return (
     <section
       ref={heroRef}
       className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-bg"
     >
-      {/* Parallax overlay — translates UP on scroll, behind wordmark */}
+      {/* Layer 1 — photo backdrop (Lakeview aerial), slow parallax DOWN.
+          aria-hidden because alt context lives in PortfolioOverview below. */}
+      <motion.div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-[0.18]"
+        style={{ y: photoY }}
+      >
+        <ResponsivePicture
+          src="renders/lakeview/aerial.jpg"
+          alt=""
+          loading="eager"
+          fetchPriority="high"
+          sizes="100vw"
+          className="h-full w-full object-cover"
+          skeleton={false}
+        />
+      </motion.div>
+
+      {/* Layer 2 — isometric grid overlay, slow parallax UP (existing). */}
       <motion.div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
-        style={{ y: cubeY }}
+        style={{ y: gridY }}
       >
         <IsometricGridBG className="h-full w-full" opacity={0.15} />
       </motion.div>
 
-      {/* Hero content — max-w-7xl per D-24 */}
+      {/* Counter strip — top-left, honest 1·4·0 data tile. */}
+      <p className="absolute top-12 left-12 z-10 text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
+        {heroCounter}
+      </p>
+
+      {/* Hero content stack — max-w-7xl per D-24. */}
       <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center gap-12 px-6 text-center">
-        <h1 className="font-bold uppercase tracking-tight text-[clamp(120px,12vw,200px)] leading-none text-text">
-          ВИГОДА
-        </h1>
-        <p className="max-w-3xl text-xl text-text">{heroSlogan}</p>
-        <Link
-          to="/projects"
-          className="inline-flex items-center bg-accent px-8 py-4 text-base font-medium text-bg-black hover:brightness-110"
+        {/*
+         * Wordmark — lowercase «вигода», letter-by-letter mask reveal.
+         * <h1> carries aria-label with the full word (single SR announcement);
+         * each <span> is aria-hidden so the SR doesn't read 6 letters.
+         * Inner <span> wrapper has overflow-hidden — clips y: 100% hidden
+         * state to produce the mask effect (motionVariants.ts contract).
+         */}
+        <motion.h1
+          aria-label={heroWordmark}
+          className="text-[length:var(--text-display)] font-bold leading-[0.85] tracking-tight text-text"
+          variants={skipParallax ? undefined : heroIntroParent}
+          initial={skipParallax ? false : 'hidden'}
+          animate={skipParallax ? undefined : 'visible'}
         >
-          {heroCta}
-        </Link>
+          <span className="inline-flex overflow-hidden pb-[0.05em]">
+            {wordmarkChars.map((ch, i) => (
+              <motion.span
+                key={i}
+                aria-hidden="true"
+                className="inline-block"
+                variants={skipParallax ? undefined : heroLetter}
+              >
+                {ch}
+              </motion.span>
+            ))}
+          </span>
+        </motion.h1>
+
+        {/* Mixed-weight slogan — Bold lead + Medium tail. aria-label
+            concatenates them so SR reads one sentence, not two pieces. */}
+        <p
+          aria-label={heroSlogan}
+          className="max-w-3xl text-[length:var(--text-lead)] leading-snug text-text"
+        >
+          <span aria-hidden="true" className="font-bold">
+            {heroSloganLead}
+          </span>{' '}
+          <span aria-hidden="true" className="font-medium text-text-muted">
+            {heroSloganTail}
+          </span>
+        </p>
+
+        {/* CTA pair — primary bg-accent, secondary underline-on-hover.
+            gap-8 = 32px per spacing rhythm-lg. */}
+        <div className="flex flex-wrap items-center justify-center gap-8">
+          <Link
+            to="/projects"
+            className="inline-flex items-center bg-accent px-8 py-4 text-base font-medium text-bg-black hover:brightness-110"
+          >
+            {heroCta}
+          </Link>
+          <Link
+            to="/contact"
+            className="inline-flex items-center text-base font-medium text-text underline-offset-4 hover:underline"
+          >
+            {heroSecondaryCta}
+          </Link>
+        </div>
       </div>
     </section>
   );

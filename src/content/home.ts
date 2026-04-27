@@ -19,14 +19,39 @@
  *   (Phase 2 D-20 / Phase 3 D-29).
  */
 
-/** Hero gasло — per AUDIT-COPY §4.1 variant C, replaces the abstract «точних
- *  рішень» loop with a 0/1/4 stinger that loads the brand argument in one
- *  sentence. Keep typographic em-dash (U+2014) and end punctuation. */
-export const heroSlogan = '1 ЖК у будівництві. 4 — на стадії розрахунків і дозволів. 0 — для вітрини.';
+/** Hero wordmark — lowercase, brand-faithful per concept §5.3 + brandbook
+ *  duo-bren rule (AUDIT-DESIGN §4.3). The wordmark «вигода» sits at top-of-
+ *  hero in clamp(120px,14vw,240px) Bold, letter-by-letter mask-revealed at
+ *  load. Lowercase resolves the duo-brand mismatch (logo is lowercase, prior
+ *  hero rendered ВЕЛИКИМИ — broke the pair). */
+export const heroWordmark = 'вигода';
 
-/** Hero CTA label — navigates to /projects (Phase 3 D-05).
+/** Hero data-counter — top-left overline strip (P1-D1).
+ *  Brand-faithful 0/1/4 stat tile, complements the slogan below without
+ *  duplicating its sentence rhythm. Caption tone, not narrative. */
+export const heroCounter = '1 активний · 4 у розробці · 0 зданих';
+
+/** Hero slogan — split into two pieces for mixed-weight rendering
+ *  (AUDIT-DESIGN §4.2 + §9.1). The leading clause (Bold) loads the
+ *  argument; the trailing clause (Medium) softens it. Concatenated with
+ *  a space when read by screen-readers via aria-label.
+ *
+ *  Content per AUDIT-COPY §4.1 variant C — 0/1/4 stinger that names
+ *  the honest portfolio truth in one sentence. Em-dash is U+2014. */
+export const heroSloganLead = '1 ЖК у будівництві.';
+export const heroSloganTail = '4 — на стадії розрахунків і дозволів. 0 — для вітрини.';
+
+/** Backwards-compat: full slogan string for screen-reader aria-label and
+ *  any legacy consumers. Equal to heroSloganLead + ' ' + heroSloganTail. */
+export const heroSlogan = `${heroSloganLead} ${heroSloganTail}`;
+
+/** Hero primary CTA label — navigates to /projects (Phase 3 D-05).
  *  Per AUDIT-COPY §4.2: scoped count carries more weight than generic verb. */
 export const heroCta = 'Усі 5 проєктів';
+
+/** Hero secondary CTA label — navigates to /contact (P1-D1).
+ *  Underlined-on-hover, sits next to primary bg-accent CTA. */
+export const heroSecondaryCta = 'Контакт';
 
 /** PortfolioOverview section heading — matches Nav label «Проєкти» (D-13). */
 export const portfolioHeading = 'Проєкти';

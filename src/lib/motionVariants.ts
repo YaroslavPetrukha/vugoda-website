@@ -66,3 +66,40 @@ export const pageFade: Variants = {
 };
 
 export const parallaxRange = [0, -100] as const;
+
+/** Photo-backdrop parallax — slower than IsometricGrid (counter-direction).
+ *  Translates DOWN as user scrolls (positive Y). 60px keeps hero contained. */
+export const photoParallaxRange = [0, 60] as const;
+
+/**
+ * Hero wordmark — letter-by-letter mask reveal (P1-D1, AUDIT-DESIGN §10 Pattern 3).
+ *
+ * Parent stages children with 60ms cadence and 200ms delay so the cinematic
+ * intro reads "compose then reveal" — wordmark exists in the layout
+ * (occupying space) before the letters slide up from clipped y: 100%.
+ *
+ * Companion easing: easeBrand (4-tuple), companion duration: 0.5s per letter.
+ *
+ * Wrapper around the letters MUST set `overflow: hidden` so the y: 100%
+ * hidden state is clipped by the bounding box (mask effect, not just
+ * fade-up). Hero.tsx is the consumer; consumer-side overflow is the contract.
+ *
+ * RM threading: Hero.tsx switches `initial`/`animate` props to skip variants
+ * entirely when prefersReducedMotion || heroSeen — variant declarations
+ * stay pure (no RM-aware branching here, lockstep rule per D-23).
+ */
+export const heroIntroParent: Variants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.06, delayChildren: 0.2 },
+  },
+};
+
+export const heroLetter: Variants = {
+  hidden: { y: '100%', opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { duration: 0.5, ease: easeBrand },
+  },
+};
