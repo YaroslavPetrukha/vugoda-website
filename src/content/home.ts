@@ -86,6 +86,17 @@ export const flagshipExternalCta = 'Сайт ЖК Lakeview ↗';
  *  (parity with flagshipExternalCta U+2197 ↗ pattern; Phase 3 D-29 / QC-3). */
 export const constructionTeaserCta = 'Усі місяці зйомок →';
 
+/** ConstructionTeaser live-caption — LIVE label with pulsing dot
+ *  (P1-D4, AUDIT-DESIGN §9.4). The «БУДІВНИЦТВО» trailing word names
+ *  the activity, while «LIVE» signals fresh-feed cadence. Middle-dot U+00B7. */
+export const constructionLiveLabel = 'LIVE · БУДІВНИЦТВО';
+
+/** ConstructionTeaser location line — names the project + city below the
+ *  LIVE caption (P1-D4). Connects the construction feed to the flagship
+ *  ЖК so the visitor reads «we're shooting Lakeview right now», not
+ *  «generic stock construction». Middle-dot U+00B7. */
+export const constructionLocationLine = 'ЖК Lakeview · Львів';
+
 /** ContactForm primary CTA — opens mailto: (HOME-07 / D-29).
  *  Per AUDIT-COPY §4.8: drop canceloriately-juridical «Ініціювати діалог»
  *  for human «Написати команді». */
