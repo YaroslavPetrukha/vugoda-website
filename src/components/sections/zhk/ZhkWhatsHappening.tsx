@@ -28,10 +28,10 @@
  * NO prices, NO sale terms — pipeline projects per PROJECT.md hard rule.
  */
 
-import { motion, useReducedMotion } from 'motion/react';
 import type { Project } from '../../../data/types';
 import { RevealOnScroll } from '../../ui/RevealOnScroll';
-import { accentBarDraw } from '../../../lib/motionVariants';
+import { SectionOverline } from '../../ui/typography';
+import { AccentBar } from '../../ui/AccentBar';
 import {
   whatsHappeningTimeline,
   whatsHappeningHeading,
@@ -42,41 +42,21 @@ interface Props {
 }
 
 export function ZhkWhatsHappening({ project }: Props) {
-  const prefersReducedMotion = useReducedMotion();
-
   if (!project.whatsHappening) return null;
 
   return (
     <RevealOnScroll as="section" className="bg-bg-surface py-32">
       <div className="mx-auto max-w-5xl px-6">
-        <p className="mb-6 text-[13px] font-medium uppercase tracking-[0.18em] text-accent">
+        <SectionOverline tone="accent" className="mb-6">
           {whatsHappeningTimeline}
-        </p>
+        </SectionOverline>
         <h2 className="mb-10 text-[length:var(--text-h2)] font-bold leading-[1.05] text-text">
           {whatsHappeningHeading}
         </h2>
         <p className="text-[length:var(--text-lead)] leading-relaxed text-text">
           {project.whatsHappening}
         </p>
-        <div className="mt-12">
-          {prefersReducedMotion ? (
-            <span
-              aria-hidden="true"
-              className="block h-px bg-accent"
-              style={{ width: 64 }}
-            />
-          ) : (
-            <motion.span
-              aria-hidden="true"
-              className="block h-px origin-left bg-accent"
-              style={{ width: 64 }}
-              variants={accentBarDraw}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.6 }}
-            />
-          )}
-        </div>
+        <AccentBar className="mt-12" />
       </div>
     </RevealOnScroll>
   );

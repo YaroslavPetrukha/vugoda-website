@@ -25,6 +25,7 @@ import type { Project } from '../../../data/types';
 import { ResponsivePicture } from '../../ui/ResponsivePicture';
 import { Lightbox, type LightboxPhoto } from '../../ui/Lightbox';
 import { RevealOnScroll } from '../../ui/RevealOnScroll';
+import { SectionOverline } from '../../ui/typography';
 import { fadeUp } from '../../../lib/motionVariants';
 import { galleryOverline } from '../../../content/zhk-etno-dim';
 
@@ -48,9 +49,7 @@ export function ZhkGallery({ project }: Props) {
   return (
     <RevealOnScroll as="section" className="bg-bg py-24">
       <div className="mx-auto max-w-7xl px-6">
-        <p className="mb-12 text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
-          {galleryOverline}
-        </p>
+        <SectionOverline className="mb-12">{galleryOverline}</SectionOverline>
 
         {/* Feature render — full-width 16:10. */}
         <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} className="mb-6">

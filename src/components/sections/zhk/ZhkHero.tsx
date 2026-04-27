@@ -39,6 +39,7 @@
 
 import type { Project } from '../../../data/types';
 import { ResponsivePicture } from '../../ui/ResponsivePicture';
+import { SectionOverline, overlineClasses } from '../../ui/typography';
 import { zhkHeroOverline } from '../../../content/zhk-etno-dim';
 
 interface Props {
@@ -68,15 +69,13 @@ export function ZhkHero({ project }: Props) {
           caption stays readable on bright/varied renders. */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-bg-black/90 via-bg-black/40 to-transparent">
         <div className="mx-auto flex max-w-7xl flex-col gap-6 px-6 pb-16 pt-32">
-          <p className="text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
-            {zhkHeroOverline}
-          </p>
+          <SectionOverline>{zhkHeroOverline}</SectionOverline>
           <h1 className="text-[length:var(--text-display-l)] font-bold leading-[0.95] text-text">
             {project.title}
           </h1>
           <div className="flex flex-wrap items-center gap-4">
             {/* Stage chip — accent border, accent text on bg-black/60. */}
-            <span className="inline-flex items-center border border-accent bg-bg-black/60 px-4 py-2 text-[13px] font-medium uppercase tracking-[0.18em] text-accent">
+            <span className={`inline-flex items-center border border-accent bg-bg-black/60 px-4 py-2 ${overlineClasses} text-accent`}>
               {project.stageLabel}
             </span>
             {project.location && (

@@ -39,6 +39,7 @@
 
 import type { Project } from '../../../data/types';
 import { ResponsivePicture } from '../../ui/ResponsivePicture';
+import { overlineClasses } from '../../ui/typography';
 import { flagshipExternalCta } from '../../../content/home';
 
 interface Props {
@@ -74,9 +75,7 @@ export function FlagshipCard({ project }: Props) {
               steals clicks from CTA. Gradient softens edge so caption
               stays readable on bright aerial shots. */}
           <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-bg-black/85 via-bg-black/40 to-transparent p-8">
-            <p className="text-[13px] font-medium uppercase tracking-[0.18em] text-text">
-              {captionLine}
-            </p>
+            <p className={`${overlineClasses} text-text`}>{captionLine}</p>
           </div>
         </div>
       )}
@@ -89,7 +88,7 @@ export function FlagshipCard({ project }: Props) {
             aria-hidden="true"
             className="block h-2 w-2 animate-pulse rounded-full bg-accent"
           />
-          <span className="text-[13px] font-medium uppercase tracking-[0.18em] text-accent">
+          <span className={`${overlineClasses} text-accent`}>
             {project.stageLabel}
           </span>
         </div>

@@ -27,6 +27,7 @@
 import type { Project } from '../../../data/types';
 import { etnoDimAddress } from '../../../content/placeholders';
 import { RevealOnScroll } from '../../ui/RevealOnScroll';
+import { SectionOverline, overlineClasses } from '../../ui/typography';
 import {
   factBlockOverline,
   factBlockLabelStage,
@@ -42,23 +43,21 @@ export function ZhkFactBlock({ project }: Props) {
   return (
     <RevealOnScroll as="section" className="bg-bg py-24">
       <div className="mx-auto max-w-7xl px-6">
-        <p className="mb-8 text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
-          {factBlockOverline}
-        </p>
+        <SectionOverline className="mb-8">{factBlockOverline}</SectionOverline>
         <dl className="grid grid-cols-1 gap-y-8 border-t border-text-muted/15 pt-12 lg:grid-cols-[180px_1fr] lg:gap-x-12">
-          <dt className="text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
+          <dt className={`${overlineClasses} text-text-muted`}>
             {factBlockLabelStage}
           </dt>
           <dd className="text-[length:var(--text-lead)] text-text">
             {project.stageLabel}
           </dd>
-          <dt className="text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
+          <dt className={`${overlineClasses} text-text-muted`}>
             {factBlockLabelLocation}
           </dt>
           <dd className="text-[length:var(--text-lead)] text-text">
             {project.location ?? '—'}
           </dd>
-          <dt className="text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
+          <dt className={`${overlineClasses} text-text-muted`}>
             {factBlockLabelAddress}
           </dt>
           <dd className="text-[length:var(--text-lead)] text-text">

@@ -50,6 +50,7 @@ import {
   trustLabelContact,
 } from '../../../content/home';
 import { RevealOnScroll } from '../../ui/RevealOnScroll';
+import { overlineClasses } from '../../ui/typography';
 import { fadeUp } from '../../../lib/motionVariants';
 
 export function TrustBlock() {
@@ -75,7 +76,7 @@ export function TrustBlock() {
               className="text-text-muted"
               aria-hidden="true"
             />
-            <span className="text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
+            <span className={`${overlineClasses} text-text-muted`}>
               {trustLabelLegal}
             </span>
             <span className="text-base font-bold text-text">{legalName}</span>
@@ -100,7 +101,7 @@ export function TrustBlock() {
               className="text-text-muted"
               aria-hidden="true"
             />
-            <span className="text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
+            <span className={`${overlineClasses} text-text-muted`}>
               {trustLabelLicense}
             </span>
             <span className="text-base font-bold text-text">
@@ -122,7 +123,7 @@ export function TrustBlock() {
               className="text-text-muted"
               aria-hidden="true"
             />
-            <span className="text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
+            <span className={`${overlineClasses} text-text-muted`}>
               {trustLabelContact}
             </span>
             <a

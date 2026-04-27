@@ -49,6 +49,7 @@ import {
   constructionLocationLine,
 } from '../../../content/home';
 import { RevealOnScroll } from '../../ui/RevealOnScroll';
+import { overlineClasses } from '../../ui/typography';
 
 /** Card width 360px + gap 16px = scroll step 376px. */
 const SCROLL_STEP = 376;
@@ -84,7 +85,7 @@ export function ConstructionTeaser() {
                   aria-hidden="true"
                   className="block h-2 w-2 animate-pulse rounded-full bg-accent"
                 />
-                <span className="text-[13px] font-medium uppercase tracking-[0.18em] text-accent">
+                <span className={`${overlineClasses} text-accent`}>
                   {constructionLiveLabel}
                 </span>
               </div>

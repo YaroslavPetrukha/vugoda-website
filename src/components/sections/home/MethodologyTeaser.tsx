@@ -31,7 +31,7 @@
  * Ukrainian copy (Phase 2 D-20 / Phase 3 D-29).
  */
 
-import { motion, useReducedMotion } from 'motion/react';
+import { motion } from 'motion/react';
 import { methodologyBlocks } from '../../../content/methodology';
 import {
   methodologyVerificationWarning,
@@ -39,15 +39,15 @@ import {
   methodologyHeading,
 } from '../../../content/home';
 import { RevealOnScroll } from '../../ui/RevealOnScroll';
+import { SectionOverline } from '../../ui/typography';
+import { AccentBar } from '../../ui/AccentBar';
 import { IsometricCube } from '../../brand/IsometricCube';
-import { fadeUp, accentBarDraw } from '../../../lib/motionVariants';
+import { fadeUp } from '../../../lib/motionVariants';
 
 /** Block indexes to feature on home — all currently needsVerification: false. */
 const FEATURED_INDEXES = [1, 3, 7] as const;
 
 export function MethodologyTeaser() {
-  const prefersReducedMotion = useReducedMotion();
-
   const featured = methodologyBlocks.filter((b) =>
     FEATURED_INDEXES.includes(b.index as 1 | 3 | 7),
   );
@@ -57,9 +57,7 @@ export function MethodologyTeaser() {
       <div className="mx-auto max-w-7xl px-6">
         {/* Section frame — overline + bumped H2. */}
         <header className="mb-16 max-w-3xl">
-          <p className="mb-4 text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
-            {methodologyOverline}
-          </p>
+          <SectionOverline className="mb-4">{methodologyOverline}</SectionOverline>
           <h2 className="text-[length:var(--text-h2)] font-bold leading-[1.05] text-text">
             {methodologyHeading}
           </h2>
@@ -110,24 +108,8 @@ export function MethodologyTeaser() {
                   {block.body}
                 </p>
 
-                {/* Accent-bar punctuation. */}
-                {prefersReducedMotion ? (
-                  <span
-                    aria-hidden="true"
-                    className="block h-px bg-accent"
-                    style={{ width: 64 }}
-                  />
-                ) : (
-                  <motion.span
-                    aria-hidden="true"
-                    className="block h-px origin-left bg-accent"
-                    style={{ width: 64 }}
-                    variants={accentBarDraw}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.6 }}
-                  />
-                )}
+                <AccentBar />
+
               </motion.article>
             );
           })}

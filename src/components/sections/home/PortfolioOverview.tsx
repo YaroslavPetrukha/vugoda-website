@@ -38,6 +38,7 @@ import {
 import { FlagshipCard } from '../projects/FlagshipCard';
 import { AggregateRow } from '../projects/AggregateRow';
 import { RevealOnScroll } from '../../ui/RevealOnScroll';
+import { SectionOverline } from '../../ui/typography';
 import { fadeUp } from '../../../lib/motionVariants';
 
 export function PortfolioOverview() {
@@ -48,9 +49,7 @@ export function PortfolioOverview() {
       <div className="mx-auto max-w-7xl px-6">
         {/* Section frame — overline + bumped H2 + honest 0/1/4 subtitle. */}
         <header className="mb-16 flex flex-col gap-3">
-          <p className="text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
-            {portfolioOverline}
-          </p>
+          <SectionOverline>{portfolioOverline}</SectionOverline>
           <h2 className="text-[length:var(--text-h2)] font-bold leading-[1.05] text-text">
             {portfolioHeading}
           </h2>

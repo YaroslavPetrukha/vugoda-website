@@ -26,11 +26,12 @@
 import { Send, MessageCircle, Globe } from 'lucide-react';
 import { email } from '../../../content/company';
 import { phone, address } from '../../../content/placeholders';
+import { overlineClasses } from '../../ui/typography';
 
 export function ContactDetails() {
   return (
     <dl className="grid grid-cols-1 gap-y-6 lg:grid-cols-[180px_1fr] lg:gap-x-8">
-      <dt className="text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
+      <dt className={`${overlineClasses} text-text-muted`}>
         Email
       </dt>
       <dd className="text-[length:var(--text-lead)] text-text">
@@ -42,17 +43,17 @@ export function ContactDetails() {
         </a>
       </dd>
 
-      <dt className="text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
+      <dt className={`${overlineClasses} text-text-muted`}>
         Телефон
       </dt>
       <dd className="text-[length:var(--text-lead)] text-text">{phone}</dd>
 
-      <dt className="text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
+      <dt className={`${overlineClasses} text-text-muted`}>
         Адреса
       </dt>
       <dd className="text-[length:var(--text-lead)] text-text">{address}</dd>
 
-      <dt className="text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
+      <dt className={`${overlineClasses} text-text-muted`}>
         Соцмережі
       </dt>
       {/* P0-5 / AUDIT-UX §1.4.C + 1.5.B: <a href="#"> dropped users to /

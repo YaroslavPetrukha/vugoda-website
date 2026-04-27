@@ -31,6 +31,7 @@ import {
   contactOverline,
 } from '../../../content/home';
 import { RevealOnScroll } from '../../ui/RevealOnScroll';
+import { SectionOverline } from '../../ui/typography';
 
 /** Pre-filled subject line — short, branded, not a marketing claim. */
 const MAIL_SUBJECT = 'Ініціювати діалог через сайт ВИГОДА';
@@ -41,9 +42,7 @@ export function ContactForm() {
   return (
     <RevealOnScroll as="section" className="bg-bg-black py-32">
       <div className="mx-auto flex max-w-4xl flex-col items-center gap-8 px-6 text-center">
-        <p className="text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
-          {contactOverline}
-        </p>
+        <SectionOverline>{contactOverline}</SectionOverline>
         <h2 className="text-[length:var(--text-h2)] font-bold leading-[1.05] text-text">
           {contactHeading}
         </h2>

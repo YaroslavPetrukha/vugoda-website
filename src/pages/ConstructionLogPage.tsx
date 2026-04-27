@@ -29,6 +29,7 @@ import {
 } from '../content/home';
 import { MonthGroup } from '../components/sections/construction-log/MonthGroup';
 import { RevealOnScroll } from '../components/ui/RevealOnScroll';
+import { SectionOverline } from '../components/ui/typography';
 
 export default function ConstructionLogPage() {
   usePageTitle(pageTitle);
@@ -41,9 +42,9 @@ export default function ConstructionLogPage() {
     <>
       <RevealOnScroll as="section" className="bg-bg pb-16 pt-24">
         <div className="mx-auto max-w-7xl px-6">
-          <p className="mb-6 text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
+          <SectionOverline className="mb-6">
             {constructionLogOverline}
-          </p>
+          </SectionOverline>
           <h1 className="text-[length:var(--text-display-l)] font-bold leading-[0.95] text-text">
             {constructionLogHeading}
           </h1>

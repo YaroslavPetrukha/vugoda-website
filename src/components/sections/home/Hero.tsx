@@ -64,6 +64,7 @@ import {
   heroLetter,
 } from '../../../lib/motionVariants';
 import { useSessionFlag } from '../../../hooks/useSessionFlag';
+import { overlineClasses } from '../../ui/typography';
 
 export function Hero() {
   const heroRef = useRef<HTMLElement>(null);
@@ -125,7 +126,7 @@ export function Hero() {
       </motion.div>
 
       {/* Counter strip — top-left, honest 1·4·0 data tile. */}
-      <p className="absolute top-12 left-12 z-10 text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
+      <p className={`absolute top-12 left-12 z-10 ${overlineClasses} text-text-muted`}>
         {heroCounter}
       </p>
 

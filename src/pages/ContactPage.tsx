@@ -49,6 +49,7 @@ import { ContactDetails } from '../components/sections/contact/ContactDetails';
 import { IsometricCube } from '../components/brand/IsometricCube';
 import { IsometricGridBG } from '../components/brand/IsometricGridBG';
 import { RevealOnScroll } from '../components/ui/RevealOnScroll';
+import { SectionOverline, overlineClasses } from '../components/ui/typography';
 
 interface Pin {
   title: string;
@@ -79,9 +80,7 @@ export default function ContactPage() {
         className="flex flex-col justify-center gap-10 bg-bg px-12 py-24 lg:px-20"
       >
         <header className="flex flex-col gap-4">
-          <p className="text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
-            {contactPageOverline}
-          </p>
+          <SectionOverline>{contactPageOverline}</SectionOverline>
           <h1 className="text-[length:var(--text-display-l)] font-bold leading-[0.95] text-text">
             {contactPageHeading}
           </h1>
@@ -109,9 +108,7 @@ export default function ContactPage() {
         </div>
 
         <div className="relative z-10 flex flex-col gap-10">
-          <p className="text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
-            {contactPinsLabel}
-          </p>
+          <SectionOverline>{contactPinsLabel}</SectionOverline>
           <ul role="list" className="flex flex-col gap-8">
             {PINS.map((pin) => (
               <li key={pin.title} className="flex items-center gap-6">
@@ -126,7 +123,7 @@ export default function ContactPage() {
                   <span className="text-[length:var(--text-h3)] font-bold leading-tight text-text">
                     {pin.title}
                   </span>
-                  <span className="text-[13px] uppercase tracking-[0.18em] text-text-muted">
+                  <span className={`${overlineClasses} text-text-muted`}>
                     {pin.meta}
                   </span>
                 </div>

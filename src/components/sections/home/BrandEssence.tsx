@@ -31,27 +31,25 @@
  * for W2+.
  */
 
-import { motion, useReducedMotion } from 'motion/react';
+import { motion } from 'motion/react';
 import { brandValues } from '../../../content/values';
 import { RevealOnScroll } from '../../ui/RevealOnScroll';
+import { SectionOverline } from '../../ui/typography';
+import { AccentBar } from '../../ui/AccentBar';
 import { IsometricCube } from '../../brand/IsometricCube';
-import { fadeUp, accentBarDraw } from '../../../lib/motionVariants';
+import { fadeUp } from '../../../lib/motionVariants';
 import {
   brandEssenceOverline,
   brandEssenceHeading,
 } from '../../../content/home';
 
 export function BrandEssence() {
-  const prefersReducedMotion = useReducedMotion();
-
   return (
     <RevealOnScroll as="section" className="bg-bg py-32">
       <div className="mx-auto max-w-7xl px-6">
         {/* Section frame — overline + bumped H2. */}
         <header className="mb-20 max-w-3xl">
-          <p className="mb-4 text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
-            {brandEssenceOverline}
-          </p>
+          <SectionOverline className="mb-4">{brandEssenceOverline}</SectionOverline>
           <h2 className="text-[length:var(--text-h2)] font-bold leading-[1.05] text-text">
             {brandEssenceHeading}
           </h2>
@@ -98,24 +96,8 @@ export function BrandEssence() {
                     {value.body}
                   </p>
 
-                  {/* Accent-bar punctuation — 64×1px, draw-on-scroll. */}
-                  {prefersReducedMotion ? (
-                    <span
-                      aria-hidden="true"
-                      className="block h-px bg-accent"
-                      style={{ width: 64 }}
-                    />
-                  ) : (
-                    <motion.span
-                      aria-hidden="true"
-                      className="block h-px origin-left bg-accent"
-                      style={{ width: 64 }}
-                      variants={accentBarDraw}
-                      initial="hidden"
-                      whileInView="visible"
-                      viewport={{ once: true, amount: 0.6 }}
-                    />
-                  )}
+                  <AccentBar />
+
                 </div>
               </motion.article>
             );
