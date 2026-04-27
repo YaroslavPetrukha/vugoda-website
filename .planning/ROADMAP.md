@@ -152,7 +152,7 @@
 **Plans**: 9 plans
   - [x] 07-01-axe-script-and-devdep-PLAN.md — install @axe-core/cli + scripts/axe-audit.mjs + 5 route JSONs + axe-summary.md (Wave 1, SC#3 a11y)
   - [x] 07-02-clienthandoff-section-11-PLAN.md — append §11 8-row table + dev appendix to docs/CLIENT-HANDOFF.md (Wave 1, SC#5)
-  - [ ] 07-03-keyboard-walkthrough-PLAN.md — manual Tab+Enter walk per route + lightbox focus-trap subsection (Wave 2, SC#1)
+  - [x] 07-03-keyboard-walkthrough-PLAN.md — manual Tab+Enter walk per route + lightbox focus-trap subsection (Wave 2, SC#1)
   - [ ] 07-04-hard-refresh-test-PLAN.md — 6-row cold-incognito-per-window deep-link table (Wave 2, SC#2 + UAT-4)
   - [x] 07-05-layout-screenshots-PLAN.md — 20 manual DevTools PNGs (5 routes × 4 widths) + layout/SUMMARY.md (Wave 2, SC#4 layout)
   - [x] 07-06-mobile-fallback-screenshot-PLAN.md — 1 mobile PNG at 375×844 (Wave 2, SC#4 mobile + UAT-2)
