@@ -53,8 +53,20 @@ export const heroCta = 'Усі 5 проєктів';
  *  Underlined-on-hover, sits next to primary bg-accent CTA. */
 export const heroSecondaryCta = 'Контакт';
 
+/** PortfolioOverview overline strip — small uppercase caption above H2
+ *  (P1-D3, AUDIT-DESIGN §9.3). Tabular factual frame: «1 + 4» mirrors
+ *  the 0/1/4 honesty (1 active + 4 in pipeline) without repeating the
+ *  exact subtitle wording. Middle-dot is U+00B7. */
+export const portfolioOverline = 'Портфель · 1 + 4 · Львів';
+
 /** PortfolioOverview section heading — matches Nav label «Проєкти» (D-13). */
 export const portfolioHeading = 'Проєкти';
+
+/** BrandEssence overline + heading — manifesto-block frame (P1-D2).
+ *  Heading ties to Доцільність value «кожне рішення оцінюється…» without
+ *  using forbidden lexicon. Declarative, brand-faithful per §1. */
+export const brandEssenceOverline = 'Бренд-есенція · 04';
+export const brandEssenceHeading = 'Чотири принципи, що формують кожне рішення.';
 
 /** PortfolioOverview muted subtitle — honest 0/1/4 count (D-13).
  *  Per AUDIT-COPY §4.3: drop English «pipeline» for «у розробці»; tighter.

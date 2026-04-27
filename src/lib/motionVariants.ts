@@ -103,3 +103,23 @@ export const heroLetter: Variants = {
     transition: { duration: 0.5, ease: easeBrand },
   },
 };
+
+/**
+ * Accent-bar draw-on-scroll (P1-D2 BrandEssence dividers).
+ *
+ * 1×64px accent-bar that draws from the left edge as the section
+ * enters viewport. Used as visual punctuation between manifesto-cards
+ * (AUDIT-DESIGN §9.2 spec). Origin-left transform so the bar grows
+ * left-to-right, not center-out.
+ *
+ * RM threading: consumer (BrandEssence) checks useReducedMotion and
+ * renders a static <span> with full width when prefersReducedMotion is
+ * true. Variant declaration stays pure per D-22 lockstep rule.
+ */
+export const accentBarDraw: Variants = {
+  hidden: { scaleX: 0 },
+  visible: {
+    scaleX: 1,
+    transition: { duration: 0.8, ease: easeBrand },
+  },
+};

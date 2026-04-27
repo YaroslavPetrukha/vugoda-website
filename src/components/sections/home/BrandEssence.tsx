@@ -1,45 +1,122 @@
 /**
  * @module components/sections/home/BrandEssence
  *
- * HOME-02 — 4 brand-value cards (системність, доцільність, надійність,
- * довгострокова цінність). Reads from src/content/values.ts; never inlines
- * the Ukrainian copy (Phase 2 D-20 / Phase 3 D-29).
+ * Manifesto-block — P1-D2 rebuild (AUDIT-DESIGN §9.2).
  *
- * Layout per Phase 3 RESEARCH Open Question 1: 2×2 numbered (01–04).
- * Pure typography — no decorative icons (brand-system.md §7) and no cube
- * primitives in this section per D-11 (cube use restricted to hero overlay
- * + PortfolioOverview aggregate row on the home page). Body uses
- * text-text-muted — 16-18px body size keeps it within ≥14pt AA-readable
- * threshold (brand-system.md §3).
+ * Replaces the prior 2×2 numbered grid with a vertical stack of 4
+ * manifesto-cards. Each card carries:
+ *   - Big number 01-04 sitting BEHIND the content at opacity 0.10,
+ *     text-display-l size — visual punctuation, not duplicated copy.
+ *   - IsometricCube 64×64 with accent stroke (one of the 3 brand-allowed
+ *     stroke colors per IsometricCube primitive contract).
+ *   - h3 bumped to text-h3 (clamp 28-40px) — was text-2xl 24px.
+ *   - Body bumped to text-lead (clamp 20-24px) text-text — was text-base
+ *     muted. Note: text-text on bg-bg is 10.5:1 AAA per brand-system §3.
+ *   - 64×1px accent-bar that draws on scroll-into-view (origin-left).
+ *
+ * RM threading: useReducedMotion gates the bar — when prefers-reduced
+ * is true, render a static full-width <span> instead of the scaling
+ * motion.span. Card stagger reveal stays via <RevealOnScroll> which
+ * already threads RM internally.
+ *
+ * Brand:
+ *   - 6-color palette only. accent stroke + text-text body.
+ *   - No drop-shadow, no glow, no spring. Pure scaleX transition for bar.
+ *   - Cube primitive locked to brand contract (IsometricCube §5).
+ *
+ * Cube-restriction note: Phase 3 D-11 limited cube use to hero overlay
+ * + AggregateRow on home. AUDIT-DESIGN §10 Pattern 6 explicitly proposes
+ * "SVG cubes everywhere" including BrandEssence (4 cubes). This rebuild
+ * adopts that recommendation; D-11 is superseded by AUDIT recommendation
+ * for W2+.
  */
 
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { brandValues } from '../../../content/values';
 import { RevealOnScroll } from '../../ui/RevealOnScroll';
-import { fadeUp } from '../../../lib/motionVariants';
+import { IsometricCube } from '../../brand/IsometricCube';
+import { fadeUp, accentBarDraw } from '../../../lib/motionVariants';
+import {
+  brandEssenceOverline,
+  brandEssenceHeading,
+} from '../../../content/home';
 
 export function BrandEssence() {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
-    <RevealOnScroll as="section" className="bg-bg py-24">
+    <RevealOnScroll as="section" className="bg-bg py-32">
       <div className="mx-auto max-w-7xl px-6">
-        <RevealOnScroll staggerChildren className="grid grid-cols-2 gap-x-12 gap-y-16">
+        {/* Section frame — overline + bumped H2. */}
+        <header className="mb-20 max-w-3xl">
+          <p className="mb-4 text-[13px] font-medium uppercase tracking-[0.18em] text-text-muted">
+            {brandEssenceOverline}
+          </p>
+          <h2 className="text-[length:var(--text-h2)] font-bold leading-[1.05] text-text">
+            {brandEssenceHeading}
+          </h2>
+        </header>
+
+        {/* 4 manifesto-cards stacked vertical, divider-on-top, big-number behind. */}
+        <RevealOnScroll staggerChildren className="flex flex-col">
           {brandValues.map((value, i) => {
             const num = String(i + 1).padStart(2, '0');
             return (
               <motion.article
                 key={value.title}
                 variants={fadeUp}
-                className="flex flex-col gap-4"
+                className="relative grid grid-cols-12 gap-8 overflow-hidden border-t border-text-muted/15 py-16"
               >
-                <span className="font-medium text-sm text-text-muted">
+                {/* Big number behind — pointer-events-none, aria-hidden,
+                    opacity 0.10 on text-text. select-none stops accidental
+                    selection while reading body. */}
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute right-0 top-8 select-none text-[length:var(--text-display-l)] font-bold leading-none text-text opacity-[0.10]"
+                >
                   {num}
                 </span>
-                <h3 className="font-bold text-2xl text-text">
-                  {value.title}
-                </h3>
-                <p className="text-base leading-relaxed text-text-muted">
-                  {value.body}
-                </p>
+
+                {/* Cube + heading column (left 5/12). */}
+                <div className="relative z-10 col-span-12 flex flex-col gap-6 lg:col-span-5">
+                  <IsometricCube
+                    variant="single"
+                    stroke="#C1F33D"
+                    strokeWidth={1.5}
+                    opacity={0.9}
+                    className="h-16 w-16"
+                  />
+                  <h3 className="text-[length:var(--text-h3)] font-bold leading-tight text-text">
+                    {value.title}
+                  </h3>
+                </div>
+
+                {/* Body column (right 7/12). text-text not muted —
+                    manifesto body deserves full luminance. */}
+                <div className="relative z-10 col-span-12 flex flex-col gap-8 lg:col-span-7">
+                  <p className="text-[length:var(--text-lead)] leading-relaxed text-text">
+                    {value.body}
+                  </p>
+
+                  {/* Accent-bar punctuation — 64×1px, draw-on-scroll. */}
+                  {prefersReducedMotion ? (
+                    <span
+                      aria-hidden="true"
+                      className="block h-px bg-accent"
+                      style={{ width: 64 }}
+                    />
+                  ) : (
+                    <motion.span
+                      aria-hidden="true"
+                      className="block h-px origin-left bg-accent"
+                      style={{ width: 64 }}
+                      variants={accentBarDraw}
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={{ once: true, amount: 0.6 }}
+                    />
+                  )}
+                </div>
               </motion.article>
             );
           })}
