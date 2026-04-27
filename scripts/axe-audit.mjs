@@ -20,7 +20,9 @@ const ROUTES = [
   { slug: 'contact',          hash: '/contact' },
 ];
 const PREVIEW_PORT = 4173;
+const PREVIEW_BASE = '/vugoda-website/';
 const OUT_DIR = path.join(REPO_ROOT, '.planning/phases/07-post-deploy-qa-client-handoff/axe');
+const CHROMEDRIVER = path.join(REPO_ROOT, 'node_modules/chromedriver/lib/chromedriver/chromedriver');
 
 mkdirSync(OUT_DIR, { recursive: true });
 
@@ -38,14 +40,17 @@ try {
   const summary = [];
   let failed = false;
   for (const { slug, hash } of ROUTES) {
-    const url = `http://localhost:${PREVIEW_PORT}/#${hash === '/' ? '' : hash}`;
+    const url = `http://localhost:${PREVIEW_PORT}${PREVIEW_BASE}#${hash === '/' ? '' : hash}`;
     const outFile = path.join(OUT_DIR, `${slug}.json`);
+    const outFileRel = path.relative(REPO_ROOT, outFile);
     console.log(`[axe-audit] auditing ${slug} -> ${url}`);
-    spawnSync('npx', [
+    const axeArgs = [
       'axe', url,
       '--tags', 'wcag2a,wcag2aa',
-      '--save', outFile,
-    ], { cwd: REPO_ROOT, stdio: 'inherit' });
+      '--save', outFileRel,
+    ];
+    if (existsSync(CHROMEDRIVER)) axeArgs.push('--chromedriver-path', CHROMEDRIVER);
+    spawnSync('npx', axeArgs, { cwd: REPO_ROOT, stdio: 'inherit' });
     const counts = countViolations(outFile);
     summary.push({ slug, ...counts });
     if (counts.critical > 0 || counts.serious > 0) failed = true;
@@ -72,7 +77,7 @@ function waitForPort(port, timeoutMs) {
         if (Date.now() > deadline) reject(new Error(`port ${port} not ready in ${timeoutMs}ms`));
         else setTimeout(tryConnect, 200);
       });
-      sock.connect(port, '127.0.0.1');
+      sock.connect(port, 'localhost');
     };
     tryConnect();
   });
