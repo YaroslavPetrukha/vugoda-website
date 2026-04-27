@@ -4,9 +4,8 @@
  * Timeline-progress page — P1-D8 rebuild (AUDIT-DESIGN §9.7).
  *
  * Reads constructionLog (already sorted latest-first per Phase 2 D-21)
- * and renders one <MonthGroup> per month with chronological numbering
- * (oldest = 01, newest = NN). Each MonthGroup owns its own Lightbox state
- * (Pitfall 9 — per-group state).
+ * and renders one <MonthGroup> per month. Each MonthGroup owns its own
+ * Lightbox state (Pitfall 9 — per-group state).
  *
  * Page header bumped: editorial overline + display-sized H1 (text-display-l).
  * Was «text-6xl» plain. Carries the same vocabulary («LAKEVIEW») as the
@@ -34,10 +33,6 @@ import { SectionOverline } from '../components/ui/typography';
 export default function ConstructionLogPage() {
   usePageTitle(pageTitle);
 
-  // Chronological numbering: oldest month = 01, newest = NN.
-  // constructionLog is sorted latest-first (D-21), so order = length - i.
-  const total = constructionLog.length;
-
   return (
     <>
       <RevealOnScroll as="section" className="bg-bg pb-16 pt-24">
@@ -50,8 +45,8 @@ export default function ConstructionLogPage() {
           </h1>
         </div>
       </RevealOnScroll>
-      {constructionLog.map((month, i) => (
-        <MonthGroup key={month.key} month={month} order={total - i} />
+      {constructionLog.map((month) => (
+        <MonthGroup key={month.key} month={month} />
       ))}
     </>
   );

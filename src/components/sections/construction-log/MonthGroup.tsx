@@ -4,22 +4,17 @@
  * Single-month timeline section — P1-D8 rebuild (AUDIT-DESIGN §9.7).
  *
  * Restructured from a centered «H2 + 3-col grid» to a 25/75 split
- * with a sticky-left numerics panel that reads as a chapter mark on
- * the construction timeline.
+ * with a sticky-left chapter-mark panel.
  *
  * Layout (lg+):
  *   [3-col left, sticky top-24]
- *     • big chronological digit «01-NN» (text-display-l, opacity 0.20)
  *     • month label «Грудень 2025» at text-h3 Bold
  *     • photo count «12 фото» at text-lead muted
  *   [9-col right]
  *     • 3-col mason grid of 4:5 portrait thumbnails (preserved)
  *     • Click opens shared <Lightbox> (preserved)
  *
- * Below lg: stacks single-col, big digit at top of section.
- *
- * order prop: chronological order index (1 = oldest, NN = newest).
- * Provided by ConstructionLogPage which knows the full array length.
+ * Below lg: stacks single-col.
  *
  * Per-month useState<number>(-1) for Lightbox index — opening one
  * MonthGroup's lightbox does NOT crash when state from a sibling is
@@ -43,13 +38,10 @@ import { RevealOnScroll } from '../../ui/RevealOnScroll';
 
 interface Props {
   month: ConstructionMonth;
-  /** Chronological order: 1 = oldest month, length = newest. */
-  order: number;
 }
 
-export function MonthGroup({ month, order }: Props) {
+export function MonthGroup({ month }: Props) {
   const [index, setIndex] = useState(-1);
-  const orderLabel = String(order).padStart(2, '0');
 
   const photos: LightboxPhoto[] = month.photos.map((p) => ({
     src: `construction/${month.key}/${p.file}`,
@@ -65,12 +57,6 @@ export function MonthGroup({ month, order }: Props) {
           {/* Left numerics panel — sticky on lg+. */}
           <aside className="lg:col-span-3">
             <div className="lg:sticky lg:top-24 flex flex-col gap-3">
-              <span
-                aria-hidden="true"
-                className="select-none text-[length:var(--text-display-l)] font-bold leading-none text-text opacity-[0.20]"
-              >
-                {orderLabel}
-              </span>
               <h2 className="text-[length:var(--text-h3)] font-bold leading-tight text-text">
                 {month.label}
               </h2>

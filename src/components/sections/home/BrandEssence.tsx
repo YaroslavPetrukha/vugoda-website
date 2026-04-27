@@ -5,8 +5,6 @@
  *
  * Replaces the prior 2×2 numbered grid with a vertical stack of 4
  * manifesto-cards. Each card carries:
- *   - Big number 01-04 sitting BEHIND the content at opacity 0.10,
- *     text-display-l size — visual punctuation, not duplicated copy.
  *   - IsometricCube 64×64 with accent stroke (one of the 3 brand-allowed
  *     stroke colors per IsometricCube primitive contract).
  *   - h3 bumped to text-h3 (clamp 28-40px) — was text-2xl 24px.
@@ -57,24 +55,13 @@ export function BrandEssence() {
 
         {/* 4 manifesto-cards stacked vertical, divider-on-top, big-number behind. */}
         <RevealOnScroll staggerChildren className="flex flex-col">
-          {brandValues.map((value, i) => {
-            const num = String(i + 1).padStart(2, '0');
+          {brandValues.map((value) => {
             return (
               <motion.article
                 key={value.title}
                 variants={fadeUp}
                 className="relative grid grid-cols-12 gap-8 overflow-hidden border-t border-text-muted/15 py-16"
               >
-                {/* Big number behind — pointer-events-none, aria-hidden,
-                    opacity 0.10 on text-text. select-none stops accidental
-                    selection while reading body. */}
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute right-0 top-8 select-none text-[length:var(--text-display-l)] font-bold leading-none text-text opacity-[0.10]"
-                >
-                  {num}
-                </span>
-
                 {/* Cube + heading column (left 5/12). */}
                 <div className="relative z-10 col-span-12 flex flex-col gap-6 lg:col-span-5">
                   <IsometricCube

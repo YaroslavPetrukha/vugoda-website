@@ -8,9 +8,6 @@
  * statement, not a sub-cell of a Word document.
  *
  * Per-block anatomy:
- *   - Big numeric tile «01 / 03 / 07» at top of column (text-display-l,
- *     opacity 0.20 — supportive, not screaming). Non-sequential 1/3/7
- *     conveys «we picked 3 of 8», not «1 2 3».
  *   - IsometricCube 48×48 with #A7AFBC stroke (subtle/secondary, NOT
  *     accent — varies the cube treatment from BrandEssence which uses
  *     accent stroke; brand cube-ladder needs varied surfaces per AUDIT
@@ -68,21 +65,12 @@ export function MethodologyTeaser() {
           className="grid grid-cols-1 gap-12 lg:grid-cols-3 lg:gap-8"
         >
           {featured.map((block) => {
-            const num = String(block.index).padStart(2, '0');
             return (
               <motion.article
                 key={block.index}
                 variants={fadeUp}
                 className="flex flex-col gap-6"
               >
-                {/* Big number tile — supportive, opacity 0.20. */}
-                <span
-                  aria-hidden="true"
-                  className="select-none text-[length:var(--text-display-l)] font-bold leading-none text-text opacity-[0.20]"
-                >
-                  {num}
-                </span>
-
                 {/* Cube anchor — secondary stroke (vs BrandEssence accent). */}
                 <IsometricCube
                   variant="single"

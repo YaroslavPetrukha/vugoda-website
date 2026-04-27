@@ -79,6 +79,7 @@ export default function ProjectsPage() {
           <h1 className="font-bold text-6xl text-text">{projectsHeading}</h1>
           <p className="text-base text-text-muted">{projectsSubtitle}</p>
         </RevealOnScroll>
+        <h2 className="sr-only">Перелік проєктів</h2>
         <FlagshipCard project={flagship} />
         <StageFilter counts={counts} />
         {body}
