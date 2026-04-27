@@ -51,6 +51,7 @@ import {
 } from '../../../content/home';
 import { RevealOnScroll } from '../../ui/RevealOnScroll';
 import { overlineClasses } from '../../ui/typography';
+import { CountUp } from '../../ui/CountUp';
 import { fadeUp } from '../../../lib/motionVariants';
 
 export function TrustBlock() {
@@ -84,9 +85,10 @@ export function TrustBlock() {
               <span className="text-xs uppercase tracking-[0.18em] text-text-muted">
                 ЄДРПОУ
               </span>
-              <span className="text-[length:var(--text-figure)] font-bold leading-none tabular-nums text-accent">
-                {edrpou}
-              </span>
+              <CountUp
+                to={Number(edrpou)}
+                className="text-[length:var(--text-figure)] font-bold leading-none tabular-nums text-accent"
+              />
             </div>
           </motion.div>
 
