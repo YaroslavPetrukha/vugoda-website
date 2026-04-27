@@ -14,7 +14,7 @@
 - [x] **Phase 4: Portfolio, ЖК, Construction Log, Contact** — `/projects` hub, `/zhk/etno-dim` template, `/construction-log` timeline, `/contact` mailto, card hover (completed 2026-04-25)
 - [ ] **Phase 5: Animations & Polish** — shared motion variants, scroll-reveal, AnimatePresence route-transitions, `useReducedMotion`, session-skip
 - [x] **Phase 6: Performance, Mobile Fallback, Deploy** — image preload, bundle audit, mobile-fallback page, OG meta, GitHub Actions deploy live (completed 2026-04-26)
-- [ ] **Phase 7: Post-deploy QA & Client Handoff** — keyboard walkthrough, hard-refresh test, Lighthouse archive, denylist verification, handoff doc
+- [x] **Phase 7: Post-deploy QA & Client Handoff** — keyboard walkthrough, hard-refresh test, Lighthouse archive, denylist verification, handoff doc (completed 2026-04-27)
 
 ## Phase Details
 
