@@ -1,24 +1,35 @@
 /**
  * @module components/sections/construction-log/MonthGroup
  *
- * LOG-01 + LOG-02 — Single month section of the construction-log timeline
- * (D-20..D-24). H2 with the month label and photo count, 3-col grid of 4:5
- * portrait thumbnails (D-22 + RESEARCH §Q11), all loading="lazy" per <2MB
- * initial weight budget.
+ * Single-month timeline section — P1-D8 rebuild (AUDIT-DESIGN §9.7).
+ *
+ * Restructured from a centered «H2 + 3-col grid» to a 25/75 split
+ * with a sticky-left numerics panel that reads as a chapter mark on
+ * the construction timeline.
+ *
+ * Layout (lg+):
+ *   [3-col left, sticky top-24]
+ *     • big chronological digit «01-NN» (text-display-l, opacity 0.20)
+ *     • month label «Грудень 2025» at text-h3 Bold
+ *     • photo count «12 фото» at text-lead muted
+ *   [9-col right]
+ *     • 3-col mason grid of 4:5 portrait thumbnails (preserved)
+ *     • Click opens shared <Lightbox> (preserved)
+ *
+ * Below lg: stacks single-col, big digit at top of section.
+ *
+ * order prop: chronological order index (1 = oldest, NN = newest).
+ * Provided by ConstructionLogPage which knows the full array length.
  *
  * Per-month useState<number>(-1) for Lightbox index — opening one
- * MonthGroup's lightbox does NOT crash when state from a sibling MonthGroup
- * is stale (Pitfall 9 — per-group state avoids the index-out-of-bounds
- * class of bug). Browser top-layer guarantees only one <dialog> open at
- * a time.
+ * MonthGroup's lightbox does NOT crash when state from a sibling is
+ * stale (Pitfall 9 — per-group state).
  *
  * 4:5 portrait override: ResponsivePicture default height = largestWidth*9/16
  * is wrong for these phone photos. Explicit width=640 height=800 (4:5) is
- * CLS-safe (Pitfall 4 — verified 1080x1346 sources).
+ * CLS-safe (Pitfall 4).
  *
- * Hover triple-effect (ANI-03 / D-31..D-35) on the <button> wrapper.
- * Class string verbatim — Wave 3 plan 04-10 sweeps other surfaces;
- * thumbnail hover ships locally here.
+ * Hover triple-effect (D-31..D-35) on the <button> wrapper preserved.
  *
  * IMPORT BOUNDARY: forwards construction/{key}/{file} template into
  * ResponsivePicture; never embeds quoted slash-prefixed tree-paths.
@@ -32,10 +43,13 @@ import { RevealOnScroll } from '../../ui/RevealOnScroll';
 
 interface Props {
   month: ConstructionMonth;
+  /** Chronological order: 1 = oldest month, length = newest. */
+  order: number;
 }
 
-export function MonthGroup({ month }: Props) {
+export function MonthGroup({ month, order }: Props) {
   const [index, setIndex] = useState(-1);
+  const orderLabel = String(order).padStart(2, '0');
 
   const photos: LightboxPhoto[] = month.photos.map((p) => ({
     src: `construction/${month.key}/${p.file}`,
@@ -47,30 +61,50 @@ export function MonthGroup({ month }: Props) {
   return (
     <RevealOnScroll as="section" className="bg-bg py-16">
       <div className="mx-auto max-w-7xl px-6">
-        <h2 className="mb-8 font-bold text-3xl text-text">
-          {month.label} · {month.photos.length} фото
-        </h2>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {month.photos.map((p, i) => (
-            <button
-              key={p.file}
-              type="button"
-              onClick={() => setIndex(i)}
-              aria-label={`Відкрити фото ${i + 1}`}
-              className="block overflow-hidden bg-bg-surface hover-card focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-            >
-              <ResponsivePicture
-                src={`construction/${month.key}/${p.file}`}
-                alt={p.alt ?? ''}
-                widths={[640, 960]}
-                sizes="(min-width: 1280px) 380px, (min-width: 640px) 50vw, 100vw"
-                width={640}
-                height={800}
-                loading="lazy"
-                className="w-full h-auto object-cover aspect-[4/5]"
-              />
-            </button>
-          ))}
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+          {/* Left numerics panel — sticky on lg+. */}
+          <aside className="lg:col-span-3">
+            <div className="lg:sticky lg:top-24 flex flex-col gap-3">
+              <span
+                aria-hidden="true"
+                className="select-none text-[length:var(--text-display-l)] font-bold leading-none text-text opacity-[0.20]"
+              >
+                {orderLabel}
+              </span>
+              <h2 className="text-[length:var(--text-h3)] font-bold leading-tight text-text">
+                {month.label}
+              </h2>
+              <p className="text-[length:var(--text-lead)] text-text-muted">
+                {month.photos.length} фото
+              </p>
+            </div>
+          </aside>
+
+          {/* Right thumbnails grid. */}
+          <div className="lg:col-span-9">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {month.photos.map((p, i) => (
+                <button
+                  key={p.file}
+                  type="button"
+                  onClick={() => setIndex(i)}
+                  aria-label={`Відкрити фото ${i + 1}`}
+                  className="hover-card block overflow-hidden bg-bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                >
+                  <ResponsivePicture
+                    src={`construction/${month.key}/${p.file}`}
+                    alt={p.alt ?? ''}
+                    widths={[640, 960]}
+                    sizes="(min-width: 1280px) 280px, (min-width: 640px) 50vw, 100vw"
+                    width={640}
+                    height={800}
+                    loading="lazy"
+                    className="aspect-[4/5] h-auto w-full object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
       <Lightbox

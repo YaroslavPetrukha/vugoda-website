@@ -78,6 +78,14 @@ export const portfolioSubtitle = '1 будується · 4 у розробці 
  *  Trailing arrow is U+2197 NORTH EAST ARROW. */
 export const flagshipExternalCta = 'Сайт ЖК Lakeview ↗';
 
+/** ConstructionLogPage overline + heading — editorial frame (P1-D8).
+ *  Bumped from inline JSX literal «Хід будівництва Lakeview» H1 to a
+ *  display-sized H1 framed by an overline. The overline names the
+ *  «LIVE · LAKEVIEW» context (mirrors the home ConstructionTeaser
+ *  vocabulary so a returning visitor reads continuity). */
+export const constructionLogOverline = 'ХІД БУДІВНИЦТВА · LAKEVIEW';
+export const constructionLogHeading = 'Місяці зйомок';
+
 /** MethodologyTeaser overline + heading — editorial frame (P1-D5).
  *  Shows the curated «3 / 8» count so the visitor reads «we picked the
  *  three blocks worth featuring on home», not «we listed everything».
