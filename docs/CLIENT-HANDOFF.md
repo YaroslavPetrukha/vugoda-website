@@ -79,3 +79,61 @@ These are NOT Phase 6 scope — Phase 6 ships the GitHub-account confirmation on
 | 7 | Написання «NTEREST» — без літери «I» свідоме? | NTEREST | Назва картки на `/projects`; підтвердження або заміна на «INTEREST» | P1 |
 | 8 | Адреса ЖК Етно Дім (зараз вул. Судова, Львів) — підтверджено? | вул. Судова, Львів | Відобразиться у факт-блоці на `/zhk/etno-dim` | P1 |
 
+<details>
+<summary><strong>Developer appendix: client answer → file edit (8 items)</strong></summary>
+
+> Post-handoff workflow: when the client replies, dev applies the edit listed below per item, runs `npm run build` (postbuild check-brand 7/7 must pass), pushes to main → CI deploys → existing lhci CI gate confirms no regression. NO Phase 7 re-run unless an answer introduces new a11y risk (e.g., very long phone number breaks footer layout — re-run `npm run audit:a11y`).
+
+### Item 1: Phone
+
+**File:** `src/content/placeholders.ts`
+**Edit:** Replace the `phone: '—'` export's value `'—'` with the answered number (UA mobile format `+380 XX XXX XX XX`).
+**Verify:** `grep -n "phone" src/content/placeholders.ts` shows the new value; footer + `/contact` render the number instead of em-dash.
+
+### Item 2: Юридична / поштова адреса
+
+**File:** `src/content/placeholders.ts`
+**Edit:** Replace the `address: '—'` (or equivalent address-placeholder export) value with the answered address string.
+**Verify:** `grep -n "address" src/content/placeholders.ts`; footer + `/contact` + home TrustBlock render the address.
+
+### Item 3: Pipeline-4 назва
+
+**File:** `src/data/projects.ts`
+**Edit:** Find the Pipeline-4 record (currently `title: 'Без назви'`) and replace with the answered name.
+**Note:** `src/content/placeholders.ts` `pipeline4Title` MAY also need update if it duplicates the literal — `grep -rn "Без назви" src/` to find all occurrences.
+**Verify:** `/projects` aggregate row + home PortfolioOverview show new name.
+
+### Item 4: Модель-Б confirmation
+
+**File:** none (if confirmed as-is) OR `src/lib/stages.ts` (if a bucket label changes)
+**Edit:** If client confirms current 4 buckets verbatim — NO code change; update `.planning/PROJECT.md` «Key Decisions» table to mark «Confirmed». If a label changes, edit the corresponding entry in `src/lib/stages.ts` STAGES const.
+**Verify:** `/projects` StageFilter chips + card badges show updated label (or unchanged).
+
+### Item 5: Methodology blocks 2/5/6 verification
+
+**File:** `src/content/methodology.ts`
+**Edit:** Set `needsVerification: false` on blocks at indices 2, 5, 6 (after client confirms text — body copy stays as-is per Phase 2 D-15 verbatim §8).
+**Verify:** `grep -c "needsVerification: true" src/content/methodology.ts` returns `0`. ⚠ marker disappears in MethodologyTeaser on `/` (currently rendered conditionally per Plan 03-06; today renders zero ⚠ because FEATURED_INDEXES = [1,3,7], but `/how-we-build` v2 page will benefit).
+
+### Item 6: Маєток slug
+
+**Files (only if changed from `maietok-vynnykivskyi` to `maetok-vynnykivskyi`):**
+- `src/data/projects.ts` — Маєток record's `slug` field
+- `scripts/copy-renders.ts` translit map — verify the map produces the new slug for the source folder `/renders/ЖК Маєток Винниківський/`
+- `public/renders/maietok-vynnykivskyi/` directory will need to be regenerated as `public/renders/maetok-vynnykivskyi/` via `npm run prebuild`
+**Verify:** `grep -r "maietok" src/` returns zero (if the change is applied); `npm run build` exits 0; the v1 card URL on `/projects` uses the new slug (card is not active in v1 but URL is referenced for v2 full page).
+
+### Item 7: NTEREST spelling
+
+**File:** `src/data/projects.ts`
+**Edit:** Currently `title: 'NTEREST'`. If client confirms intentional — NO change. If client wants «INTEREST» — replace.
+**Verify:** Card on `/projects` shows the chosen spelling.
+
+### Item 8: Етно Дім адреса
+
+**File:** `src/data/projects.ts`
+**Edit:** Etno Dim record's `address` field (currently «вул. Судова, Львів»). Replace with confirmed address.
+**Verify:** `/zhk/etno-dim` ZhkFactBlock renders the new address.
+
+</details>
+
