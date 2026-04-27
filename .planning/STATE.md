@@ -2,17 +2,17 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 7
-current_plan: Not started
-status: planning
-stopped_at: Phase 7 context gathered
-last_updated: "2026-04-27T04:41:29.358Z"
+current_phase: 07
+current_plan: 2
+status: executing
+stopped_at: Completed 07-02-clienthandoff-section-11-PLAN.md
+last_updated: "2026-04-27T05:35:18.719Z"
 progress:
   total_phases: 7
   completed_phases: 6
-  total_plans: 47
-  completed_plans: 47
-  percent: 100
+  total_plans: 56
+  completed_plans: 48
+  percent: 86
 ---
 
 # Project State: Vugoda Website
@@ -25,19 +25,19 @@ progress:
 - **Project:** Vugoda Website — корпоративний сайт забудовника «ВИГОДА»
 - **Core Value:** Клієнт отримує публічний URL, за яким видно «ахуєнний» desktop-варіант корпсайту ВИГОДИ у бренді (точна палітра, ізометричні куби, cinematic-анімації на Motion, чесне відображення портфеля 0-здано / 1-активно / 4-pipeline).
 - **Domain:** Ukrainian real-estate developer corporate hub, static desktop-first React SPA on GitHub Pages
-- **Current focus:** Phase 06 — performance-mobile-fallback-deploy
+- **Current focus:** Phase 07 — post-deploy-qa-client-handoff
 
 ## Current Position
 
-Phase: 06 (performance-mobile-fallback-deploy) — EXECUTING
-Plan: 9 of 9
+Phase: 07 (post-deploy-qa-client-handoff) — EXECUTING
+Plan: 2 of 9
 
-- **Current Phase:** 7
-- **Current Plan:** Not started
+- **Current Phase:** 07
+- **Current Plan:** 2
 - **Total Plans in Phase:** 9
-- **Status:** Ready to plan
-- **Stopped at:** Phase 7 context gathered
-- **Progress:** [██████████] 100%
+- **Status:** Ready to execute
+- **Stopped at:** Completed 07-02-clienthandoff-section-11-PLAN.md
+- **Progress:** [█████████░] 86%
 
 ## Roadmap Summary
 
@@ -296,6 +296,17 @@ Targets from PROJECT.md Constraints:
 - **Verification proxy used (NOT full `npm run build`):** Wave 4 runs solo, but the pre-existing prebuild race (sibling-wave concurrency on `_opt/` writes — Plan 06-04) is documented in deferred-items. The 3 new files are out of `prebuild`/`postbuild` scope (`.cjs`, `.yml`, `.md`), so `npx tsc --noEmit` (PASS) + `npx tsx scripts/check-brand.ts` (7/7 PASS, bundle 133.7 KB gzipped — 67% of 200 KB budget) is sufficient verification surface for this plan's scope.
 - **Phase 6 closes here:** 9/9 plans done. All 5 phase requirements (QA-01, QA-02, QA-03, DEP-01, DEP-02) have either an automated gate (5 of 7 check-brand checks target QA-02 directly: bundleBudget, heroBudget, denylistTerms, paletteWhitelist, placeholderTokens — plus the new lhci CI workflow gates QA-02 + QA-03 against deployed URL) OR a documented UAT path (QA-01 mobile-fallback DevTools resize + parts of QA-03 social-unfurl in Telegram/Slack/Viber). Status: `ready_for_verification`.
 
+### Plan 07-02 Decisions (2026-04-27)
+
+- **Append-not-rewrite (D-27 honored):** Phase 7 §11 section appended after the existing Phase 6 GH-account-confirmation note (line 61); Phase 6 content (lines 1-46) preserved verbatim. Future phases continue this pattern — `docs/CLIENT-HANDOFF.md` grows append-only across phases. The pre-existing 8-bullet preview at lines 48-61 (which Phase 6 wrote forecasting Phase 7's extension) is also preserved unchanged; it now reads as a "preview" alongside the materialized §11 table that follows.
+- **Collapsed `<details>` wrapper for dev appendix (D-30 planner discretion):** GitHub web markdown renders `<details>/<summary>` as click-to-expand. Keeps the client-facing 8-row table the visual focus when a non-dev opens the doc. Dev sees the post-handoff edit playbook only when actively expanding the section. Alternative — flat H2 «Developer appendix» — was rejected because client may scroll past it expecting more questions.
+- **Common preamble inside `<details>`:** Item 1's planner-spec'd 4th line ("Re-deploy: ...") collapsed into one shared paragraph at the top of the appendix. All 8 items share the same post-edit workflow (`npm run build` → push to main → CI deploys → lhci CI gate). Per-item repetition would be 8x noise without information gain.
+- **Em-dashes in column 2 are literal U+2014** per Phase 2 D-19 (placeholders.ts SOT) — NOT `{{token}}` literals. Phase 2 Plan 02-05's `check-brand` `placeholderTokens()` scans `dist/` for paired `\{\{[^}]*\}\}` matches; em-dash convention shipped in Phase 2 means the entire codebase (and now the handoff doc) uses U+2014 as the placeholder display character. `docs/` is out of `check-brand` scope but using consistent convention means the doc reads correctly without dispatch on what's source-form vs. display-form.
+- **Row order matches PROJECT.md «Відкриті питання» source-document order (D-29 lock)** — planner discretion to re-sort by priority NOT exercised. Preserves the client's reading flow against the original list. Priority labels (P0/P1/P2) appear in column 5 as advisory metadata; they do NOT block the demo URL handoff (the demo intentionally ships with em-dashes and ⚠ flags visible per системний девелопмент tone).
+- **Item 4 (Модель-Б) has a no-code path** — if client confirms current 4 buckets verbatim, NO src/ file change; only `.planning/PROJECT.md` "Key Decisions" table flips to «Confirmed». Acknowledges that not every §11 answer requires code — the demo intentionally ships valid-as-is and answers may simply confirm. Other 7 items map to ≥1 src/ file edit; Item 6 (Маєток slug) is the largest at 3 file paths + a directory regen.
+- **Doc-block pre-screen worked first try (3rd Phase-7 occurrence after Plans 07-01 + this plan):** no Rule 3 self-consistency fixes needed. The §11 table content includes Cyrillic placeholder display strings («Без назви», «вул. Судова, Львів», «NTEREST») but ZERO denylist literals (Pictorial / Rubikon / Пикторіал / Рубікон) and ZERO `{{token}}` patterns. `grep -cE '\{\{[^}]*\}\}' docs/CLIENT-HANDOFF.md` returns 0; `grep -E "Pictorial|Rubikon" docs/CLIENT-HANDOFF.md` returns 0.
+- **Informational planner-template observation:** Task 1's planner-issued verify gate `grep -c "NTEREST" docs/CLIENT-HANDOFF.md | grep -q "^1$"` was over-restrictive — file actually has 2 NTEREST occurrences (line 58 from Phase 6's 8-bullet preview + line 79 from new §11 row 7). Both are correct and intended. Task intent satisfied; recorded for trace. Pattern note: when a plan extends a doc that already mentions terms in a preview/forecast, plan verify gates must account for pre-existing occurrences (or check the new section in isolation rather than the whole file).
+
 ### Hard Rules (from brand-system + CONCEPT §10)
 
 - Closed palette: 6 hexes only (`#2F3640`, `#C1F33D`, `#F5F7FA`, `#A7AFBC`, `#3D3B43`, `#020A0A`)
@@ -362,6 +373,7 @@ Deferred to Phase 7 handoff doc:
 | Phase 06-performance-mobile-fallback-deploy P06 | 40min | 3 tasks | 3 files |
 | Phase 06 P08 | 25min | 2 tasks | 2 files |
 | Phase 06 P09 | 6min | 3 tasks | 3 files |
+| Phase 07-post-deploy-qa-client-handoff P02 | 2min | 2 tasks | 1 files |
 
 ### Todos / Blockers
 

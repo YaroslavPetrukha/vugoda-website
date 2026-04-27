@@ -149,7 +149,16 @@
   3. Build-output grep audit passes: `grep -r "Pictorial\|Rubikon\|Пикторіал\|Рубікон" dist/` empty; `grep -r "{{" dist/` empty; `grep -r "TODO" dist/` empty; axe-core run per route reports zero critical a11y issues (contrast, missing alt, focus)
   4. Lighthouse desktop results archived per route (≥90 all 4 categories documented); tested at 1280 / 1366 / 1440 / 1920 widths for layout verification; mobile fallback rendered correctly at <1024px (verified on real iPhone viewport or DevTools device emulation, not just CSS media query)
   5. `docs/CLIENT-HANDOFF.md` exists listing all 8 open CONCEPT §11 items (phone, юр. адреса, Pipeline-4 назва, Model-Б підтвердження, методологія блоки 2/5/6 верифікація, slug транслітерація `maietok` vs `maetok`, «NTEREST» без «I» підтвердження, Етно Дім вул. Судова підтвердження) with the current placeholder value and the field the client should fill — one-pass client answer captures them all
-**Plans**: TBD
+**Plans**: 9 plans
+  - [ ] 07-01-axe-script-and-devdep-PLAN.md — install @axe-core/cli + scripts/axe-audit.mjs + 5 route JSONs + axe-summary.md (Wave 1, SC#3 a11y)
+  - [x] 07-02-clienthandoff-section-11-PLAN.md — append §11 8-row table + dev appendix to docs/CLIENT-HANDOFF.md (Wave 1, SC#5)
+  - [ ] 07-03-keyboard-walkthrough-PLAN.md — manual Tab+Enter walk per route + lightbox focus-trap subsection (Wave 2, SC#1)
+  - [ ] 07-04-hard-refresh-test-PLAN.md — 6-row cold-incognito-per-window deep-link table (Wave 2, SC#2 + UAT-4)
+  - [ ] 07-05-layout-screenshots-PLAN.md — 20 manual DevTools PNGs (5 routes × 4 widths) + layout/SUMMARY.md (Wave 2, SC#4 layout)
+  - [ ] 07-06-mobile-fallback-screenshot-PLAN.md — 1 mobile PNG at 375×844 (Wave 2, SC#4 mobile + UAT-2)
+  - [ ] 07-07-lhci-archive-PLAN.md — gh CLI fetch lhci CI artifact + lighthouse/SUMMARY.md (Wave 3, SC#4 scores + UAT-1 + UAT-5)
+  - [ ] 07-08-social-unfurl-verify-PLAN.md — 3 platform PNGs + unfurls/SUMMARY.md (Wave 3, UAT-3)
+  - [ ] 07-09-verification-doc-and-uat-closure-PLAN.md — 07-VERIFICATION.md + check-brand-{sha}.txt + inline-update 06-HUMAN-UAT.md result: lines (Wave 3, atomic UAT closure per D-06)
 
 ## Progress Table
 
@@ -161,7 +170,7 @@
 | 4. Portfolio, ЖК, Log, Contact | 11/11 | Complete   | 2026-04-25 |
 | 5. Animations & Polish | 0/8 | Not started | — |
 | 6. Performance, Mobile Fallback, Deploy | 9/9 | Complete   | 2026-04-26 |
-| 7. Post-deploy QA & Handoff | 0/0 | Not started | — |
+| 7. Post-deploy QA & Handoff | 0/9 | Planning complete | — |
 
 ## Requirement Coverage
 
