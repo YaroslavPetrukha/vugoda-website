@@ -24,16 +24,36 @@ export function Footer() {
           >
             vygoda.sales@gmail.com
           </a>
+          {/* P0-5 / AUDIT-UX §1.4.C: replace <a href="#"> with <button disabled>.
+              The hash-href under HashRouter rewrote the URL on click and
+              dropped the user to /. Disabled buttons are non-clickable and
+              correctly communicate «coming soon». aria-label gives screen-
+              readers the channel name; opacity-50 the visual disabled state. */}
           <div className="flex gap-4">
-            <a href="#" aria-label="Telegram" className="text-text-muted hover:text-accent">
+            <button
+              type="button"
+              disabled
+              aria-label="Telegram (скоро)"
+              className="text-text-muted opacity-50 cursor-not-allowed"
+            >
               <Send size={20} aria-hidden="true" />
-            </a>
-            <a href="#" aria-label="Instagram" className="text-text-muted hover:text-accent">
+            </button>
+            <button
+              type="button"
+              disabled
+              aria-label="Instagram (скоро)"
+              className="text-text-muted opacity-50 cursor-not-allowed"
+            >
               <MessageCircle size={20} aria-hidden="true" />
-            </a>
-            <a href="#" aria-label="Facebook" className="text-text-muted hover:text-accent">
+            </button>
+            <button
+              type="button"
+              disabled
+              aria-label="Facebook (скоро)"
+              className="text-text-muted opacity-50 cursor-not-allowed"
+            >
               <Globe size={20} aria-hidden="true" />
-            </a>
+            </button>
           </div>
           <p className="text-base text-text-muted">
             &copy; {year} ТОВ «БК ВИГОДА ГРУП»

@@ -21,7 +21,7 @@
  */
 
 import { Send, MessageCircle, Globe } from 'lucide-react';
-import { email, socials } from '../../../content/company';
+import { email } from '../../../content/company';
 import { phone, address } from '../../../content/placeholders';
 
 export function ContactDetails() {
@@ -52,28 +52,35 @@ export function ContactDetails() {
       <dt className="text-sm font-medium uppercase tracking-wider text-text-muted lg:text-base">
         Соцмережі
       </dt>
+      {/* P0-5 / AUDIT-UX §1.4.C + 1.5.B: <a href="#"> dropped users to /
+          under HashRouter; disabled <button> is the correct pattern for
+          «coming soon». aria-label includes status; opacity-50 conveys
+          the disabled state visually. */}
       <dd className="flex gap-4">
-        <a
-          href={socials.telegram}
-          aria-label="Telegram"
-          className="cursor-default text-text-muted hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        <button
+          type="button"
+          disabled
+          aria-label="Telegram (скоро)"
+          className="text-text-muted opacity-50 cursor-not-allowed"
         >
           <Send size={20} aria-hidden="true" />
-        </a>
-        <a
-          href={socials.instagram}
-          aria-label="Instagram"
-          className="cursor-default text-text-muted hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        </button>
+        <button
+          type="button"
+          disabled
+          aria-label="Instagram (скоро)"
+          className="text-text-muted opacity-50 cursor-not-allowed"
         >
           <MessageCircle size={20} aria-hidden="true" />
-        </a>
-        <a
-          href={socials.facebook}
-          aria-label="Facebook"
-          className="cursor-default text-text-muted hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        </button>
+        <button
+          type="button"
+          disabled
+          aria-label="Facebook (скоро)"
+          className="text-text-muted opacity-50 cursor-not-allowed"
         >
           <Globe size={20} aria-hidden="true" />
-        </a>
+        </button>
       </dd>
     </dl>
   );
