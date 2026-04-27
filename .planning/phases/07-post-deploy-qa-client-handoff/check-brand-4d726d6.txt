@@ -1,0 +1,8 @@
+[check-brand] PASS denylistTerms
+[check-brand] PASS paletteWhitelist
+[check-brand] PASS placeholderTokens
+[check-brand] PASS importBoundaries
+[check-brand] PASS noInlineTransition
+[check-brand] PASS bundleBudget — 133.7 KB gzipped (67% of 200 KB limit)
+[check-brand] PASS heroBudget — all hero variants ≤200KB
+[check-brand] 7/7 checks passed
