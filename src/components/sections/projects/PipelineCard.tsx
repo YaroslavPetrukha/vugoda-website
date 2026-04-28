@@ -43,6 +43,7 @@ import { Link } from 'react-router-dom';
 import type { Project } from '../../../data/types';
 import { ResponsivePicture } from '../../ui/ResponsivePicture';
 import { email } from '../../../content/company';
+import isometricGridUrl from '../../../../brand-assets/patterns/isometric-grid.svg';
 
 interface Props {
   project: Project;
@@ -57,14 +58,32 @@ export function PipelineCard({ project }: Props) {
   return (
     <article className="hover-card flex flex-col gap-4 bg-bg-surface">
       {project.renders.length > 0 && (
-        <ResponsivePicture
-          src={`renders/${project.slug}/${project.renders[0]}`}
-          alt={project.title}
-          widths={[640, 1280]}
-          sizes="(min-width: 1280px) 400px, 100vw"
-          loading="lazy"
-          className="aspect-[4/3] w-full object-cover"
-        />
+        <div className="relative">
+          <ResponsivePicture
+            src={`renders/${project.slug}/${project.renders[0]}`}
+            alt={project.title}
+            widths={[640, 1280]}
+            sizes="(min-width: 1280px) 400px, 100vw"
+            loading="lazy"
+            className="aspect-[4/3] w-full object-cover"
+          />
+          {/* Brand isometric-grid wash — P1-R2 (AUDIT-BRAND §791). The pattern
+              is loaded as a CSS background-image URL (NOT the SVGR component
+              IsometricGridBG, which is bound to the «render-once-per-page»
+              rule due to inline <defs><style>). Using the URL form lets
+              every PipelineCard share one cached asset without DOM-id
+              collision. mix-blend-multiply + opacity-10 keeps the photo
+              readable while signalling brand presence. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 mix-blend-multiply opacity-10"
+            style={{
+              backgroundImage: `url(${isometricGridUrl})`,
+              backgroundSize: '220px 167px',
+              backgroundRepeat: 'repeat',
+            }}
+          />
+        </div>
       )}
       <div className="flex flex-col gap-2 p-6">
         <span className="text-xs font-medium uppercase tracking-wider text-text-muted">
