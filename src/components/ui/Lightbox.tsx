@@ -147,7 +147,15 @@ export function Lightbox({ photos, index, onClose, onIndexChange }: Props) {
             className="max-h-full max-w-full object-contain"
           />
         </div>
-        <div className="flex w-full items-center justify-between bg-bg-black/80 px-6 py-4 text-text">
+        {/* Caption + counter as a polite live region (P1-UX9) — screen-reader
+            users hear the new caption + slide position when ←/→ moves the
+            index. aria-atomic re-announces the whole bar so SR stays in
+            sync even after a series of fast prev/next clicks. */}
+        <div
+          aria-live="polite"
+          aria-atomic="true"
+          className="flex w-full items-center justify-between bg-bg-black/80 px-6 py-4 text-text"
+        >
           <span className="text-base">
             {photo.label ? `${photo.label} — ` : ''}{photo.caption || photo.alt}
           </span>
