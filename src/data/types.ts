@@ -65,6 +65,14 @@ export interface Project {
     label: string;
     mailtoSubject: string;
   };
+  /**
+   * Next concrete step (P1-C5-alt, AUDIT-COPY §9 alt). Short
+   * characterizator like «Кошторис → планування квартир». Renders as a
+   * small accent-arrow line below the location on PipelineCard. Date-free
+   * intentionally — the dated `nextMilestone` variant of §9 needs client
+   * confirms; this alt-form is brand-safe to ship without sign-off.
+   */
+  nextStep?: string;
   /** Ordering on hub page; ascending. Append ЖК #6 with order: 6. */
   order: number;
 }

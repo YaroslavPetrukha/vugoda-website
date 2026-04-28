@@ -66,6 +66,7 @@ export const projects: Project[] = [
       label: 'Запит на передбронь →',
       mailtoSubject: 'Запит на передбронь — ЖК Етно Дім',
     },
+    nextStep: 'Аудит конструкцій, переоформлення прав',
     order: 2,
   },
   {
@@ -81,6 +82,7 @@ export const projects: Project[] = [
       label: 'Старт продажів →',
       mailtoSubject: 'Підписка на старт продажів — ЖК Маєток Винниківський',
     },
+    nextStep: 'Кошторис → планування квартир',
     order: 3,
   },
   {
@@ -97,6 +99,7 @@ export const projects: Project[] = [
       label: 'Інвест-кейс →',
       mailtoSubject: 'Запит інвест-кейсу — Дохідний дім NTEREST',
     },
+    nextStep: 'Дозвільна → подача в ДАБК',
     order: 4,
   },
   {

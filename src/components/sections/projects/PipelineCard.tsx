@@ -85,6 +85,12 @@ export function PipelineCard({ project }: Props) {
         {project.location && (
           <span className="text-sm text-text-muted">{project.location}</span>
         )}
+        {project.nextStep && (
+          <span className="text-sm text-text-muted">
+            <span aria-hidden="true" className="text-accent">→ </span>
+            {project.nextStep}
+          </span>
+        )}
         {project.cta && ctaHref && (
           <a
             href={ctaHref}
