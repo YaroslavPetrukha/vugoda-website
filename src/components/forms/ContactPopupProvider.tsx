@@ -33,6 +33,10 @@ export interface ContactPopupContext {
 interface ContactPopupValue {
   isOpen: boolean;
   context: ContactPopupContext;
+  /** Monotonic counter — increments on each `open()` call. Consumers use
+   *  this as a React `key` to force form-state remount per open, so a
+   *  stale message body from a previous context doesn't survive. */
+  openTick: number;
   open: (ctx?: ContactPopupContext) => void;
   close: () => void;
 }
@@ -42,9 +46,11 @@ const Ctx = createContext<ContactPopupValue | null>(null);
 export function ContactPopupProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [context, setContext] = useState<ContactPopupContext>({});
+  const [openTick, setOpenTick] = useState(0);
 
   const open = useCallback((ctx?: ContactPopupContext) => {
     setContext(ctx || {});
+    setOpenTick((tick) => tick + 1);
     setIsOpen(true);
   }, []);
 
@@ -55,8 +61,8 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo(
-    () => ({ isOpen, context, open, close }),
-    [isOpen, context, open, close],
+    () => ({ isOpen, context, openTick, open, close }),
+    [isOpen, context, openTick, open, close],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

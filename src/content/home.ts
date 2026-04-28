@@ -102,12 +102,33 @@ export const methodologyHeading = 'Як ми будуємо';
  *  Phase 3 D-29 boundary (P1-D6). Existing copy preserved. */
 export const trustHeading = 'Юридично та операційно';
 
+/** TrustBlock overline — added in W5 (audit P1-S5: Trust expansion 3→6).
+ *  Editorial frame mirrors other home sections + names the "6 проявів"
+ *  count so visitor reads "this is the proof grid", not generic info row. */
+export const trustOverline = 'ДОВІРА · 6 ПРОЯВІВ';
+
 /** TrustBlock column labels — moved from inline JSX literals to tokens
  *  for Phase 3 D-29 boundary discipline (P1-D6). Each column gets a
- *  pictograph icon now; the label below stays as-is. */
+ *  pictograph icon now; the label below stays as-is.
+ *  W5 expansion adds 3 more cells: Років · Класс наслідків · Реквізити. */
 export const trustLabelLegal = 'Юр. особа';
 export const trustLabelLicense = 'Ліцензія';
 export const trustLabelContact = 'Контакт';
+export const trustLabelYears = 'Років на ринку';
+export const trustLabelConsequence = 'Клас наслідків';
+export const trustLabelDocuments = 'Реквізити';
+
+/** TrustBlock years cell — note under CountUp showing years since license.
+ *  Honest framing: "ліцензія з 2019" so reader sees the actual anchor
+ *  date, not a vanity-metric headline. */
+export const trustYearsNote = 'ліцензія з 2019';
+
+/** TrustBlock documents cell — placeholder until the official requisites
+ *  PDF is provisioned. Keeps the cell honest about what's coming, not
+ *  promising a download that doesn't exist (CONTEXT.md §6.13 "сертифікати
+ *  + реквізити-pdf — корисно (деталі)"). */
+export const trustDocumentsValue = 'Реквізити-PDF';
+export const trustDocumentsNote = 'Готується. Запит — на email нижче.';
 
 /** ConstructionTeaser CTA — navigates to /construction-log (HOME-04).
  *  Per AUDIT-COPY §4.5: drop English «таймлайн» for «місяці зйомок» (a hint

@@ -42,7 +42,7 @@
 import { Link } from 'react-router-dom';
 import type { Project } from '../../../data/types';
 import { ResponsivePicture } from '../../ui/ResponsivePicture';
-import { email } from '../../../content/company';
+import { useContactPopup } from '../../forms/ContactPopupProvider';
 import isometricGridUrl from '../../../../brand-assets/patterns/isometric-grid.svg';
 
 interface Props {
@@ -51,9 +51,22 @@ interface Props {
 
 export function PipelineCard({ project }: Props) {
   const isClickable = project.presentation === 'full-internal';
-  const ctaHref = project.cta
-    ? `mailto:${email}?subject=${encodeURIComponent(project.cta.mailtoSubject)}`
-    : null;
+  const contactPopup = useContactPopup();
+
+  // W0/W2 swap: previously each pipeline-card CTA opened a mailto with a
+  // pre-filled subject. Now the same CTA opens the in-app contact popup
+  // with the same subject string and a context-aware initial message —
+  // user submits inside the popup (formsubmit.co), no client mail-handler
+  // dance. Subject string still lives on the data object as
+  // `project.cta.mailtoSubject` for backward-compat; rename deferred to
+  // a follow-up data refactor.
+  const handleCtaClick = () => {
+    if (!project.cta) return;
+    contactPopup.open({
+      subject: project.cta.mailtoSubject,
+      initialMessage: `Цікавить ${project.title}. `,
+    });
+  };
 
   return (
     <article className="hover-card flex flex-col gap-4 bg-bg-surface">
@@ -110,13 +123,14 @@ export function PipelineCard({ project }: Props) {
             {project.nextStep}
           </span>
         )}
-        {project.cta && ctaHref && (
-          <a
-            href={ctaHref}
+        {project.cta && (
+          <button
+            type="button"
+            onClick={handleCtaClick}
             className="mt-4 inline-flex w-fit items-center bg-accent px-5 py-3 text-sm font-medium text-bg-black hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           >
             {project.cta.label}
-          </a>
+          </button>
         )}
       </div>
     </article>

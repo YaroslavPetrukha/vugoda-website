@@ -35,7 +35,7 @@ import { popupHeading, popupSubheading, popupCloseLabel } from '../../content/fo
 const AUTO_CLOSE_DELAY_MS = 3000;
 
 export function ContactPopup() {
-  const { isOpen, context, close } = useContactPopup();
+  const { isOpen, context, openTick, close } = useContactPopup();
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   // Open / close native dialog mirroring isOpen.
@@ -111,6 +111,11 @@ export function ContactPopup() {
         </header>
 
         <ContactFormFields
+          // Force fresh-mount per open so a stale message body from the
+          // previous context doesn't survive. openTick increments on each
+          // open() call (provider-level), so opening twice from the same
+          // CTA still resets — predictable state contract for the user.
+          key={openTick}
           variant="popup"
           subject={context.subject}
           initialMessage={context.initialMessage}

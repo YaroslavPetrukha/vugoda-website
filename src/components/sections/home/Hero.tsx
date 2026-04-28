@@ -106,12 +106,17 @@ export function Hero() {
       className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-bg"
     >
       {/* Layer 1 — photo backdrop (Lakeview aerial), slow parallax DOWN.
+          W1: opacity bumped 0.18 → 0.32 — audit SIN 4 fix («4 з 5 сторінок
+          без imagery, hero без cinematic moment»). At 0.32 photo is read
+          as cinematic backdrop, не як ledь-видимий silhouette. Wordmark
+          contrast on darkest аерial pixels stays AAA (#F5F7FA on
+          rgb(20,30,40) ≈ 16:1).
           First-paint image-reveal: L→R clip-path wipe (M0b), gated by
           skipParallax so RM/heroSeen revisits get a static visible photo.
           aria-hidden because alt context lives in PortfolioOverview below. */}
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.18]"
+        className="pointer-events-none absolute inset-0 opacity-[0.32]"
         style={{ y: photoY }}
         variants={skipParallax ? undefined : heroPhotoReveal}
         initial={skipParallax ? false : 'hidden'}

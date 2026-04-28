@@ -43,6 +43,7 @@ import { ResponsivePicture } from '../../ui/ResponsivePicture';
 import { overlineClasses } from '../../ui/typography';
 import { flagshipExternalCta } from '../../../content/home';
 import { useMagnet } from '../../../hooks/useMagnet';
+import { useCursorTilt } from '../../../hooks/useCursorTilt';
 import { withLakeviewUtm } from '../../../lib/utm';
 
 interface Props {
@@ -51,6 +52,7 @@ interface Props {
 
 export function FlagshipCard({ project }: Props) {
   const ctaMagnet = useMagnet();
+  const tilt = useCursorTilt({ maxRotation: 2.5 });
   const captionParts = [
     project.title.toUpperCase(),
     project.stageLabel.toUpperCase(),
@@ -59,7 +61,10 @@ export function FlagshipCard({ project }: Props) {
   const captionLine = captionParts.join(' · ');
 
   return (
-    <article className="hover-card relative mb-24 grid grid-cols-1 overflow-hidden bg-bg-surface lg:grid-cols-[3fr_2fr]">
+    <motion.article
+      ref={tilt.ref as React.RefObject<HTMLElement>}
+      style={tilt.style}
+      className="hover-card relative mb-24 grid grid-cols-1 overflow-hidden bg-bg-surface lg:grid-cols-[3fr_2fr]">
       {/* Image left (3fr) — object-cover full-height with bottom-gradient
           overlay carrying the tracked caption strip. */}
       {project.renders.length > 0 && (
@@ -124,6 +129,6 @@ export function FlagshipCard({ project }: Props) {
           </motion.div>
         )}
       </div>
-    </article>
+    </motion.article>
   );
 }
