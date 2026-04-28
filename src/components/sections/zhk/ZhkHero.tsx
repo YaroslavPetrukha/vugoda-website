@@ -37,6 +37,7 @@
  * if LCP regresses post-restructure.
  */
 
+import { Link } from 'react-router-dom';
 import type { Project } from '../../../data/types';
 import { ResponsivePicture } from '../../ui/ResponsivePicture';
 import { SectionOverline, overlineClasses } from '../../ui/typography';
@@ -63,6 +64,34 @@ export function ZhkHero({ project }: Props) {
           className="h-full w-full object-cover"
           skeleton={false}
         />
+      </div>
+
+      {/* Top-overlay breadcrumb — P1-UX6. Subtle gradient anchors the
+          link against any render brightness, mirroring the bottom-caption
+          gradient. Gradient is decorative (pointer-events-none); the nav
+          wrapper sits in its own positioned container so the Link stays
+          clickable. */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-bg-black/70 to-transparent" />
+      <div className="absolute inset-x-0 top-0 z-10">
+        <nav
+          aria-label="Шлях навігації"
+          className="mx-auto max-w-7xl px-6 pt-12"
+        >
+          <ol className={`flex items-center gap-3 ${overlineClasses} text-text-muted`}>
+            <li>
+              <Link
+                to="/projects"
+                className="hover:text-text underline-offset-4 hover:underline"
+              >
+                Проєкти
+              </Link>
+            </li>
+            <li aria-hidden="true">/</li>
+            <li>
+              <span aria-current="page">{project.title}</span>
+            </li>
+          </ol>
+        </nav>
       </div>
 
       {/* Bottom-overlay caption stack — gradient softens the edge so the
