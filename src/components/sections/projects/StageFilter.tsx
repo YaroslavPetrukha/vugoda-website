@@ -12,37 +12,70 @@
  * HashRouter compat verified: useSearchParams parses query string AFTER
  * the hash, so /#/projects?stage=zdano works correctly.
  *
- * Chip state transitions use explicit property list per D-32 — named
- * properties only, NOT the catch-all utility. 200ms ease-out color transition.
- * Phase 5 absorbs the inline cubic-bezier into motionVariants.ts.
+ * Active-pill via layoutId (P1-UX8). The accent-fill is rendered as a
+ * SHARED motion.span layer — Motion translates it between chips on filter
+ * change, producing iOS-style segmented-control glide. Falls back to a
+ * static absolute-positioned span under prefers-reduced-motion (D-25
+ * RM-threading rule). Text color flips on each chip locally.
+ *
+ * Chip color transitions still use named-property list per D-32 — duration
+ * and easing inline because the brand colors-only animation pre-dates the
+ * variants module and the value matches easeBrand 1:1.
  */
 
 import { useSearchParams } from 'react-router-dom';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import type { Stage } from '../../../data/types';
 import { STAGES, stageLabel, isStage } from '../../../lib/stages';
 import { RevealOnScroll } from '../../ui/RevealOnScroll';
-import { fadeUp } from '../../../lib/motionVariants';
+import { fadeUp, stageFilterPillTransition } from '../../../lib/motionVariants';
 
 interface Props {
   counts: Record<Stage, number>;
 }
 
-/** Chip class string. Active = accent-fill, rest = outline-pill (D-12). */
+const PILL_LAYOUT_ID = 'stage-filter-pill';
+
+/** Chip class string. text-color flips on active; pill renders separately. */
 function chipClass(active: boolean): string {
   const base =
-    'inline-flex items-center px-4 py-2 text-sm font-medium border rounded-full ' +
-    'transition-[background-color,color,border-color] duration-200 ' +
+    'relative isolate inline-flex items-center px-4 py-2 text-sm font-medium border rounded-full ' +
+    'transition-[color,border-color] duration-200 ' +
     'ease-[cubic-bezier(0.22,1,0.36,1)] ' +
     'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
   if (active) {
-    return `${base} bg-accent text-bg-black border-accent`;
+    return `${base} text-bg-black border-accent`;
   }
-  return `${base} bg-transparent text-text border-text-muted hover:border-text`;
+  return `${base} text-text border-text-muted hover:border-text`;
+}
+
+interface PillProps {
+  reduceMotion: boolean;
+}
+
+/** Active accent-fill pill — animated via shared layoutId, static under RM. */
+function ActivePill({ reduceMotion }: PillProps) {
+  if (reduceMotion) {
+    return (
+      <span
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 rounded-full bg-accent"
+      />
+    );
+  }
+  return (
+    <motion.span
+      layoutId={PILL_LAYOUT_ID}
+      aria-hidden="true"
+      className="absolute inset-0 -z-10 rounded-full bg-accent"
+      transition={stageFilterPillTransition}
+    />
+  );
 }
 
 export function StageFilter({ counts }: Props) {
   const [params, setParams] = useSearchParams();
+  const reduceMotion = useReducedMotion() ?? false;
   const raw = params.get('stage');
   const active: Stage | null = isStage(raw) ? raw : null;
 
@@ -68,6 +101,7 @@ export function StageFilter({ counts }: Props) {
         variants={fadeUp}
         className={chipClass(active === null)}
       >
+        {active === null && <ActivePill reduceMotion={reduceMotion} />}
         Усі
       </motion.button>
       {STAGES.map((s) => (
@@ -79,6 +113,7 @@ export function StageFilter({ counts }: Props) {
           variants={fadeUp}
           className={chipClass(active === s)}
         >
+          {active === s && <ActivePill reduceMotion={reduceMotion} />}
           {stageLabel(s)} ({counts[s]})
         </motion.button>
       ))}

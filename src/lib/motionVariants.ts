@@ -184,3 +184,18 @@ export const accentBarDraw: Variants = {
     transition: { duration: 0.8, ease: easeBrand },
   },
 };
+
+/**
+ * Shared-pill transition for StageFilter (P1-UX8).
+ *
+ * Layout animations driven by layoutId can't be expressed as Variants —
+ * Motion derives the source/target from the elements' bounding boxes, not
+ * from a named state. The transition object is the only place where curve
+ * + duration are configurable, so it lives here as a named constant
+ * (passed via prop reference, not inline) to satisfy noInlineTransition
+ * (D-27) while keeping the easeBrand SOT in lockstep.
+ */
+export const stageFilterPillTransition = {
+  duration: 0.4,
+  ease: easeBrand,
+} as const;
