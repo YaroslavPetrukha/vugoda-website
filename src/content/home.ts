@@ -28,8 +28,13 @@ export const heroWordmark = 'вигода';
 
 /** Hero data-counter — top-left overline strip (P1-D1).
  *  Brand-faithful 0/1/4 stat tile, complements the slogan below without
- *  duplicating its sentence rhythm. Caption tone, not narrative. */
-export const heroCounter = '1 активний · 4 у розробці · 0 зданих';
+ *  duplicating its sentence rhythm. Caption tone, not narrative.
+ *  W0 update: prepend «ЛЬВІВ» as locale anchor — audit P1-COPY localize-first. */
+export const heroCounter = 'ЛЬВІВ · 1 АКТИВНИЙ · 4 У РОЗРОБЦІ · 0 ЗДАНО';
+
+/** Hero sub-counter — names the active flagship below the counter strip.
+ *  Two-line stack reads as tabular fact, not marketing claim (W0 / Hero touch-up). */
+export const heroLocation = 'Lakeview · Винники';
 
 /** Hero slogan — split into two pieces for mixed-weight rendering
  *  (AUDIT-DESIGN §4.2 + §9.1). The leading clause (Bold) loads the

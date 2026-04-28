@@ -1,60 +1,49 @@
 /**
  * @module components/sections/home/ContactForm
  *
- * HOME-07 — Single CTA «Написати команді» that opens the user's mail
- * client to a pre-filled mailto: message addressed to the corporate sales
- * inbox. The actual address comes from src/content/company.ts (`email`)
- * so a single edit propagates to Footer + TrustBlock + here.
+ * Home Contact section — inline real form (W0 rebuild, AUDIT-SALES P1-S4).
  *
- * NO real form fields. Per PROJECT.md Out of Scope:
- *   «Бекенд форм у v1 — mailto: достатньо для demo-handoff.
- *    Server endpoint — v2 INFR2-04.»
- * A fake form that only concatenates inputs into a mailto query string
- * adds UI surface without real utility — D-29 rejects it.
+ * Replaces the prior mailto: stub with `<ContactFormFields variant="inline">`
+ * — controlled inputs, validation, formsubmit.co submission. Same form
+ * shape is also reachable via the popup mounted at App root, triggered
+ * from CTAs across surfaces (Hero, FlagshipCard, PipelineCard, Trust).
  *
- * P1-cleanup typography bump (audit finding): the only home section
- * NOT updated to W3-typography in the original sweep — fixed here:
- *   - overline frame «КОНТАКТ · 3 ПРИВОДИ» (matches W3 pattern)
- *   - h2 → text-h2 (was text-3xl)
- *   - body → text-lead text-text (was text-base muted)
+ * The inline form lives at the bottom of the home page so the user who
+ * scrolled the entire narrative arrives here ready to act. The popup
+ * variant is for users who hit a CTA mid-page and don't want to scroll.
  *
- * Heading + body + CTA label come from src/content/home.ts (contactHeading,
- * contactBody, contactCta) — Phase 3 D-29 / checker Warning 8 closes the
- * inline-Ukrainian-paragraph drift surface. Editorial copy in one file.
+ * Heading + body + overline come from src/content/home.ts (Phase 3 D-29
+ * boundary). Subject for the inbox is set here per surface.
  */
 
-import { email } from '../../../content/company';
 import {
-  contactCta,
   contactHeading,
   contactBody,
   contactOverline,
 } from '../../../content/home';
 import { RevealOnScroll } from '../../ui/RevealOnScroll';
 import { SectionOverline } from '../../ui/typography';
+import { ContactFormFields } from '../../forms/ContactFormFields';
 
-/** Pre-filled subject line — short, branded, not a marketing claim. */
-const MAIL_SUBJECT = 'Ініціювати діалог через сайт ВИГОДА';
+const INLINE_SUBJECT = 'Запит з головної — vugoda';
 
 export function ContactForm() {
-  const href = `mailto:${email}?subject=${encodeURIComponent(MAIL_SUBJECT)}`;
-
   return (
     <RevealOnScroll as="section" className="bg-bg-black py-32">
-      <div className="mx-auto flex max-w-4xl flex-col items-center gap-8 px-6 text-center">
-        <SectionOverline>{contactOverline}</SectionOverline>
-        <h2 className="text-[length:var(--text-h2)] font-bold leading-[1.05] text-text">
-          {contactHeading}
-        </h2>
-        <p className="max-w-2xl text-[length:var(--text-lead)] text-text">
-          {contactBody}
-        </p>
-        <a
-          href={href}
-          className="inline-flex items-center bg-accent px-8 py-4 text-base font-medium text-bg-black hover:brightness-110"
-        >
-          {contactCta}
-        </a>
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-16 px-6 lg:grid-cols-2 lg:gap-24">
+        <header className="flex flex-col gap-6">
+          <SectionOverline>{contactOverline}</SectionOverline>
+          <h2 className="text-[length:var(--text-h2)] font-bold leading-[1.05] text-text">
+            {contactHeading}
+          </h2>
+          <p className="text-[length:var(--text-lead)] leading-relaxed text-text">
+            {contactBody}
+          </p>
+        </header>
+
+        <div className="lg:pt-2">
+          <ContactFormFields variant="inline" subject={INLINE_SUBJECT} />
+        </div>
       </div>
     </RevealOnScroll>
   );

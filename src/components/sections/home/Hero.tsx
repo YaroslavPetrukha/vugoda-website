@@ -52,6 +52,7 @@ import { ResponsivePicture } from '../../ui/ResponsivePicture';
 import {
   heroWordmark,
   heroCounter,
+  heroLocation,
   heroSloganLead,
   heroSloganTail,
   heroCta,
@@ -66,6 +67,7 @@ import {
 } from '../../../lib/motionVariants';
 import { useSessionFlag } from '../../../hooks/useSessionFlag';
 import { useMagnet } from '../../../hooks/useMagnet';
+import { useContactPopup } from '../../forms/ContactPopupProvider';
 import { overlineClasses } from '../../ui/typography';
 
 export function Hero() {
@@ -75,6 +77,7 @@ export function Hero() {
   const skipParallax = prefersReducedMotion || heroSeen;
   const primaryMagnet = useMagnet();
   const secondaryMagnet = useMagnet();
+  const contactPopup = useContactPopup();
 
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -134,10 +137,15 @@ export function Hero() {
         <IsometricGridBG className="h-full w-full" opacity={0.15} />
       </motion.div>
 
-      {/* Counter strip — top-left, honest 1·4·0 data tile. */}
-      <p className={`absolute top-12 left-12 z-10 ${overlineClasses} text-text-muted`}>
-        {heroCounter}
-      </p>
+      {/* Counter strip — top-left, honest 1·4·0 data tile + sub-line that
+          names the active flagship. Two-line stack with tighter tracking on
+          the location anchor (audit P1-COPY: localize-first, name the city). */}
+      <div className="absolute top-12 left-12 z-10 flex flex-col gap-1.5">
+        <p className={`${overlineClasses} text-text-muted`}>{heroCounter}</p>
+        <p className="text-xs font-medium tracking-[0.06em] text-text/70">
+          {heroLocation}
+        </p>
+      </div>
 
       {/* Hero content stack — max-w-7xl per D-24. */}
       <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center gap-12 px-6 text-center">
@@ -200,12 +208,17 @@ export function Hero() {
             style={secondaryMagnet.style}
             className="inline-block"
           >
-            <Link
-              to="/contact"
+            <button
+              type="button"
+              onClick={() =>
+                contactPopup.open({
+                  subject: 'Запит з Hero — vugoda',
+                })
+              }
               className="inline-flex items-center text-base font-medium text-text underline-offset-4 hover:underline"
             >
               {heroSecondaryCta}
-            </Link>
+            </button>
           </motion.div>
         </div>
       </div>

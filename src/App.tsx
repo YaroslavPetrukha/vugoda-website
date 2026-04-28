@@ -7,6 +7,8 @@ import ZhkPage from './pages/ZhkPage';
 import ContactPage from './pages/ContactPage';
 import NotFoundPage from './pages/NotFoundPage';
 import { MarkSpinner } from './components/ui/MarkSpinner';
+import { ContactPopupProvider } from './components/forms/ContactPopupProvider';
+import { ContactPopup } from './components/forms/ContactPopup';
 
 // Lazy: heavy non-flagship + dev-only QA tooling (Phase 6 D-08).
 // Production routes (/, /projects, /zhk/:slug, /contact) and NotFoundPage
@@ -62,20 +64,23 @@ const basename = import.meta.env.BASE_URL.replace(/\/$/, '');
 export default function App() {
   return (
     <BrowserRouter basename={basename}>
-      <Suspense fallback={<MarkSpinner />}>
-        <Routes>
-          <Route element={<Layout />}>
-            <Route index element={<HomePage />} />
-            <Route path="projects" element={<ProjectsPage />} />
-            <Route path="zhk/:slug" element={<ZhkPage />} />
-            <Route path="construction-log" element={<ConstructionLogPage />} />
-            <Route path="contact" element={<ContactPage />} />
-            <Route path="dev/brand" element={<DevBrandPage />} />
-            <Route path="dev/grid" element={<DevGridPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Route>
-        </Routes>
-      </Suspense>
+      <ContactPopupProvider>
+        <Suspense fallback={<MarkSpinner />}>
+          <Routes>
+            <Route element={<Layout />}>
+              <Route index element={<HomePage />} />
+              <Route path="projects" element={<ProjectsPage />} />
+              <Route path="zhk/:slug" element={<ZhkPage />} />
+              <Route path="construction-log" element={<ConstructionLogPage />} />
+              <Route path="contact" element={<ContactPage />} />
+              <Route path="dev/brand" element={<DevBrandPage />} />
+              <Route path="dev/grid" element={<DevGridPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Route>
+          </Routes>
+        </Suspense>
+        <ContactPopup />
+      </ContactPopupProvider>
     </BrowserRouter>
   );
 }
