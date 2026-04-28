@@ -37,9 +37,13 @@ const CONSTRUCTION_DST = join(ROOT, 'public/construction');
  *  policy decision — add sparingly. */
 const FILTER = (src: string): boolean => !src.endsWith('.DS_Store');
 
-/** Cyrillic folder name → ASCII slug. Slugs mirror src/data/projects.ts slugs. */
+/** Cyrillic folder name → ASCII slug. Slugs mirror src/data/projects.ts slugs.
+ *  lakeview source folder previously misspelled «likeview» — renamed to
+ *  match dest slug at P1-R3 (REMEDIATION). The map entry is kept as a
+ *  passthrough so future Cyrillic-named projects continue to land here.
+ */
 const RENDER_MAP: Record<string, string> = {
-  'likeview':                 'lakeview',              // fixes misspelling
+  'lakeview':                 'lakeview',
   'ЖК Етно Дім':              'etno-dim',
   'ЖК Маєток Винниківський':  'maietok-vynnykivskyi',
   'Дохідний дім NTEREST':     'nterest',

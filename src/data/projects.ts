@@ -24,8 +24,9 @@ export const projects: Project[] = [
     presentation: 'flagship-external',
     location: 'Львів',
     externalUrl: 'https://yaroslavpetrukha.github.io/Lakeview/',
-    // Verified from filesystem 2026-04-24: /renders/likeview/ has 7 .jpg files.
+    // Verified from filesystem 2026-04-24: /renders/lakeview/ has 7 .jpg files.
     // ARCHITECTURE Q2 listed these as .webp — that was wrong. Use the .jpg list.
+    // Folder renamed from «likeview» → «lakeview» at P1-R3 (REMEDIATION typo fix).
     renders: [
       'aerial.jpg',
       'closeup.jpg',
