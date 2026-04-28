@@ -43,6 +43,7 @@ import { ResponsivePicture } from '../../ui/ResponsivePicture';
 import { overlineClasses } from '../../ui/typography';
 import { flagshipExternalCta } from '../../../content/home';
 import { useMagnet } from '../../../hooks/useMagnet';
+import { withLakeviewUtm } from '../../../lib/utm';
 
 interface Props {
   project: Project;
@@ -113,7 +114,7 @@ export function FlagshipCard({ project }: Props) {
             className="mt-2 inline-block w-fit"
           >
             <a
-              href={project.externalUrl}
+              href={withLakeviewUtm(project.externalUrl, 'flagship-card')}
               target="_blank"
               rel="noopener"
               className="inline-flex items-center bg-accent px-6 py-3 text-base font-medium text-bg-black hover:brightness-110"

@@ -39,6 +39,7 @@
 import { Logo } from '../brand/Logo';
 import { fallbackBody, fallbackEmail, fallbackCtas } from '../../content/mobile-fallback';
 import { legalName, edrpou, licenseDate } from '../../content/company';
+import { withLakeviewUtm } from '../../lib/utm';
 
 export function MobileFallback() {
   return (
@@ -72,7 +73,7 @@ export function MobileFallback() {
           {fallbackCtas.map((cta) => (
             <a
               key={cta.href}
-              href={cta.href}
+              href={cta.external ? withLakeviewUtm(cta.href, 'mobile-fallback') : cta.href}
               {...(cta.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               className="text-base font-medium text-text underline-offset-4 hover:underline"
             >
