@@ -137,7 +137,12 @@ export function Lightbox({ photos, index, onClose, onIndexChange }: Props) {
             <ChevronRight size={48} />
           </button>
         )}
-        <div className="flex flex-1 items-center justify-center p-12">
+        {/* min-h-0 unblocks flex-shrink — без цього intrinsic image-height
+            переоцінює flex-1 і виштовхує caption row нижче viewport
+            (пре-існуючий layout bug, виявлений при візуальному QA P1-UX5
+            коли captions стали значимими). max-h-full на ResponsivePicture
+            обмежує img до flex-1 height. */}
+        <div className="flex min-h-0 flex-1 items-center justify-center p-12">
           <ResponsivePicture
             src={photo.src}
             alt={photo.alt}
