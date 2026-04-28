@@ -24,10 +24,12 @@
  *   No "view desktop anyway" override (D-05 — terminal state).
  *
  *   CTA hrefs (D-06):
- *     - 3 internal CTAs route to /#/{slug} — they navigate to the same
+ *     - 3 internal CTAs are clean paths consumed by Router <Link>
+ *       (P1-UX1 BrowserRouter migration). They navigate to the same
  *       fallback at <1024px (no real content), but exist for visual
  *       signal that the site has structure AND so a later desktop
- *       open of the same URL goes straight to the right page
+ *       open of the same URL goes straight to the right page.
+ *       The renderer prefixes basename automatically via <Link>.
  *     - 1 external Lakeview CTA opens the Lakeview marketing site
  *       in a new tab (Lakeview handles its own mobile responsive)
  */
@@ -53,8 +55,8 @@ export const fallbackCtas: ReadonlyArray<{
   readonly href: string;
   readonly external: boolean;
 }> = [
-  { label: 'Проєкти (5 штук) →',           href: '/#/projects',         external: false },
-  { label: 'Хід будівництва (Lakeview) →', href: '/#/construction-log', external: false },
-  { label: 'Написати нам →',                href: '/#/contact',          external: false },
+  { label: 'Проєкти (5 штук) →',           href: '/projects',         external: false },
+  { label: 'Хід будівництва (Lakeview) →', href: '/construction-log', external: false },
+  { label: 'Написати нам →',                href: '/contact',          external: false },
   { label: 'Lakeview — окремий сайт ↗',     href: 'https://yaroslavpetrukha.github.io/Lakeview/', external: true },
 ] as const;

@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Layout } from './components/layout/Layout';
 import HomePage from './pages/HomePage';
 import ProjectsPage from './pages/ProjectsPage';
@@ -16,22 +16,31 @@ const DevBrandPage = lazy(() => import('./pages/DevBrandPage'));
 const DevGridPage = lazy(() => import('./pages/DevGridPage'));
 
 /**
- * Router root. Uses HashRouter per DEP-03 — GH Pages static server has no
- * SPA fallback; hash routing eliminates the 404-on-hard-refresh class
- * without needing a public/404.html redirect shim.
+ * Router root. Uses BrowserRouter (P1-UX1, REMEDIATION-PLAN §3.5) — clean
+ * URLs without the legacy `#/` hash. GH Pages SPA fallback is supplied by
+ * `public/404.html` (rafgraph/spa-github-pages, MIT, pathSegmentsToKeep=1
+ * because the site lives at /vugoda-website/) and the companion decoder
+ * `<script>` in `index.html` <head> that restores the original path via
+ * history.replaceState before this Router instantiates.
  *
- * URLs:
- *   /#/                     → HomePage
- *   /#/projects             → ProjectsPage
- *   /#/zhk/:slug            → ZhkPage (Phase 4 adds slug resolution)
- *   /#/construction-log     → ConstructionLogPage
- *   /#/contact              → ContactPage
- *   /#/dev/brand            → DevBrandPage (Phase 3 D-25, hidden — not linked from Nav)
- *   /#/dev/grid             → DevGridPage (Phase 4 D-39, hidden — fixtures stress test)
- *   /#/anything-else        → NotFoundPage
+ * basename derives from Vite's BASE_URL with the trailing slash trimmed:
+ *   prod → '/vugoda-website/' → '/vugoda-website'
+ *   dev  → '/'                → ''
  *
- * Phase 5 will wrap the Outlet inside Layout.tsx with the route-transition
- * motion wrapper; nothing in App.tsx needs to change for that.
+ * URLs (under the basename above):
+ *   /                       → HomePage
+ *   /projects               → ProjectsPage
+ *   /zhk/:slug              → ZhkPage
+ *   /construction-log       → ConstructionLogPage
+ *   /contact                → ContactPage
+ *   /dev/brand              → DevBrandPage (hidden — not linked from Nav)
+ *   /dev/grid               → DevGridPage (hidden — fixtures stress test)
+ *   /anything-else          → NotFoundPage
+ *
+ * Phase 5 wraps the Outlet inside Layout.tsx with the route-transition
+ * motion wrapper. Router 7's useLocation() exposes the parsed-route path
+ * under both routers, so AnimatePresence keying on pathname is identical
+ * across the migration — no Layout.tsx changes needed.
  *
  * Phase 6 (D-08..D-10): selective React.lazy() split for /construction-log
  * (50-photo grid + Lightbox state — heaviest non-flagship surface),
@@ -48,9 +57,11 @@ const DevGridPage = lazy(() => import('./pages/DevGridPage'));
  * targets `dist/assets/index-*.js` (eager entry chunk only); lazy chunks
  * are correctly excluded from the gate (loaded on demand only).
  */
+const basename = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 export default function App() {
   return (
-    <HashRouter>
+    <BrowserRouter basename={basename}>
       <Suspense fallback={<MarkSpinner />}>
         <Routes>
           <Route element={<Layout />}>
@@ -65,6 +76,6 @@ export default function App() {
           </Route>
         </Routes>
       </Suspense>
-    </HashRouter>
+    </BrowserRouter>
   );
 }

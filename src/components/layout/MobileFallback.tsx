@@ -28,14 +28,16 @@
  * Motion import.
  *
  * 4 CTA hrefs (D-06):
- *   - 3 internal hash routes — navigate to same fallback at <1024px;
- *     desktop visits the right page directly
+ *   - 3 internal CTAs render via Router <Link> so basename is auto-
+ *     prefixed (P1-UX1 BrowserRouter migration). They navigate to the
+ *     same fallback at <1024px; desktop visits the right page directly.
  *   - 1 external Lakeview — opens new tab with rel="noopener noreferrer"
  *     (Phase 4 HUB-02 pattern); Lakeview handles its own mobile responsive
  *
  * @rule IMPORT BOUNDARY: layout component. Imports from content/, brand/,
  *   nothing from pages/. content/mobile-fallback.ts is the locked copy SOT.
  */
+import { Link } from 'react-router-dom';
 import { Logo } from '../brand/Logo';
 import { fallbackBody, fallbackEmail, fallbackCtas } from '../../content/mobile-fallback';
 import { legalName, edrpou, licenseDate } from '../../content/company';
@@ -70,16 +72,27 @@ export function MobileFallback() {
         <div aria-hidden="true" className="h-px w-2/5 bg-text-muted/20" />
 
         <nav aria-label="Навігація сайту" className="flex w-full flex-col items-center gap-3">
-          {fallbackCtas.map((cta) => (
-            <a
-              key={cta.href}
-              href={cta.external ? withLakeviewUtm(cta.href, 'mobile-fallback') : cta.href}
-              {...(cta.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-              className="text-base font-medium text-text underline-offset-4 hover:underline"
-            >
-              {cta.label}
-            </a>
-          ))}
+          {fallbackCtas.map((cta) =>
+            cta.external ? (
+              <a
+                key={cta.href}
+                href={withLakeviewUtm(cta.href, 'mobile-fallback')}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-base font-medium text-text underline-offset-4 hover:underline"
+              >
+                {cta.label}
+              </a>
+            ) : (
+              <Link
+                key={cta.href}
+                to={cta.href}
+                className="text-base font-medium text-text underline-offset-4 hover:underline"
+              >
+                {cta.label}
+              </Link>
+            ),
+          )}
         </nav>
       </div>
 
