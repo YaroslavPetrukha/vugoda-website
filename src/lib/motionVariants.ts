@@ -166,6 +166,34 @@ export const heroLetter: Variants = {
 };
 
 /**
+ * Display-tier curtain reveal (W7 $impeccable animate, MethodologyTeaser).
+ *
+ * Bottom-up clip-path sweep that emerges a display headline in one
+ * decisive gesture. Distinct from heroPhotoReveal (L→R, photo-arrival
+ * cinematic) and pageCurtain (route-shell shell sweep) — this one is
+ * scoped to a single h2 «display moment» that sits inside an already-
+ * revealed section.
+ *
+ *   hidden:  clipPath inset(0 0 100% 0)  — clipped from bottom
+ *   visible: clipPath inset(0 0 0% 0)    — fully revealed
+ *
+ * Duration 0.7s with easeBrand. Reads as «statement arriving» — slower
+ * than micro-interactions (150-300ms) per brand discipline; faster
+ * than route-level pageCurtain (0.6s + delay choreography).
+ *
+ * RM threading: consumer gates motion.h2 via useReducedMotion (D-25
+ * lockstep). Under RM, plain h2 renders statically — no clip-path
+ * animation, no flash-of-clipped.
+ */
+export const displayCurtain: Variants = {
+  hidden: { clipPath: 'inset(0 0 100% 0)' },
+  visible: {
+    clipPath: 'inset(0 0 0% 0)',
+    transition: { duration: 0.7, ease: easeBrand },
+  },
+};
+
+/**
  * Accent-bar draw-on-scroll (P1-D2 BrandEssence dividers).
  *
  * 1×64px accent-bar that draws from the left edge as the section
@@ -199,3 +227,70 @@ export const stageFilterPillTransition = {
   duration: 0.4,
   ease: easeBrand,
 } as const;
+
+/**
+ * Hero entrance stack (W8 cinematic) — staggered fade-up for the LEFT 7/12
+ * column content (overline → stats trio → accent bar → slogan → CTA pair →
+ * wordmark signature). Plays exactly once on first mount of the page, NOT
+ * gated by the heroSeen sessionFlag (parallax stays gated; entrance is the
+ * deliberate compose-and-reveal moment that always runs).
+ *
+ * Choreography:
+ *   - delayChildren 0.6s — lets pageCurtain settle (0.6s) and overlap with
+ *     heroPhotoReveal (delay 0.5s, duration 1.0s) so the photo wipe is
+ *     mid-reveal as text starts cascading. The two motions converge at
+ *     ~1.2-1.6s into the visit.
+ *   - staggerChildren 0.12s — slow enough to feel deliberate, fast enough
+ *     that the wordmark signature arrives before user scrolls.
+ *
+ * RM threading: Hero gates initial/animate at the consumer per D-25.
+ * Variant stays pure per D-22 lockstep rule.
+ */
+/**
+ * Hero iso-grid reveal (W8 Beat 1, svg-animations + motion-framer skill pass).
+ *
+ * Left-to-right clip-path wipe on the IsometricGridBG overlay — emerges the
+ * blueprint texture as if an architect's pen sweeps across the page. The
+ * existing isometric-grid.svg uses 100+ filled polygons (fill-rule outline
+ * trick), so true `stroke-dasharray` line-by-line draw-on isn't drop-in
+ * achievable without re-authoring the SVG. The clip-path wipe gives the same
+ * "drafting gesture" reading at zero asset-rewrite cost.
+ *
+ * Sequencing relative to hero kit:
+ *   - pageCurtain (0.0s, 0.6s)             — route shell
+ *   - gridReveal  (0.2s, 1.5s)             — blueprint emerges
+ *   - photoReveal (0.5s, 1.0s)             — reality fills in over blueprint
+ *   - heroStack   (0.6s, 0.12s stagger)    — text cascades on settled stage
+ *
+ * Both grid and photo wipe L→R for compound momentum (single visual gesture
+ * instead of competing axes). Grid starts earlier and runs longer so blueprint
+ * texture is visible BEFORE photo arrives — the "engineering trace" reads as
+ * pre-existing context, not decoration.
+ *
+ * RM threading: Hero gates initial/animate at consumer; variant stays pure
+ * per D-22 lockstep rule. heroSeen sessionFlag gates this variant the same
+ * way it gates parallax + heroPhotoReveal — return-visit doesn't replay.
+ */
+export const heroGridReveal: Variants = {
+  hidden: { clipPath: 'inset(0 100% 0 0)' },
+  visible: {
+    clipPath: 'inset(0 0 0 0)',
+    transition: { duration: 1.5, ease: easeBrand, delay: 0.2 },
+  },
+};
+
+export const heroStackContainer: Variants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.12, delayChildren: 0.6 },
+  },
+};
+
+export const heroStackItem: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: easeBrand },
+  },
+};

@@ -29,8 +29,17 @@
 /** Corporate phone (CONCEPT §11.1). Rendered on /contact and in footer microcopy. */
 export const phone = 'У розробці';
 
-/** Legal / postal address (CONCEPT §11.2). Rendered on /contact trust block. */
-export const address = 'У розробці';
+/** Sales-office address (CONCEPT §11.2). Confirmed by client 2026-04-28.
+ *  Consumer: /contact ContactDetails + Google Maps embed. */
+export const address = 'Львів · вул. В. Великого, 4';
+
+/** Sales-office unit detail — separate so the address line stays short
+ *  and the unit reads as a secondary descriptor. */
+export const addressUnit = '4-й поверх, каб. 406';
+
+/** Address block label — names what kind of address (sales-floor walk-in,
+ *  not юридична / поштова). */
+export const addressLabel = 'Офіс продажу';
 
 /**
  * Pipeline-4 public title (CONCEPT §11.3). Per AUDIT-COPY §7.3, the title

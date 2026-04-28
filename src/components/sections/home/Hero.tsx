@@ -1,42 +1,56 @@
 /**
  * @module components/sections/home/Hero
  *
- * Cinematic Hero — P1-D1 rebuild (AUDIT-DESIGN §9.1, §4.3, §10 Pattern 3).
+ * W7 Hybrid Hero — P0 layout rebuild ($impeccable critique → layout).
  *
- * Layered composition (z-order, bottom → top):
- *   z-0  bg-bg base color
- *   z-1  Photo backdrop (Lakeview aerial render @ opacity 0.18) — slow
- *        parallax DOWN (counter-direction to grid). LCP-eager.
- *   z-2  IsometricGridBG @ opacity 0.15 — slow parallax UP. Existing.
- *   z-10 Counter strip top-left — 1·4·0 honest data tile (text-overline).
- *   z-10 Wordmark «вигода» (lowercase, text-display Bold) — letter-by-letter
- *        mask-reveal on first visit (Pattern 3, easeBrand 0.5s/letter,
- *        stagger 60ms). RM-gated and session-gated.
- *   z-10 Mixed-weight slogan — Bold lead + Medium tail (AUDIT-DESIGN §4.2).
- *   z-10 CTA pair — primary bg-accent + secondary underline-on-hover.
+ * Replaces the centered-stack 2014-SaaS template silhouette
+ * (`mx-auto items-center text-center`) with an asymmetric 12-col grid
+ * that promotes the honest 1·4·0 portfolio truth to display-tier visual
+ * hero, while keeping the wordmark + descriptor present as a quiet
+ * signature at bottom-left:
  *
- * Parallax recipe (Phase 5 D-04 + D-22):
- *   - useScroll scoped to hero section (target: heroRef)
- *   - Grid translates UP    [0, -100] (parallaxRange,        SOT)
- *   - Photo translates DOWN [0, +60]  (photoParallaxRange,   SOT)
- *   - Linear (no spring/bounce per brand discipline §6).
+ *   ┌─ vertical-rl edge label «ЛЬВІВ · UA-46»
+ *   │
+ *   ├─ LEFT 7/12 — text-anchored stats column
+ *   │   ┌ overline «Портфель ВИГОДА · станом на 2026»
+ *   │   │ ┌─────────────────────────────────────────┐
+ *   │   │ │ 01      04      00                       │
+ *   │   │ │ active  pipeline delivered  ← display tier
+ *   │   │ │ ━━━━━━━━━━━━━━━━━━━━━━━ ← accent bar      │
+ *   │   │ │ slogan (mixed-weight)                    │
+ *   │   │ │ [Усі 5 проєктів]  Контакт                │
+ *   │   │ └─────────────────────────────────────────┘
+ *   │   └ wordmark + descriptor (small signature)
+ *   │
+ *   └─ RIGHT 5/12 — Lakeview aerial photo (right 42% width, opacity 0.55)
+ *       └ photo caption «Lakeview · Винники · …»
  *
- * Reduced-motion + session-skip (Phase 5 D-17..D-21):
- *   - prefersReducedMotion (Motion's hook) → output ranges collapse to [0, 0]
- *   - heroSeen (sessionStorage) → revisit also collapses ranges (cinematic
- *     intro skipped per SC#5 — demo-pitch reload doesn't re-watch).
- *   - skipParallax = prefersReducedMotion || heroSeen
- *   - Letter-reveal also gated by skipParallax: when true, wordmark renders
- *     with no variants and is statically visible (no flash-of-hidden).
+ * Display tier: stats at --text-display (clamp 120-240px) — the brand's
+ * reserved «3-4 display moments per site» quota now allocates one to the
+ * stats trio. Active=01 in accent (#C1F33D); pipeline=04 in text; delivered=00
+ * in muted/40 (visually receded — honest about «0 здано»).
  *
- * Brand discipline:
- *   - Wordmark lowercase resolves duo-brand pairing (logo is lowercase).
- *   - 6-color palette: bg/text/accent/text-muted only. No glow/shadow/spring.
- *   - mix-blend-mode: difference deferred to W2+ when photo strip + video
- *     layer richen the backdrop tonally — at W1 photo @ 0.18 opacity is too
- *     thin for difference to read brand-faithfully.
+ * Photo composition: backdrop occupies right 42% width only. Soft 128px
+ * gradient mask on the photo's left edge avoids hard seam. Photo opacity
+ * bumped 0.32 → 0.55 because it no longer fights centred text — only
+ * lives on the right half where the LEFT column is on solid bg-bg.
  *
- * NO inline Motion transition objects — Phase 5 SOT in motionVariants.ts.
+ * Vertical edge label: writing-mode vertical-rl, far-left absolute pos,
+ * Pattern 8 from AUDIT-DESIGN. Names the city + region code; reads as
+ * registry annotation, not marketing flourish.
+ *
+ * Wordmark signature: ~32px lowercase Bold, anchored at the BOTTOM-LEFT
+ * of the LEFT column. Descriptor «системний девелопмент» follows in
+ * overline tier. Hero no longer claims the wordmark as visual hero —
+ * the navbar already carries the lockup; this is a film-poster signature.
+ *
+ * Letter-by-letter wordmark mask reveal removed in W7 — the wordmark
+ * is no longer the visual hero, so the cinematic intro has no anchor.
+ * Stage 4 ($impeccable animate) will introduce a NEW signature gesture
+ * tied to the stats (count-up + accent-bar draw).
+ *
+ * Parallax preserved — photo translates DOWN, grid translates UP, both
+ * skipParallax-gated (RM + heroSeen sessionFlag) per Phase 5 D-25.
  */
 
 import { useRef } from 'react';
@@ -51,30 +65,47 @@ import { IsometricGridBG } from '../../brand/IsometricGridBG';
 import { ResponsivePicture } from '../../ui/ResponsivePicture';
 import {
   heroWordmark,
-  heroCounter,
   heroLocation,
+  heroEdgeLabel,
+  heroPortfolioOverline,
+  heroStatActive,
+  heroStatPipeline,
+  heroStatDelivered,
+  heroStatActiveLabel,
+  heroStatPipelineLabel,
+  heroStatDeliveredLabel,
   heroSloganLead,
   heroSloganTail,
   heroCta,
   heroSecondaryCta,
+  heroDescriptor,
 } from '../../../content/home';
 import {
-  parallaxRange,
   photoParallaxRange,
-  heroIntroParent,
-  heroLetter,
   heroPhotoReveal,
+  heroGridReveal,
+  heroStackContainer,
+  heroStackItem,
 } from '../../../lib/motionVariants';
-import { useSessionFlag } from '../../../hooks/useSessionFlag';
 import { useMagnet } from '../../../hooks/useMagnet';
 import { useContactPopup } from '../../forms/ContactPopupProvider';
 import { overlineClasses } from '../../ui/typography';
+import { CountUp } from '../../ui/CountUp';
+import { AccentBar } from '../../ui/AccentBar';
 
 export function Hero() {
   const heroRef = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
-  const heroSeen = useSessionFlag('vugoda:hero-seen');
-  const skipParallax = prefersReducedMotion || heroSeen;
+  // W8 — `skipReveal` gates one-shot entrance clip-path wipes; `skipParallax`
+  // gates continuous-axis motions (scroll Y-parallax, scroll rotation, drift
+  // loop). Both now collapse to `prefersReducedMotion` only — for the demo
+  // URL handed to the client, every visit should land as a fresh first-time
+  // experience. The heroSeen sessionFlag (D-25 throttle on revisit-cinema)
+  // is dropped: the original concern was «restless re-firing» on repeated
+  // navigation, but in practice the slow 90s drift + sub-pixel scroll deltas
+  // are below the perceptual restless threshold.
+  const skipReveal = prefersReducedMotion;
+  const skipParallax = prefersReducedMotion;
   const primaryMagnet = useMagnet();
   const secondaryMagnet = useMagnet();
   const contactPopup = useContactPopup();
@@ -84,10 +115,20 @@ export function Hero() {
     offset: ['start start', 'end start'],
   });
 
-  const gridY = useTransform(
+  // W8 Beat 4 replaces scroll-driven Y-parallax with continuous drift loop
+  // (defined inside heroGridReveal `visible` variant). Y-component is now
+  // owned by the drift; scroll axis carries rotation only.
+
+  // W8 Beat 4 — scroll-driven rotation on iso-grid (motion-framer §Scroll-
+  // Based Animations). 0° at top → 2.5° at hero-bottom-leaves-viewport.
+  // Subtle rotation gives the grid spatial dimensionality matching the
+  // isometric vocabulary; capped at 2.5° to stay below «dizzy» threshold.
+  // skipParallax-gated (RM + heroSeen) — same gate as parallax Y so
+  // continuous-axis motions disappear together on revisit / RM.
+  const gridRotate = useTransform(
     scrollYProgress,
     [0, 1],
-    skipParallax ? [0, 0] : [...parallaxRange],
+    skipParallax ? [0, 0] : [0, 2.5],
   );
 
   const photoY = useTransform(
@@ -96,135 +137,239 @@ export function Hero() {
     skipParallax ? [0, 0] : [...photoParallaxRange],
   );
 
-  // Split wordmark to characters for letter-by-letter reveal. aria-label on
-  // <h1> carries the full word so screen-readers read it once, not 6 times.
-  const wordmarkChars = [...heroWordmark];
-
   return (
     <section
       ref={heroRef}
-      className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-bg"
+      className="relative min-h-[calc(100vh-80px)] w-full overflow-hidden bg-bg"
     >
-      {/* Layer 1 — photo backdrop (Lakeview aerial), slow parallax DOWN.
-          W1: opacity bumped 0.18 → 0.32 — audit SIN 4 fix («4 з 5 сторінок
-          без imagery, hero без cinematic moment»). At 0.32 photo is read
-          as cinematic backdrop, не як ledь-видимий silhouette. Wordmark
-          contrast on darkest аерial pixels stays AAA (#F5F7FA on
-          rgb(20,30,40) ≈ 16:1).
-          First-paint image-reveal: L→R clip-path wipe (M0b), gated by
-          skipParallax so RM/heroSeen revisits get a static visible photo.
-          aria-hidden because alt context lives in PortfolioOverview below. */}
+      {/* Layer 1 — RIGHT-half photo backdrop. Cropped to right 42% via absolute
+          positioning; 128px gradient mask on left edge softens seam to bg-bg.
+          Opacity 0.55 — higher than W1's 0.32 because LEFT column is solid bg
+          and the photo no longer fights centred text. */}
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.32]"
+        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[42%] opacity-[0.55] lg:block"
         style={{ y: photoY }}
-        variants={skipParallax ? undefined : heroPhotoReveal}
-        initial={skipParallax ? false : 'hidden'}
-        animate={skipParallax ? undefined : 'visible'}
+        variants={skipReveal ? undefined : heroPhotoReveal}
+        initial={skipReveal ? false : 'hidden'}
+        animate={skipReveal ? undefined : 'visible'}
       >
         <ResponsivePicture
           src="renders/lakeview/aerial.jpg"
           alt=""
           loading="eager"
           fetchPriority="high"
-          sizes="100vw"
+          sizes="42vw"
           className="h-full w-full object-cover"
           skeleton={false}
         />
+        {/* Soft seam — 128px bg-to-transparent fade on photo's left edge.
+            Not a decorative gradient (banned on lines/strokes); functional
+            mask between text-half and photo-half. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-bg to-transparent"
+        />
       </motion.div>
 
-      {/* Layer 2 — isometric grid overlay, slow parallax UP (existing). */}
+      {/* Layer 2 — isometric grid overlay.
+          OUTER motion.div: W8 Beat 1 (L→R clip-path wipe on first paint) +
+          scroll-driven Y-parallax + scroll-driven rotation (Beat 4).
+          INNER motion.div: continuous diagonal drift loop (Beat 4) — 90s cycle
+          ±25px X / ±15px Y. Reads as «engineering trace alive» without
+          being decorative. Drift gated on skipParallax (RM + heroSeen)
+          alongside scroll-driven motions so continuous-axis behavior stays
+          consistent. */}
       <motion.div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
-        style={{ y: gridY }}
+        style={{ rotate: gridRotate }}
+        variants={skipReveal ? undefined : heroGridReveal}
+        initial={skipReveal ? false : 'hidden'}
+        animate={skipReveal ? undefined : 'visible'}
       >
-        <IsometricGridBG className="h-full w-full" opacity={0.15} />
+        {/* Inner CSS-driven drift wrapper — pure @keyframes loop applied
+            via .iso-drift utility (defined in src/index.css). Lives as a
+            child div so the parent's Motion-driven rotate transform stays
+            isolated and doesn't conflict with the drift's translate(). */}
+        <div className={`h-full w-full ${skipParallax ? '' : 'iso-drift'}`}>
+          <IsometricGridBG className="h-full w-full" opacity={0.12} />
+        </div>
       </motion.div>
 
-      {/* Counter strip — top-left, honest 1·4·0 data tile + sub-line that
-          names the active flagship. Two-line stack with tighter tracking on
-          the location anchor (audit P1-COPY: localize-first, name the city). */}
-      <div className="absolute top-12 left-12 z-10 flex flex-col gap-1.5">
-        <p className={`${overlineClasses} text-text-muted`}>{heroCounter}</p>
-        <p className="text-xs font-medium tracking-[0.06em] text-text/70">
-          {heroLocation}
-        </p>
+      {/* Vertical edge label — far-left, writing-mode vertical-rl. Reads as
+          registry annotation (city + region code). Pattern 8 sticky-side label.
+          aria-hidden because the same locale info appears in the photo caption +
+          nav contact line. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-6 top-1/2 z-10 -translate-y-1/2"
+        style={{ writingMode: 'vertical-rl' }}
+      >
+        <span className={`${overlineClasses} text-text-muted`}>
+          {heroEdgeLabel}
+        </span>
       </div>
 
-      {/* Hero content stack — max-w-7xl per D-24. */}
-      <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center gap-12 px-6 text-center">
-        {/*
-         * Wordmark — lowercase «вигода», letter-by-letter mask reveal.
-         * <h1> carries aria-label with the full word (single SR announcement);
-         * each <span> is aria-hidden so the SR doesn't read 6 letters.
-         * Inner <span> wrapper has overflow-hidden — clips y: 100% hidden
-         * state to produce the mask effect (motionVariants.ts contract).
-         */}
-        <motion.h1
-          aria-label={heroWordmark}
-          className="text-[length:var(--text-display)] font-bold leading-[0.85] tracking-tight text-text"
-          variants={skipParallax ? undefined : heroIntroParent}
-          initial={skipParallax ? false : 'hidden'}
-          animate={skipParallax ? undefined : 'visible'}
+      {/* Main grid — asymmetric 12-col, generous left+right gutters so the
+          edge label has air (left-6 absolute), stats column never butts the
+          edge, and the photo gets its full 42% on the right. */}
+      <div className="relative z-10 mx-auto grid h-full max-w-[1600px] grid-cols-12 gap-8 px-16 pt-16 pb-10">
+        {/* LEFT 7/12 — text-anchored stats column.
+            W8 entrance: 3-beat cascade (overline → middle block → wordmark)
+            via heroStackContainer/Item. Plays once on first mount, NOT
+            gated by heroSeen sessionFlag (parallax stays gated; entrance
+            is the deliberate compose-and-reveal moment). RM users bypass
+            the variants entirely (initial=false, no animate). */}
+        <motion.div
+          className="col-span-12 flex min-h-[calc(100vh-176px)] flex-col justify-between lg:col-span-7"
+          variants={prefersReducedMotion ? undefined : heroStackContainer}
+          initial={prefersReducedMotion ? false : 'hidden'}
+          animate={prefersReducedMotion ? undefined : 'visible'}
         >
-          <span className="inline-flex overflow-hidden pb-[0.05em]">
-            {wordmarkChars.map((ch, i) => (
-              <motion.span
-                key={i}
-                aria-hidden="true"
+          {/* Top row — portfolio overline (frames the stats below) */}
+          <motion.p
+            variants={prefersReducedMotion ? undefined : heroStackItem}
+            className={`${overlineClasses} text-text-muted`}
+          >
+            {heroPortfolioOverline}
+          </motion.p>
+
+          {/* Middle column — display stats + accent bar + slogan + CTAs */}
+          <motion.div
+            variants={prefersReducedMotion ? undefined : heroStackItem}
+            className="flex flex-col gap-12"
+          >
+            {/* 3-up display stats. Active=accent, pipeline=text, delivered=muted/40.
+                Honest 1·4·0 portfolio truth at the brand's display tier. */}
+            <div
+              role="list"
+              aria-label="Портфель ВИГОДА — 1 активний, 4 у розробці, 0 здано"
+              className="flex flex-wrap items-baseline gap-x-12 gap-y-6"
+            >
+              <div role="listitem" className="flex flex-col gap-3">
+                <CountUp
+                  to={Number(heroStatActive)}
+                  pad={2}
+                  duration={1.6}
+                  delay={0}
+                  className="text-[length:var(--text-display)] font-bold leading-[0.85] tabular-nums text-accent"
+                />
+                <span className={`${overlineClasses} text-text-muted`}>
+                  {heroStatActiveLabel}
+                </span>
+              </div>
+              <div role="listitem" className="flex flex-col gap-3">
+                <CountUp
+                  to={Number(heroStatPipeline)}
+                  pad={2}
+                  duration={2.0}
+                  delay={0.15}
+                  className="text-[length:var(--text-display)] font-bold leading-[0.85] tabular-nums text-text"
+                />
+                <span className={`${overlineClasses} text-text-muted`}>
+                  {heroStatPipelineLabel}
+                </span>
+              </div>
+              <div role="listitem" className="flex flex-col gap-3">
+                {/* Delivered = 00 — CountUp from 0 to 0 is a no-op visual,
+                    but kept on the same primitive so the stat trio shares
+                    one rendering surface (tabular-nums alignment, RM
+                    branch). The stat is honest: nothing animates because
+                    nothing is delivered. */}
+                <CountUp
+                  to={Number(heroStatDelivered)}
+                  pad={2}
+                  duration={1.2}
+                  delay={0.3}
+                  className="text-[length:var(--text-display)] font-bold leading-[0.85] tabular-nums text-text-muted/40"
+                />
+                <span className={`${overlineClasses} text-text-muted`}>
+                  {heroStatDeliveredLabel}
+                </span>
+              </div>
+            </div>
+
+            {/* Lime accent bar — punctuation between stats and slogan.
+                Animated draw-on-view via AccentBar (origin-left scaleX). */}
+            <AccentBar width={128} />
+
+            {/* Slogan — mixed-weight Bold lead + Medium tail. Names what the
+                stats above mean in one sentence. Max-w-2xl keeps line length
+                in the 65-75ch readable band. */}
+            <p className="max-w-2xl text-[length:var(--text-lead)] leading-snug text-text">
+              <span className="font-bold">{heroSloganLead}</span>{' '}
+              <span className="font-medium text-text-muted">
+                {heroSloganTail}
+              </span>
+            </p>
+
+            {/* CTA pair — left-aligned (NOT centered). Magnet hover preserved
+                (RM-gated inside hook). Primary stays bg-accent, secondary
+                stays underline-on-hover for hierarchy. */}
+            <div className="flex flex-wrap items-center gap-8">
+              <motion.div
+                ref={primaryMagnet.ref as React.RefObject<HTMLDivElement>}
+                style={primaryMagnet.style}
                 className="inline-block"
-                variants={skipParallax ? undefined : heroLetter}
               >
-                {ch}
-              </motion.span>
-            ))}
-          </span>
-        </motion.h1>
-
-        {/* Mixed-weight slogan — Bold lead + Medium tail. Spans carry
-            visible text content for SR (no aria-label / no aria-hidden);
-            audit fix vs prior aria-label-on-p-with-aria-hidden-children
-            redundant pattern. The space between spans concatenates as
-            normal whitespace at SR level. */}
-        <p className="max-w-3xl text-[length:var(--text-lead)] leading-snug text-text">
-          <span className="font-bold">{heroSloganLead}</span>{' '}
-          <span className="font-medium text-text-muted">{heroSloganTail}</span>
-        </p>
-
-        {/* CTA pair — primary bg-accent, secondary underline-on-hover.
-            gap-8 = 32px per spacing rhythm-lg. Each CTA wrapped in
-            motion.div with useMagnet (P1-M1) — RM-gated inside the hook. */}
-        <div className="flex flex-wrap items-center justify-center gap-8">
-          <motion.div
-            ref={primaryMagnet.ref as React.RefObject<HTMLDivElement>}
-            style={primaryMagnet.style}
-            className="inline-block"
-          >
-            <Link
-              to="/projects"
-              className="inline-flex items-center bg-accent px-8 py-4 text-base font-medium text-bg-black hover:brightness-110"
-            >
-              {heroCta}
-            </Link>
+                <Link
+                  to="/projects"
+                  className="inline-flex items-center bg-accent px-8 py-4 text-base font-medium text-bg-black transition-[transform,filter] duration-150 ease-out hover:brightness-110 active:scale-[0.97] motion-reduce:transition-none motion-reduce:active:scale-100"
+                >
+                  {heroCta}
+                </Link>
+              </motion.div>
+              <motion.div
+                ref={secondaryMagnet.ref as React.RefObject<HTMLDivElement>}
+                style={secondaryMagnet.style}
+                className="inline-block"
+              >
+                <button
+                  type="button"
+                  onClick={() =>
+                    contactPopup.open({
+                      subject: 'Запит з Hero — vugoda',
+                    })
+                  }
+                  className="inline-flex items-center text-base font-medium text-text underline-offset-4 transition-transform duration-150 ease-out hover:underline active:scale-[0.97] motion-reduce:transition-none motion-reduce:active:scale-100"
+                >
+                  {heroSecondaryCta}
+                </button>
+              </motion.div>
+            </div>
           </motion.div>
+
+          {/* Bottom row — small wordmark signature.
+              h1 lives here (semantic): the canonical brand title is still
+              the page H1 for SEO + outline integrity. Visually relegated
+              to film-poster signature; visual hero is the stats above. */}
           <motion.div
-            ref={secondaryMagnet.ref as React.RefObject<HTMLDivElement>}
-            style={secondaryMagnet.style}
-            className="inline-block"
+            variants={prefersReducedMotion ? undefined : heroStackItem}
+            className="flex items-baseline gap-3 pt-8"
           >
-            <button
-              type="button"
-              onClick={() =>
-                contactPopup.open({
-                  subject: 'Запит з Hero — vugoda',
-                })
-              }
-              className="inline-flex items-center text-base font-medium text-text underline-offset-4 hover:underline"
+            <h1 className="text-3xl font-bold lowercase leading-none tracking-tight text-text">
+              {heroWordmark}
+            </h1>
+            <span
+              aria-hidden="true"
+              className="text-xs font-medium uppercase tracking-[0.18em] text-text-muted"
             >
-              {heroSecondaryCta}
-            </button>
+              — {heroDescriptor}
+            </span>
           </motion.div>
+        </motion.div>
+
+        {/* RIGHT 5/12 — visual photo half (photo absolute-positioned above this
+            column at z-0). This col holds the photo caption only, anchored
+            bottom-right so reader can identify what they see. */}
+        <div className="hidden flex-col justify-end lg:col-span-5 lg:flex">
+          <p
+            className={`${overlineClasses} text-text/80`}
+            style={{ textShadow: '0 1px 2px rgba(2,10,10,0.4)' }}
+          >
+            {heroLocation}
+          </p>
         </div>
       </div>
     </section>

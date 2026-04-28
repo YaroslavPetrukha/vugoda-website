@@ -12,11 +12,15 @@
  *   error — діагностичний, success — стриманий і без вигуку.
  */
 
-/** Form headings — different per surface. Inline reuses content/home.ts. */
-export const popupHeading = 'Запит на консультацію';
+/** Form headings — different per surface. Inline reuses content/home.ts.
+ *  W8 audit-copy round 2: «Запит на консультацію» dropped — site's worst
+ *  cliché (consulting-template register). New heading is direct, plain,
+ *  human imperative. Subheading rewritten to differentiate from the inline
+ *  form's contactBody (was a verbatim duplicate previously). */
+export const popupHeading = 'Напишіть нам по проєкту';
 
 /** Sub-heading — short context line below H2 in popup. */
-export const popupSubheading = 'Залиште контакти — повернемось із розрахунком, термінами або варіантами участі.';
+export const popupSubheading = 'Залиште контакти — звʼяжемось протягом 24 годин у робочі дні.';
 
 /** Field labels — visible above inputs. Form is i18n-ready by extracting here. */
 export const labelName = 'Імʼя';

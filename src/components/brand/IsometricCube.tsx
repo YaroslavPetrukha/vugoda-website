@@ -1,48 +1,60 @@
 /**
  * @module components/brand/IsometricCube
  * 3-variant inviolable brand primitive per VIS-03 + brand-system.md §5.
- * Replaces Phase 1's MinimalCube (deleted in same commit per Phase 3 D-12).
- * `single` variant preserves MinimalCube's polygon geometry verbatim — no
- * visual shift between phases when consumers swap component name.
+ *
+ * 2026-04-28 brand-correction: `single` + `group` variants now render the
+ * canonical brand mark (brand-assets/mark/mark.svg) instead of locally
+ * authored polygon strokes. The polygon path was an in-house re-creation
+ * that drifted from the brandbook geometry — user feedback flagged it as
+ * off-brand. Replacing with the source SVG via URL-import (Phase 3 D-28
+ * pattern, mirrors Mark.tsx) makes the brand mark the single source of
+ * truth across every consumer (AggregateRow, MethodologyTeaser, BrandEssence,
+ * EmptyStateZdano, ContactPage, DevBrandPage).
  *
  * Cube-ladder semantics per CONCEPT §5.2 + Phase 3 D-10:
  *   single → Pipeline-4 aggregate-row marker (Phase 3) +
  *            Phase 4 «Здано (0)» empty-state marker
- *   group  → Phase 4 pipeline-card decorative corner
+ *   group  → Phase 4 pipeline-card decorative corner (2 marks side-by-side)
  *   grid   → hero overlay (delegates to IsometricGridBG) +
  *            Phase 4 empty-state full-bleed
+ *
+ * Prop compatibility:
+ *   - `stroke` and `strokeWidth` are now no-ops for `single`/`group`
+ *     (mark.svg uses fill #C1F33D natively per brandbook). Kept in the
+ *     API surface so existing callers don't need refactor; the props are
+ *     accepted and silently ignored. Lime is the only sanctioned mark color.
+ *   - `opacity` multiplies onto the mark's intrinsic 0.6 fill-opacity.
+ *     Default 0.5 (gives effective 0.3 on screen — matches old default).
+ *   - `className` flows to the wrapper. Use object-contain semantics
+ *     internally to letterbox the 220×167 viewBox in any aspect container.
  *
  * D-03 hero opacity ceiling (grid variant only):
  *   The hero overlay grid MUST sit in the 0.10–0.20 opacity band per
  *   brandbook §5 + Phase 3 D-03. The `single`/`group` variants follow
- *   the broader brandbook 0.05–0.60 cube range (default 0.3).
- *   Therefore when `variant='grid'`:
- *     - opacity undefined → delegate receives 0.15 (mid-band)
- *     - opacity explicit  → delegate receives Math.min(opacity, 0.2)
- *   This prevents an accidental `<IsometricCube variant='grid' />` call
- *   from washing the hero in 30% accent-overlay.
+ *   the broader brandbook 0.05–0.60 cube range.
  */
 import { IsometricGridBG } from './IsometricGridBG';
+import markUrl from '../../../brand-assets/mark/mark.svg';
 
 type AllowedStroke = '#A7AFBC' | '#F5F7FA' | '#C1F33D';
 
 export interface IsometricCubeProps {
   variant: 'single' | 'group' | 'grid';
-  /** One of 3 brand-allowed stroke colors. Default '#A7AFBC'. */
+  /** No-op for single/group (mark.svg ships in #C1F33D only). Retained for
+   *  API compatibility. */
   stroke?: AllowedStroke;
-  /** Stroke width 0.5–1.5pt ≈ 1–2px. Default 1. */
+  /** No-op for single/group. Retained for API compatibility. */
   strokeWidth?: number;
-  /** Container opacity. Default 0.3 for single/group (brandbook §5).
-   *  For variant='grid', see D-03 hero ceiling logic in component body. */
+  /** Container opacity per brandbook 0.05–0.60. Default 0.5 (matches the
+   *  old polygon variant's effective contrast on bg-bg). For variant='grid',
+   *  see D-03 hero ceiling logic in component body. */
   opacity?: number;
-  /** Sizing className. */
+  /** Sizing className (passed to the wrapper). */
   className?: string;
 }
 
 export function IsometricCube({
   variant,
-  stroke = '#A7AFBC',
-  strokeWidth = 1,
   opacity,
   className,
 }: IsometricCubeProps) {
@@ -55,47 +67,45 @@ export function IsometricCube({
     return <IsometricGridBG className={className} opacity={gridOpacity} />;
   }
 
-  // Non-grid variants: brandbook §5 default 0.3 if caller omitted opacity.
-  const svgOpacity = opacity ?? 0.3;
+  const wrapperOpacity = opacity ?? 0.5;
+
+  if (variant === 'group') {
+    return (
+      <div
+        className={className}
+        style={{ opacity: wrapperOpacity }}
+        aria-hidden="true"
+      >
+        <div className="flex h-full w-full items-center justify-center gap-2">
+          <img
+            src={markUrl}
+            alt=""
+            aria-hidden="true"
+            className="h-full w-auto object-contain"
+          />
+          <img
+            src={markUrl}
+            alt=""
+            aria-hidden="true"
+            className="h-full w-auto object-contain"
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <svg
-      viewBox={variant === 'group' ? '0 0 220 100' : '0 0 100 100'}
+    <div
       className={className}
-      style={{ opacity: svgOpacity }}
+      style={{ opacity: wrapperOpacity }}
       aria-hidden="true"
-      focusable="false"
     >
-      <g
-        fill="none"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeLinecap="butt"
-        strokeLinejoin="miter"
-      >
-        {variant === 'single' && (
-          <>
-            {/* Top rhombus — preserved from Phase 1 MinimalCube */}
-            <polygon points="50,15 85,35 50,55 15,35" />
-            {/* Left rhombus */}
-            <polygon points="15,35 15,75 50,95 50,55" />
-            {/* Right rhombus */}
-            <polygon points="50,55 50,95 85,75 85,35" />
-          </>
-        )}
-        {variant === 'group' && (
-          <>
-            {/* Cube 1 (left), viewBox 0 0 220 100 */}
-            <polygon points="50,15 85,35 50,55 15,35" />
-            <polygon points="15,35 15,75 50,95 50,55" />
-            <polygon points="50,55 50,95 85,75 85,35" />
-            {/* Cube 2 (right) — shares vertical edge x=85 with Cube 1 right face */}
-            <polygon points="120,15 155,35 120,55 85,35" />
-            <polygon points="85,35 85,75 120,95 120,55" />
-            <polygon points="120,55 120,95 155,75 155,35" />
-          </>
-        )}
-      </g>
-    </svg>
+      <img
+        src={markUrl}
+        alt=""
+        aria-hidden="true"
+        className="h-full w-full object-contain"
+      />
+    </div>
   );
 }

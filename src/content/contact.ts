@@ -33,12 +33,14 @@ export const contactPageHeading = 'Поговоримо';
  *  full Lviv map SVG is deferred to P2 / dedicated LvivMapSvg.) */
 export const contactPinsLabel = 'Об’єкти у Львові';
 
-/** /contact page subtitle — short stripped-tone invitation (D-36).
- *  Per AUDIT-COPY §4.9 (adapted): the audit recommended «Чотири канали для
- *  звернення» but only email is currently active (phone/address are «У розробці»,
- *  socials are disabled). Honest version: name the active channel, flag the
- *  rest as in-progress. Brand-faithful: системно, no overpromise. */
-export const contactPageSubtitle = 'Email — основний канал. Інші — у розробці.';
+/** /contact page subtitle — short stripped-tone invitation.
+ *  Apr-2026 update: address became real (placeholders.ts confirmed
+ *  2026-04-28) and the page now shows a real <ContactFormFields> form
+ *  on the right. Three active channels: email, form, office. Subtitle
+ *  names them factually without overpromising SLAs. Phone + socials
+ *  remain in-work — handled by ContactDetails closing line, not here. */
+export const contactPageSubtitle =
+  'Залиште повідомлення формою або напишіть на email — це найшвидший шлях до відповіді.';
 
 /** Primary mailto CTA button label (D-36). Mirrors home contactCta
  *  but kept as separate const for /contact-page editorial freedom
@@ -55,3 +57,18 @@ export const contactMailSubject = 'Ініціювати діалог через 
 /** Browser-tab title for `/contact` route. Phase 6 D-18 format
  *  «{Page} — ВИГОДА». */
 export const pageTitle = 'Контакт — ВИГОДА';
+
+/** Iframe title for the Google Maps embed (a11y — screen readers
+ *  announce iframe content via title attr). */
+export const mapIframeTitle = 'Карта офісу продажу ВИГОДА — Львів, вул. В. Великого 4';
+
+/** Map caption — appears under the iframe as editorial annotation,
+ *  duplicates the address text so the page is readable without the
+ *  embedded map (image-blocked / iframe-blocked corp networks). */
+export const mapCaption = 'Заходьте без попередження у робочі години — є гостьові паркомісця у дворі.';
+
+/** Closing-line copy in ContactDetails — replaces the prior 3 dl rows of
+ *  «У розробці». Phone + soc still pending; address is now real (see
+ *  placeholders.ts confirmed 2026-04-28). */
+export const contactDetailsClosingLine =
+  'Телефон і соцмережі — у роботі. Відкриваємо публічно, коли канал готовий до клієнта.';

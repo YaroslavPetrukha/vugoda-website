@@ -30,3 +30,24 @@ construction/_social-covers/
 public/og-image.png
 public/apple-touch-icon.png
 public/favicon-32.png
+
+# QA/audit screenshots dropped in repo root by Playwright/manual sessions
+/*.png
+
+# Local audit artifacts and Lighthouse runs
+audit/
+.lighthouseci/
+
+# Tooling/agent state — local-only
+.agents/
+.claude/
+thoughts/
+skills-lock.json
+.gitignore.local
+
+# Source brandbook binaries — too large for VCS, kept in cloud storage
+*.ai
+*.pdf
+
+# Empty placeholder dir from prototype migration
+вигода-—-системний-девелопмент/

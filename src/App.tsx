@@ -9,6 +9,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import { MarkSpinner } from './components/ui/MarkSpinner';
 import { ContactPopupProvider } from './components/forms/ContactPopupProvider';
 import { ContactPopup } from './components/forms/ContactPopup';
+import { BlueprintLoader } from './components/loader/BlueprintLoader';
 
 // Lazy: heavy non-flagship + dev-only QA tooling (Phase 6 D-08).
 // Production routes (/, /projects, /zhk/:slug, /contact) and NotFoundPage
@@ -63,24 +64,33 @@ const basename = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 export default function App() {
   return (
-    <BrowserRouter basename={basename}>
-      <ContactPopupProvider>
-        <Suspense fallback={<MarkSpinner />}>
-          <Routes>
-            <Route element={<Layout />}>
-              <Route index element={<HomePage />} />
-              <Route path="projects" element={<ProjectsPage />} />
-              <Route path="zhk/:slug" element={<ZhkPage />} />
-              <Route path="construction-log" element={<ConstructionLogPage />} />
-              <Route path="contact" element={<ContactPage />} />
-              <Route path="dev/brand" element={<DevBrandPage />} />
-              <Route path="dev/grid" element={<DevGridPage />} />
-              <Route path="*" element={<NotFoundPage />} />
-            </Route>
-          </Routes>
-        </Suspense>
-        <ContactPopup />
-      </ContactPopupProvider>
-    </BrowserRouter>
+    <>
+      {/* BlueprintLoader — initial-load Blueprint Reveal System (Top #1 spec).
+          Mount ВИЩЕ за Router: loader не звертається до useLocation і повинен
+          показатися ще до hydration кожного route-у. Self-unmounting через
+          internal state — сам очищає себе після ~1.4с full reveal або 250ms
+          fade на repeat-visit. sessionStorage flag (lib/loaderState) керує
+          full-vs-quick path. */}
+      <BlueprintLoader />
+      <BrowserRouter basename={basename}>
+        <ContactPopupProvider>
+          <Suspense fallback={<MarkSpinner />}>
+            <Routes>
+              <Route element={<Layout />}>
+                <Route index element={<HomePage />} />
+                <Route path="projects" element={<ProjectsPage />} />
+                <Route path="zhk/:slug" element={<ZhkPage />} />
+                <Route path="construction-log" element={<ConstructionLogPage />} />
+                <Route path="contact" element={<ContactPage />} />
+                <Route path="dev/brand" element={<DevBrandPage />} />
+                <Route path="dev/grid" element={<DevGridPage />} />
+                <Route path="*" element={<NotFoundPage />} />
+              </Route>
+            </Routes>
+          </Suspense>
+          <ContactPopup />
+        </ContactPopupProvider>
+      </BrowserRouter>
+    </>
   );
 }

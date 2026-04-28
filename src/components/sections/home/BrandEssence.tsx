@@ -34,17 +34,36 @@ import { brandValues } from '../../../content/values';
 import { RevealOnScroll } from '../../ui/RevealOnScroll';
 import { SectionOverline } from '../../ui/typography';
 import { AccentBar } from '../../ui/AccentBar';
-import { IsometricCube } from '../../brand/IsometricCube';
+import { AnimatedMark } from '../../brand/AnimatedMark';
 import { fadeUp } from '../../../lib/motionVariants';
 import {
   brandEssenceOverline,
   brandEssenceHeading,
 } from '../../../content/home';
+import isometricGridUrl from '../../../../brand-assets/patterns/isometric-grid.svg';
 
 export function BrandEssence() {
   return (
-    <RevealOnScroll as="section" className="bg-bg py-32">
-      <div className="mx-auto max-w-7xl px-6">
+    <RevealOnScroll as="section" className="relative overflow-hidden bg-bg py-40">
+      {/* Brand isometric-grid overlay — left edge, top-anchored, masked
+          fade. Reads as engineering-trace texture under the manifesto rows
+          without competing with display-tier «01 / 04» numerals. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-0 top-0 hidden h-[80%] w-[35%] opacity-[0.05] lg:block"
+        style={{
+          backgroundImage: `url(${isometricGridUrl})`,
+          backgroundSize: '440px 334px',
+          backgroundRepeat: 'repeat',
+          // W8 fix — radial mask anchored at top-left corner; see
+          // ConstructionTeaser for full rationale on hard-edge avoidance.
+          maskImage:
+            'radial-gradient(circle 600px at left top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%)',
+          WebkitMaskImage:
+            'radial-gradient(circle 600px at left top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%)',
+        }}
+      />
+      <div className="relative mx-auto max-w-7xl px-6">
         {/* Section frame — overline + bumped H2. */}
         <header className="mb-20 max-w-3xl">
           <SectionOverline className="mb-4">{brandEssenceOverline}</SectionOverline>
@@ -87,12 +106,15 @@ export function BrandEssence() {
 
                 {/* Cube + heading column (middle 4/12). */}
                 <div className="relative z-10 col-span-12 flex flex-col gap-6 lg:col-span-4">
-                  <IsometricCube
-                    variant="single"
+                  {/* W8 Beat 2: drawable mark — top → left → right faces
+                      stroke-on as user scrolls each card into view (svg-animations
+                      + motion-framer pathLength). Each card animates independently
+                      via whileInView once-mode; ratio numerals stay static. */}
+                  <AnimatedMark
                     stroke="#C1F33D"
                     strokeWidth={1.5}
                     opacity={0.9}
-                    className="h-16 w-16"
+                    className="h-16 w-14"
                   />
                   <h3 className="text-[length:var(--text-h3)] font-bold leading-tight text-text">
                     {value.title}

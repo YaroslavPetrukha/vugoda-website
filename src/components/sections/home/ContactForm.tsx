@@ -24,13 +24,31 @@ import {
 import { RevealOnScroll } from '../../ui/RevealOnScroll';
 import { SectionOverline } from '../../ui/typography';
 import { ContactFormFields } from '../../forms/ContactFormFields';
+import isometricGridUrl from '../../../../brand-assets/patterns/isometric-grid.svg';
 
 const INLINE_SUBJECT = 'Запит з головної — vugoda';
 
 export function ContactForm() {
   return (
-    <RevealOnScroll as="section" className="bg-bg-black py-32">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-16 px-6 lg:grid-cols-2 lg:gap-24">
+    <RevealOnScroll as="section" className="relative overflow-hidden bg-bg-black py-48">
+      {/* Brand isometric-grid overlay — bottom-left corner. Lower opacity
+          (0.04) on bg-bg-black surface so it reads as faint engineering
+          trace, not wallpaper. Closes the page with the same brand-trace
+          vocabulary that opens the Hero. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-0 bottom-0 hidden h-[70%] w-[35%] opacity-[0.04] lg:block"
+        style={{
+          backgroundImage: `url(${isometricGridUrl})`,
+          backgroundSize: '440px 334px',
+          backgroundRepeat: 'repeat',
+          maskImage:
+            'linear-gradient(to top right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)',
+          WebkitMaskImage:
+            'linear-gradient(to top right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)',
+        }}
+      />
+      <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-16 px-6 lg:grid-cols-2 lg:gap-24">
         <header className="flex flex-col gap-6">
           <SectionOverline>{contactOverline}</SectionOverline>
           <h2 className="text-[length:var(--text-h2)] font-bold leading-[1.05] text-text">

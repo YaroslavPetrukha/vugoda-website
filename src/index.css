@@ -21,9 +21,14 @@
    * 30-36/20-30 to 48-72/28-40 — current sizes read 2018-grade on 1920. */
   --font-sans: "Montserrat", system-ui, -apple-system, sans-serif;
 
-  /* Display tier — wordmark «вигода», manifesto-block, page-head H1 */
-  --text-display:    clamp(120px, 14vw, 240px);  /* hero wordmark only */
-  --text-display-l:  clamp(72px,  7vw,  128px);  /* H1 page heads, manifesto */
+  /* Display tier — sole consumer is Hero stats trio (W7 hybrid layout).
+   * Rebound from clamp(120-240) → clamp(96-200) so 3 numerals fit on
+   * one row at MacBook 16" (1728w → col-span-7 ≈ 843px usable). At
+   * 240 max, stats wrapped «00» to second row at 1728 — fixed by
+   * dropping 17% font-size. Display moment preserved (200px is
+   * still display-tier per brand quota «3-4 display moments per site»). */
+  --text-display:    clamp(96px,  10vw, 200px);  /* hero stats trio (W7) */
+  --text-display-l:  clamp(72px,   7vw, 128px);  /* H1 page heads, manifesto */
 
   /* Heading tier */
   --text-h2:         clamp(48px,  4vw,  72px);   /* section H2 */
@@ -98,35 +103,69 @@
 }
 
 /*
- * Hover-card consolidation — Phase 5 D-24.
- * Replaces the Phase 4 inline hover-class string previously duplicated across
- * 5 surfaces (home PortfolioOverview pipeline cards, FlagshipCard outer
- * article, PipelineCard inner article, ZhkGallery thumb buttons, MonthGroup
- * thumb buttons). Single source of truth for the brand hover triple-effect:
- *   - transform: scale(1.02)
- *   - box-shadow: 0 0 24px rgba accent at 15%
- *   - transition: 200ms cubic-bezier(0.22, 1, 0.36, 1)
+ * Hover-card v2 — W7 redesign (drops 2010-style green-glow shadow per user
+ * feedback «зелена тінь це 2010»).
  *
- * Reduced-motion neutralisation lives in the nested @media block below —
- * no Tailwind motion-reduce: variants are needed at consumer sites (RESEARCH
- * Risk 3: single source of RM behaviour).
+ * New brand hover signature for image-led cards:
+ *   1. Image inside card zooms 1.04x (gives photo presence, not the frame)
+ *   2. Accent hairline draws origin-left across card bottom (1px lime)
+ *   3. Card itself does not scale, does not shadow
+ *
+ * Drops:
+ *   - transform: scale(1.02) on the card (drama belongs to the photo)
+ *   - box-shadow: 0 0 24px rgba(accent, 0.15) (the «green glow» from 2010)
+ *
+ * Consumers (5 surfaces): home PortfolioOverview pipeline cards, FlagshipCard
+ * outer article, PipelineCard inner article, ZhkGallery thumb buttons,
+ * MonthGroup thumb buttons. Update once, applies everywhere.
+ *
+ * RM threading: nested @media below neutralises both image zoom + accent
+ * line under prefers-reduced-motion (essential motion exception holds for
+ * non-decorative state-change feedback only — this is decorative).
  *
  * Couples with --ease-brand declared in @theme above (D-23 lockstep rule).
  */
 @utility hover-card {
-  transition-property: transform, box-shadow, background-color;
-  transition-duration: 200ms;
-  transition-timing-function: var(--ease-brand);
+  position: relative;
+  isolation: isolate;
 
-  &:hover {
-    transform: scale(1.02);
-    box-shadow: 0 0 24px rgba(193, 243, 61, 0.15);
+  & img {
+    transition: transform 500ms var(--ease-brand);
+    transform-origin: center;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 1px;
+    background-color: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 400ms var(--ease-brand);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  &:hover img {
+    transform: scale(1.04);
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    &:hover {
+    & img,
+    &::after {
+      transition: none;
+    }
+    &:hover img {
       transform: scale(1);
-      box-shadow: none;
+    }
+    &:hover::after {
+      transform: scaleX(0);
     }
   }
 }
@@ -187,10 +226,38 @@
   to   { opacity: 0.8; }
 }
 
+/* W8 Beat 4 — continuous diagonal drift on the iso-grid hero overlay.
+ * 90s cycle, ~28px X / 18px Y excursion. Pure CSS keyframes so the loop
+ * runs reliably without Motion's variant-keyframe quirks (verified
+ * empirically — Motion v12 silently drops repeat:Infinity arrays nested
+ * inside variant `visible` definitions). Linear ease + cycle-back to 0
+ * removes the seam at loop boundary. GPU-accelerated transform — zero
+ * layout/paint cost, animation timeline runs on the compositor.
+ *
+ * Composes with parent's Motion-driven `style={{ rotate }}` because the
+ * drift wrapper is a CHILD div of the rotate-bearing motion.div — each
+ * element has its own `transform` so they multiply naturally. */
+@utility iso-drift {
+  animation: iso-drift 90s linear infinite;
+  will-change: transform;
+}
+
+@keyframes iso-drift {
+  0%   { transform: translate(0px,    0px); }
+  25%  { transform: translate(28px,  -18px); }
+  50%  { transform: translate(-12px,   8px); }
+  75%  { transform: translate(15px,  -10px); }
+  100% { transform: translate(0px,    0px); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .mark-pulse {
     animation: none;
     opacity: 0.6;
+  }
+
+  .iso-drift {
+    animation: none;
   }
 
   /* Tailwind's animate-pulse utility is NOT auto-disabled under

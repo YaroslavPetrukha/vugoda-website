@@ -1,91 +1,70 @@
 /**
  * @module components/sections/contact/ContactDetails
  *
- * Реквізити-block — P1-D9 typography bump (AUDIT-DESIGN §9.8).
+ * Реквізити-block — Apr-2026 honest-data rebuild.
  *
- * 4 rows in dl/dt/dd: Email, Телефон, Адреса, Соцмережі. Email is the
- * only active link (mailto); phone/address render the «У розробці»
- * placeholder per Phase 2 D-19 + P0-3; social icons are <button disabled>
- * per P0-5.
+ * Two real blocks (Email + Address) plus one editorial closing line for
+ * the still-in-progress channels (phone, socials).
  *
- * Typography (P1-D9):
- *   - dt: text-[13px] uppercase tracked muted (overline tone) — was
- *     text-sm/text-base mixed. Stays consistent with home overline pattern.
- *   - dd: text-[length:var(--text-lead)] — bumped from text-base for
- *     editorial weight on the contact page. Email link gets hover:text-accent.
- *   - Label column lg:180px (was 120px) — wider gutter for editorial feel.
+ *   [overline EMAIL]
+ *   [vygoda.sales@gmail.com — text-h3, hover:accent]
  *
- * D-38: No legal-registry / license duplication here — Footer renders
- * those on every route per Phase 1 D-06.
+ *   [overline АДРЕСА · ОФІС ПРОДАЖУ]
+ *   [Львів · вул. В. Великого, 4]
+ *   [4-й поверх, каб. 406 — muted descriptor]
  *
- * Lucide icon choice: lucide-react v1.11 does not export Instagram or
- * Facebook by name. Fallback per Phase 3 RESEARCH §I: Send (Telegram),
- * MessageCircle (Instagram-ish), Globe (Facebook).
+ *   [Телефон і соцмережі — у роботі. … — muted lead]
+ *
+ * Address became real on 2026-04-28 (placeholders.ts client confirmation).
+ * Phone + socials remain placeholders so the closing line shrinks from
+ * the previous 3-row tally to a single tail.
+ *
+ * Disabled social icons remain removed (don't show non-functional
+ * affordances). Lucide imports dropped accordingly.
  */
 
-import { Send, MessageCircle, Globe } from 'lucide-react';
 import { email } from '../../../content/company';
-import { phone, address } from '../../../content/placeholders';
+import { address, addressUnit, addressLabel } from '../../../content/placeholders';
+import { contactDetailsClosingLine } from '../../../content/contact';
 import { overlineClasses } from '../../ui/typography';
 
 export function ContactDetails() {
   return (
-    <dl className="grid grid-cols-1 gap-y-6 lg:grid-cols-[180px_1fr] lg:gap-x-8">
-      <dt className={`${overlineClasses} text-text-muted`}>
-        Email
-      </dt>
-      <dd className="text-[length:var(--text-lead)] text-text">
+    <div className="flex flex-col gap-8">
+      {/* Email — primary direct channel. Sized to match the Address block
+          below so the two реквізити-blocks read as one ladder, not as
+          «hero email + small address». Both are equal-weight data. */}
+      <div className="flex flex-col gap-3">
+        <span className={`${overlineClasses} text-text-muted`}>Email</span>
         <a
           href={`mailto:${email}`}
-          className="hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          className="w-fit text-[length:var(--text-lead)] font-medium leading-tight text-text break-all hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         >
           {email}
         </a>
-      </dd>
+      </div>
 
-      <dt className={`${overlineClasses} text-text-muted`}>
-        Телефон
-      </dt>
-      <dd className="text-[length:var(--text-lead)] text-text">{phone}</dd>
+      {/* Address — real, confirmed 2026-04-28. Two-line: street, then
+          unit detail muted. Overline names the type so it doesn't read
+          as «юридична». */}
+      <div className="flex flex-col gap-3">
+        <span className={`${overlineClasses} text-text-muted`}>
+          Адреса · {addressLabel}
+        </span>
+        <div className="flex flex-col gap-1">
+          <span className="text-[length:var(--text-lead)] font-medium leading-tight text-text">
+            {address}
+          </span>
+          <span className="text-[length:var(--text-lead)] leading-tight text-text-muted">
+            {addressUnit}
+          </span>
+        </div>
+      </div>
 
-      <dt className={`${overlineClasses} text-text-muted`}>
-        Адреса
-      </dt>
-      <dd className="text-[length:var(--text-lead)] text-text">{address}</dd>
-
-      <dt className={`${overlineClasses} text-text-muted`}>
-        Соцмережі
-      </dt>
-      {/* P0-5 / AUDIT-UX §1.4.C + 1.5.B: <a href="#"> dropped users to /
-          under HashRouter; disabled <button> is the correct pattern for
-          «coming soon». aria-label includes status; opacity-50 conveys
-          the disabled state visually. */}
-      <dd className="flex gap-4">
-        <button
-          type="button"
-          disabled
-          aria-label="Telegram (скоро)"
-          className="cursor-not-allowed text-text-muted opacity-50"
-        >
-          <Send size={20} aria-hidden="true" />
-        </button>
-        <button
-          type="button"
-          disabled
-          aria-label="Instagram (скоро)"
-          className="cursor-not-allowed text-text-muted opacity-50"
-        >
-          <MessageCircle size={20} aria-hidden="true" />
-        </button>
-        <button
-          type="button"
-          disabled
-          aria-label="Facebook (скоро)"
-          className="cursor-not-allowed text-text-muted opacity-50"
-        >
-          <Globe size={20} aria-hidden="true" />
-        </button>
-      </dd>
-    </dl>
+      {/* Editorial closing for non-active channels. */}
+      <p className="text-[length:var(--text-lead)] leading-[1.5] text-text-muted">
+        {contactDetailsClosingLine}
+      </p>
+    </div>
   );
 }

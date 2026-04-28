@@ -1,59 +1,51 @@
 /**
  * @module components/sections/home/TrustBlock
  *
- * Six-cell legal-trust grid — W5 rebuild (AUDIT-MASTER §SIN-2 + AUDIT-SALES
- * P1-S5 «Trust block: розширити до 6 елементів»).
+ * Certificate-row trust grid — W7 rebuild ($impeccable layout, P1).
  *
- * Replaces the prior 3-column layout with a 2×3 grid carrying six
- * verifiable trust signals:
+ * Replaces the 2×3 cell grid (icon · overline · primary · secondary
+ * × 6) — flagged by critique as «3 hero stats + 3 footnotes under
+ * uniform frames». New composition reads as a registry document: a
+ * 6-row table with [label · value · note] anatomy, accent rule at top
+ * and bottom, hairline rules between rows.
  *
- *   1. Юр. особа     — legal entity + ЄДРПОУ tabular CountUp tile
- *   2. Ліцензія      — license date + scope note
- *   3. Контакт       — corporate email anchor
- *   4. Років на ринку — CountUp years-since-license-year (2026−2019 = 7)
- *   5. Клас наслідків — СС3 + ДБН note (Lakeview-anchored fact)
- *   6. Реквізити     — placeholder pointing to email until the PDF lands
+ * Anatomy per row (12-col grid):
+ *   col 1-3   label    overline tier, muted
+ *   col 4-7   value    h3 tier, bold, tabular-nums, accent for verified
+ *                      figures (ЄДРПОУ, years, СС3) + text for narrative
+ *                      values (license date, email, requisites placeholder)
+ *   col 8-12  note     base body, muted
  *
- * Hard rule preserved: NO portrait imagery, NO faces, NO leadership-roster
- * copy. Trust signal = registry/license/CountUp facts, not headshots
- * (PROJECT.md Out of Scope, brand-system.md §6).
+ * Drops:
+ *   - Per-cell Lucide icons. The «certificate» reading no longer needs
+ *     visual iconography per cell — uniform anatomy + accent rule is
+ *     enough. Reduces «AI 6-cell grid» feel decisively.
+ *   - 2×3 grid metaphor. Now a stack — registry, not catalog.
  *
- * Layout:
- *   - Section frame with overline («ДОВІРА · 6 ПРОЯВІВ») + bumped H2.
- *   - 2×3 grid (3 cols on lg, 2 cols on md, 1 col on sm).
- *   - Hairline borders between cells (border-text-muted/15) — produces
- *     the «certificate document» reading the audit asked for.
- *   - Each cell follows uniform anatomy:
- *       Lucide pictograph icon (32×32, strokeWidth 1.25, text-muted) →
- *       overline label →
- *       primary value (figure tier where numeric, base tier where text) →
- *       muted secondary caption.
+ * Preserves:
+ *   - 6 verifiable trust signals (no fake stats).
+ *   - CountUp on numeric values (ЄДРПОУ + years).
+ *   - RevealOnScroll staggerChildren cadence for soft entrance.
+ *   - PROJECT-mandated bans: no portrait imagery, no team copy.
  *
- * Numeric cells use CountUp on view (years, ЄДРПОУ) — adds the «доказовий
- * build-up» moment per P1-D6. The classification cell shows СС3 statically
- * (text label, not a count target).
+ * Hard rule preserved: NO faces, NO leadership-roster copy.
  *
- * Reads facts from src/content/company.ts and labels from src/content/home.ts
- * (Phase 3 D-29 boundary). yearsOnMarket is computed once at module-eval
- * time from licenseYear and a fixed reference year — keeps the count
- * deterministic across SSR/CSR and CountUp re-mounts.
+ * Beat-pattern padding: py-20 (terse — administrative tier in the
+ * 6-section beat). Up from py-32 was BrandEssence/Methodology (py-40,
+ * editorial); down from py-32 here is intentional «brisk registry»
+ * cadence between Construction (py-24) and Contact (py-48).
  */
 
-import { motion } from 'motion/react';
-import { Building2, ScrollText, Mail, Calendar, ShieldCheck, FileText } from 'lucide-react';
+import { motion, useReducedMotion } from 'motion/react';
 import {
   legalName,
   edrpou,
   licenseDate,
   licenseYear,
-  licenseNote,
   email,
   consequenceClass,
-  consequenceClassNote,
 } from '../../../content/company';
 import {
-  licenseScopeNote,
-  contactNote,
   trustHeading,
   trustOverline,
   trustLabelLegal,
@@ -65,139 +57,162 @@ import {
   trustYearsNote,
   trustDocumentsValue,
   trustDocumentsNote,
+  licenseScopeNote,
+  contactNote,
 } from '../../../content/home';
 import { RevealOnScroll } from '../../ui/RevealOnScroll';
 import { SectionOverline, overlineClasses } from '../../ui/typography';
 import { CountUp } from '../../ui/CountUp';
-import { fadeUp } from '../../../lib/motionVariants';
+import { fadeUp, accentBarDraw } from '../../../lib/motionVariants';
 
-/** Reference year for «X років на ринку». Pinned to 2026 because the
- *  current site is timestamped «MVP 2026»; recompute when shipping a
- *  major version after Jan 1 2027 (or thread Date.now() if a moving
- *  count becomes the design intent). Static for now keeps it honest. */
+/** Reference year for «X років на ринку». Static per W5 — no moving count. */
 const REFERENCE_YEAR = 2026;
 const yearsOnMarket = REFERENCE_YEAR - licenseYear;
 
-interface CellProps {
-  icon: React.ReactNode;
+interface RowProps {
   label: string;
-  primary: React.ReactNode;
-  secondary?: React.ReactNode;
+  value: React.ReactNode;
+  note?: React.ReactNode;
+  /** When true (first row) suppresses the top hairline — top rule already
+   *  carried by the section's accent ledger. */
+  isFirst?: boolean;
 }
 
-function TrustCell({ icon, label, primary, secondary }: CellProps) {
+function CertRow({ label, value, note, isFirst }: RowProps) {
   return (
     <motion.div
       variants={fadeUp}
-      className="flex flex-col gap-3 border-t border-text-muted/15 pt-8"
+      className={`grid grid-cols-12 items-baseline gap-8 py-8 ${
+        isFirst ? '' : 'border-t border-text-muted/15'
+      }`}
     >
-      <span aria-hidden="true" className="text-text-muted">
-        {icon}
+      <span
+        className={`${overlineClasses} col-span-12 text-text-muted lg:col-span-3`}
+      >
+        {label}
       </span>
-      <span className={`${overlineClasses} text-text-muted`}>{label}</span>
-      <div className="flex flex-col gap-1">{primary}</div>
-      {secondary && <span className="text-base text-text-muted">{secondary}</span>}
+      <div className="col-span-12 lg:col-span-5">{value}</div>
+      {note && (
+        <span className="col-span-12 text-base leading-relaxed text-text-muted lg:col-span-4">
+          {note}
+        </span>
+      )}
     </motion.div>
   );
 }
 
+const valueClass =
+  'text-[length:var(--text-h3)] font-bold leading-tight tabular-nums text-text';
+const valueAccent =
+  'text-[length:var(--text-h3)] font-bold leading-tight tabular-nums text-accent';
+
 export function TrustBlock() {
+  const prefersReducedMotion = useReducedMotion();
+
+  // Top + bottom accent rules — animated draw-on-view via accentBarDraw
+  // variant (origin-left scaleX 0→1, 0.8s easeBrand). Under RM rendered
+  // statically at full scaleX. The two rules visually seal the
+  // certificate ledger; animating them at full width reinforces the
+  // «document opening» reading without flashy effects.
+  const ruleClass = 'block h-px w-full origin-left bg-accent';
+
   return (
-    <RevealOnScroll as="section" className="bg-bg py-32">
+    <RevealOnScroll as="section" className="bg-bg py-20">
       <div className="mx-auto max-w-7xl px-6">
-        <header className="mb-16 flex flex-col gap-3">
+        {/* Header — overline + H2. Body description omitted; the certificate
+            structure speaks for itself. */}
+        <header className="mb-12 flex flex-col gap-3">
           <SectionOverline>{trustOverline}</SectionOverline>
           <h2 className="text-[length:var(--text-h2)] font-bold leading-[1.05] text-text">
             {trustHeading}
           </h2>
         </header>
 
-        <RevealOnScroll
-          staggerChildren
-          className="grid grid-cols-1 gap-x-12 gap-y-10 md:grid-cols-2 lg:grid-cols-3"
-        >
-          {/* 1 — Legal entity + ЄДРПОУ CountUp */}
-          <TrustCell
-            icon={<Building2 size={32} strokeWidth={1.25} />}
+        {/* Top accent rule — seals the certificate. 1px lime full-width. */}
+        {prefersReducedMotion ? (
+          <span aria-hidden="true" className={ruleClass} />
+        ) : (
+          <motion.span
+            aria-hidden="true"
+            className={ruleClass}
+            variants={accentBarDraw}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.6 }}
+          />
+        )}
+
+        {/* 6 certificate rows — staggerChildren cadence inherited from outer
+            RevealOnScroll. Each row uses fadeUp variant via motion.div. */}
+        <RevealOnScroll staggerChildren className="flex flex-col">
+          <CertRow
+            isFirst
             label={trustLabelLegal}
-            primary={
-              <>
-                <span className="text-base font-bold text-text">{legalName}</span>
-                <span className="text-xs uppercase tracking-[0.18em] text-text-muted">
-                  ЄДРПОУ
-                </span>
+            value={
+              <div className="flex flex-col gap-2">
                 <CountUp
                   to={Number(edrpou)}
-                  className="text-[length:var(--text-figure)] font-bold leading-none tabular-nums text-accent"
+                  className={valueAccent}
                 />
-              </>
+                <span className="text-base text-text">{legalName}</span>
+              </div>
             }
+            note="Реєстраційний код ЄДРПОУ — публічний реєстр Мінʼюсту."
           />
 
-          {/* 2 — License */}
-          <TrustCell
-            icon={<ScrollText size={32} strokeWidth={1.25} />}
+          <CertRow
             label={trustLabelLicense}
-            primary={
-              <span className="text-base font-bold text-text">
-                від {licenseDate} {licenseNote}
-              </span>
-            }
-            secondary={licenseScopeNote}
+            value={<span className={valueClass}>{licenseDate}</span>}
+            note={licenseScopeNote}
           />
 
-          {/* 3 — Contact email */}
-          <TrustCell
-            icon={<Mail size={32} strokeWidth={1.25} />}
+          <CertRow
             label={trustLabelContact}
-            primary={
+            value={
               <a
                 href={`mailto:${email}`}
-                className="text-base font-bold text-text hover:text-accent"
+                className="text-[length:var(--text-h3)] font-bold leading-tight text-text underline-offset-4 transition-colors duration-150 ease-out hover:text-accent hover:underline"
               >
                 {email}
               </a>
             }
-            secondary={contactNote}
+            note={contactNote}
           />
 
-          {/* 4 — Years on market (CountUp) */}
-          <TrustCell
-            icon={<Calendar size={32} strokeWidth={1.25} />}
+          <CertRow
             label={trustLabelYears}
-            primary={
-              <CountUp
-                to={yearsOnMarket}
-                className="text-[length:var(--text-figure)] font-bold leading-none tabular-nums text-accent"
-              />
+            value={
+              <CountUp to={yearsOnMarket} className={valueAccent} />
             }
-            secondary={trustYearsNote}
+            note={trustYearsNote}
           />
 
-          {/* 5 — Consequence class (static label) */}
-          <TrustCell
-            icon={<ShieldCheck size={32} strokeWidth={1.25} />}
+          <CertRow
             label={trustLabelConsequence}
-            primary={
-              <span className="text-[length:var(--text-figure)] font-bold leading-none tabular-nums text-accent">
-                {consequenceClass}
-              </span>
-            }
-            secondary={consequenceClassNote}
+            value={<span className={valueAccent}>{consequenceClass}</span>}
+            note="Найвищий клас за ДБН В.1.2-14:2018 — для Lakeview."
           />
 
-          {/* 6 — Documents (placeholder until real PDF lands) */}
-          <TrustCell
-            icon={<FileText size={32} strokeWidth={1.25} />}
+          <CertRow
             label={trustLabelDocuments}
-            primary={
-              <span className="text-base font-bold text-text">
-                {trustDocumentsValue}
-              </span>
-            }
-            secondary={trustDocumentsNote}
+            value={<span className={valueClass}>{trustDocumentsValue}</span>}
+            note={trustDocumentsNote}
           />
         </RevealOnScroll>
+
+        {/* Bottom accent rule — closes the ledger. */}
+        {prefersReducedMotion ? (
+          <span aria-hidden="true" className={ruleClass} />
+        ) : (
+          <motion.span
+            aria-hidden="true"
+            className={ruleClass}
+            variants={accentBarDraw}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.6 }}
+          />
+        )}
       </div>
     </RevealOnScroll>
   );

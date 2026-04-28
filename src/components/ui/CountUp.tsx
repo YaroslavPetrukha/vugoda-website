@@ -52,16 +52,36 @@ interface CountUpProps {
   duration?: number;
   /** className passthrough — style the span at the consumer site. */
   className?: string;
+  /** Zero-pad the rendered integer to this digit count.
+   *  Use for ordinal-style display: pad=2 renders 1 as «01», 4 as «04».
+   *  When omitted, no padding is applied. */
+  pad?: number;
+  /** Seconds to delay count-up start after element enters view.
+   *  Used by Hero's stat trio to cascade-stagger 3 figures by 0.15s
+   *  per Emil («stagger creates cascading effect that feels more
+   *  natural than everything at once»). Default 0. */
+  delay?: number;
 }
 
-export function CountUp({ to, duration = 2.4, className }: CountUpProps) {
+const formatInt = (n: number, pad?: number): string => {
+  const s = Math.round(n).toString();
+  return pad ? s.padStart(pad, '0') : s;
+};
+
+export function CountUp({
+  to,
+  duration = 2.4,
+  className,
+  pad,
+  delay = 0,
+}: CountUpProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.6 });
   const prefersReducedMotion = useReducedMotion();
   const value = useMotionValue(prefersReducedMotion ? to : 0);
-  const rounded = useTransform(value, (latest) => Math.round(latest).toString());
+  const rounded = useTransform(value, (latest) => formatInt(latest, pad));
   const [display, setDisplay] = useState<string>(
-    prefersReducedMotion ? to.toString() : '0',
+    prefersReducedMotion ? formatInt(to, pad) : formatInt(0, pad),
   );
 
   // Subscribe to the MotionValue and mirror to React state so the rendered
@@ -71,12 +91,12 @@ export function CountUp({ to, duration = 2.4, className }: CountUpProps) {
 
   useEffect(() => {
     if (!inView || prefersReducedMotion) return;
-    const controls = animate(value, to, { duration, ease: easeBrand });
+    const controls = animate(value, to, { duration, ease: easeBrand, delay });
     return controls.stop;
-  }, [inView, prefersReducedMotion, to, duration, value]);
+  }, [inView, prefersReducedMotion, to, duration, delay, value]);
 
   return (
-    <motion.span ref={ref} aria-label={to.toString()} className={className}>
+    <motion.span ref={ref} aria-label={formatInt(to, pad)} className={className}>
       {display}
     </motion.span>
   );

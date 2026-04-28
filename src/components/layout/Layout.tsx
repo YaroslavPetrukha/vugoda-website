@@ -46,6 +46,8 @@ import { useMatchMedia } from '../../hooks/useMatchMedia';
 import { Nav } from './Nav';
 import { Footer } from './Footer';
 import { MobileFallback } from './MobileFallback';
+import { RouteRatioBadge } from './RouteRatioBadge';
+import { BlueprintGridSweep } from './BlueprintGridSweep';
 
 export function Layout() {
   const location = useLocation();
@@ -119,6 +121,15 @@ export function Layout() {
         </AnimatePresence>
       </main>
       <Footer />
+      {/* Persistent route-tag (W3 ratio-numerals language extended to global
+          scope). ПОЗА AnimatePresence — інакше counter-roll конфліктував би
+          з page-curtain exit. Hidden на /dev/* + 404 (getRouteMeta null) і
+          mobile (md:block + Layout вже short-circuits на mobile). */}
+      <RouteRatioBadge />
+      {/* Blueprint-grid sweep — 350ms scaleY wrap/unwrap на pathname change.
+          Накладається ПОВЕРХ pageCurtain (independent visual layer). Skips
+          first mount (loader тримає arrival). Returns null під RM. */}
+      <BlueprintGridSweep />
     </div>
   );
 }

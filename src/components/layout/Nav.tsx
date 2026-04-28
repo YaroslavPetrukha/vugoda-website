@@ -17,17 +17,17 @@ export function Nav() {
   const projectsActive = pathname === '/projects' || pathname.startsWith('/zhk');
 
   const linkBase =
-    'relative inline-block pb-1 text-sm font-medium tracking-wide text-text transition-colors hover:text-accent';
+    'relative inline-block pb-1 text-[15px] font-medium tracking-[0.02em] text-text transition-colors hover:text-accent';
   const linkActive = 'border-b-2 border-accent';
   const linkInactive = 'border-b-2 border-transparent';
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-bg">
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+    <header className="sticky top-0 z-50 w-full border-b border-text-muted/10 bg-bg/95 backdrop-blur-md">
+      <nav className="mx-auto flex h-20 max-w-[1600px] items-center justify-between px-16">
         <Link to="/" aria-label="ВИГОДА — на головну" className="flex items-center">
-          <Logo className="h-14 w-auto" title="ВИГОДА" />
+          <Logo className="h-12 w-auto" title="ВИГОДА" />
         </Link>
-        <ul className="flex items-center gap-8">
+        <ul className="flex items-center gap-10">
           <li>
             <NavLink
               to="/projects"
