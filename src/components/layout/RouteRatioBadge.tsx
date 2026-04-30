@@ -30,7 +30,7 @@
  */
 import { useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import { easeBrand } from '../../lib/motionVariants';
+import { routeRatioBadgeTransition } from '../../lib/motionVariants';
 import { getRouteMeta, formatRatio } from '../../lib/routeMeta';
 
 export function RouteRatioBadge() {
@@ -56,7 +56,7 @@ export function RouteRatioBadge() {
           exit={
             prefersReducedMotion ? { opacity: 0 } : { y: -12, opacity: 0 }
           }
-          transition={{ duration: 0.35, ease: easeBrand }}
+          transition={routeRatioBadgeTransition}
           className="block text-[13px] font-medium uppercase tabular-nums text-text-muted"
           style={{ letterSpacing: '0.18em' }}
         >

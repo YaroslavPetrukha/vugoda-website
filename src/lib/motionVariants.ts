@@ -229,6 +229,22 @@ export const stageFilterPillTransition = {
 } as const;
 
 /**
+ * RouteRatioBadge crossfade transition (W6, RouteRatioBadge).
+ *
+ * AnimatePresence mode="wait" with key=label can't be expressed as a Variants
+ * map — initial/animate/exit branch on prefersReducedMotion at the consumer
+ * (D-25 RM-threading), so the transition object lives here as a named const
+ * to satisfy noInlineTransition (D-27) while keeping easeBrand in lockstep.
+ *
+ * 0.35s matches pageFade.exit — the badge crossfade rides the same cadence
+ * as the route shell sweep so they read as one coordinated change.
+ */
+export const routeRatioBadgeTransition = {
+  duration: 0.35,
+  ease: easeBrand,
+} as const;
+
+/**
  * Hero entrance stack (W8 cinematic) — staggered fade-up for the LEFT 7/12
  * column content (overline → stats trio → accent bar → slogan → CTA pair →
  * wordmark signature). Plays exactly once on first mount of the page, NOT
